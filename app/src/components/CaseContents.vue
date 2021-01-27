@@ -4,7 +4,9 @@
       <li v-for="(gun, i) in guns" :key="i">
         <img :src="require(`@/assets/skins/${guns[i]}.png`)" alt="">
         <p class="skinTitle">{{ gun }}</p>
-        <button id="Inspect" @click="inspectGun(gun)">
+        <p class="price">Lowest price (FN): 
+          <span>$2.67</span></p>
+        <button class="inspect" @click="inspectGun(gun)">
           Inspect in-game (FN)
         </button>
       </li>
@@ -13,7 +15,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 // const steamprice = require('steam-price-api');
 
 export default {
@@ -30,30 +32,12 @@ export default {
     console.log(this.Case)
 
     this.importGunData()
-    axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
-  //   fetch('http://steamcommunity.com/market/priceoverview/?currency=3&appid=730&market_hash_name=StatTrak%E2%84%A2%20P250%20%7C%20Steel%20Disruption%20%28Factory%20New%29')
-  // .then(response => response.json())
-  // .then(json => console.log(json))
-    //For one item
-    // const data = await steamprice.getprice(730, "Clutch Case", 1)
-    // console.log(data)
+    // const data = await axios.get(
+    //   'http://steamcommunity.com/market/priceoverview/?currency=3&appid=730&market_hash_name=StatTrak%E2%84%A2%20P250%20%7C%20Steel%20Disruption%20%28Factory%20New%29'
+    // )
 
-    // const items = [
-    // 'Clutch Case Key',
-    // 'Clutch Case'
-    // ]
-    // steamprice.getprices(730, items, '1').then(data => {
-    //     console.log(data);
-    // }).catch(err => console.log(err));
-
-     
-
-     const data = await axios.get(
-       'http://steamcommunity.com/market/priceoverview/?currency=3&appid=730&market_hash_name=StatTrak%E2%84%A2%20P250%20%7C%20Steel%20Disruption%20%28Factory%20New%29'
-     )
-
-     console.log(data)
+    //  console.log(data)
   },
   methods: {
     inspectGun(gun) {
@@ -109,7 +93,17 @@ ul {
     p {
       font-weight: bold;
     }
-    #Inspect {
+    .price {
+      margin-top: 5px;
+      font-weight: normal;
+      background-color: rgba(0, 0, 0, 0.45);
+      padding: 4px;
+      span {
+        font-weight: bold;
+        color: rgb(43, 142, 255);
+      }
+    }
+    .inspect {
       margin-top: 15px;
       width: 90%;
       padding: 5px 0 5px 0;
