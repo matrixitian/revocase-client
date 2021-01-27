@@ -58,7 +58,7 @@
     <div id="Bottomer">
       <div id="bottomAligner">
         <keep-alive>
-          <component :is="selectedPart"></component>
+          <component :is="selectedPart" :Case="caseClicked"></component>
         </keep-alive>
       </div>
     </div>
@@ -75,10 +75,11 @@ export default {
   },
   data() {
     return {
-      selectedPart: 'Cases',
+      selectedPart: 'CaseContents',
       myCoins: 120,
       selectedLang: 'english',
       langListVisible: false,
+      caseClicked: 'clutch',
       langs: [
         'croatian', 'english', 'french', 'german', 'italian',
         'polish', 'portuguese', 'russian', 'serbian', 'spanish', 'turkish'
