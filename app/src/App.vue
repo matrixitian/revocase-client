@@ -25,8 +25,11 @@
           :class="`Pipe_${i}`">
             <img class="case" :src="require(`@/assets/cases/${Case}_case.png`)" alt="">
             <p class="caseTitle">{{ Case.toUpperCase() }}</p>
-            <p class="amountOpened">{{ caseOpened[i] }}</p>
-            <button>View Contents</button>
+            <p class="amountOpened">{{ `Opened ${caseOpened[i]}` }}</p>
+            <div class="viewContents">
+              <img src="@/assets/icons/contents.svg" alt="">
+              <p>View Contents</p>
+            </div>
             <div class="openBtnCon">
               <button>{{ casePrices[i] }}</button>
             </div>
@@ -60,10 +63,7 @@ export default {
 </script>
 
 <style lang="scss">
-@font-face {
-  font-family: SoleilExtraBold;
-  src: url('./assets/fonts/soleil_extrabold.ttf');
-}
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 @import '@/assets/mixins/centerX';
 @import '@/assets/mixins/centerY';
 @import '@/assets/mixins/centerXY';
@@ -81,13 +81,42 @@ $purpleGradientStart: #7967bb;
 $purpleGradientEnd: #5a43ab;
 
 .caseTitle {
+  font-weight: bold;
   padding: 5px;
-  // border-radius: 6px;
   background-color: rgba(0, 0, 0, 0.15);
 }
 
+.amountOpened {
+  font-size: 13px;
+  margin: auto;
+  margin-top: 10px;
+  width: 50%;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.viewContents {
+  margin: auto;
+  margin-top: 10px;
+  padding: 7px 10px 7px 10px;
+  box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.15);
+  border-radius: 7px;
+  border: 2px solid white;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  max-width: 150px;
+  background-color: $purpleGradientEnd;
+  background-image: linear-gradient(rgb(46, 209, 54), rgb(18, 158, 41));
+  img {
+    float: left;
+    padding: 0;
+    margin: 0;
+  }
+}
+
 .case {
-  transform: scale(0.8);
+  transform: scale(0.7);
 }
 
 .Pipe_0 {
@@ -125,7 +154,7 @@ body {
 }
 
 #app {
-  font-family: 'SoleilExtraBold', Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Lato', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -209,7 +238,7 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
     ul {
       @include centerX;
       width: auto;
-      height: 360px;
+      height: 375px;
       bottom: 0;
       display: flex;
       li {
@@ -218,7 +247,7 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
         margin: 0 20px 0 20px;
-        min-width: 180px;
+        // max-width: 230px;
         height: 90%;
         bottom: 0;
         border: 5px solid white;
@@ -226,7 +255,7 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
         cursor: pointer;
         &:hover {
           transition: .2s ease;
-          height: 365px;
+          height: 380px;
         }
       }
     }
