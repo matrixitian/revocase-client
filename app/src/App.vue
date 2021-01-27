@@ -21,16 +21,19 @@
       <div id="Upper">x</div>
       <div id="Downer">
         <ul>
-          <li v-for="(crate, i) in crates" :key="i"
+          <li v-for="(Case, i) in cases" :key="i"
           :class="`Pipe_${i}`">
-
+            <img class="case" :src="require(`@/assets/cases/${Case}_case.png`)" alt="">
+            <p class="caseTitle">{{ Case.toUpperCase() }}</p>
+            <p class="amountOpened">{{ caseOpened[i] }}</p>
+            <button>View Contents</button>
+            <div class="openBtnCon">
+              <button>{{ casePrices[i] }}</button>
+            </div>
           </li>
         </ul>
       </div>
     </div>
-
-    <!-- <img id="Logo" alt="RevoCase.eu logo" src="./assets/logo.svg">
-    <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
 </template>
 
@@ -44,8 +47,13 @@ export default {
   },
   data() {
     return {
-      crates: ['Bravo', 'Test2', 'Test3',
-      'Test4', 'Test5', 'Test6']
+      cases: [
+        'clutch', 'fracture', 'chroma2',
+        'phoenix', 'danger_zone'
+      ],
+      casePrices: [100, 250, 120, 214, 51],
+      // realtime synced amount of cases opened globally
+      caseOpened: [42, 12, 56, 21, 10]
     }
   }
 }
@@ -63,16 +71,24 @@ export default {
 $grayBackground: #1b2435;
 $redGradientStart: #ea5a8d;
 $redGradientEnd: #e32565;
-$orangeGradientStart: #e32565;
-$orangeGradientEnd: #ff7b36;
 $yellowGradientStart: #ff7b36;
 $yellowGradientEnd: #ffcc01;
-$greenGradientStart: #6bc498;
-$greenGradientEnd: #2fad6e;
+$greenGradientStart: #884bd6;
+$greenGradientEnd: #a81b8a;
 $blueGradientStart: #4ba8b7;
 $blueGradientEnd: #018498;
 $purpleGradientStart: #7967bb;
 $purpleGradientEnd: #5a43ab;
+
+.caseTitle {
+  padding: 5px;
+  // border-radius: 6px;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.case {
+  transform: scale(0.8);
+}
 
 .Pipe_0 {
   background-color: $redGradientEnd;
@@ -80,26 +96,21 @@ $purpleGradientEnd: #5a43ab;
 }
 
 .Pipe_1 {
-  background-color: $orangeGradientEnd;
-  background-image: linear-gradient($orangeGradientStart, $orangeGradientEnd);
+  background-color: $yellowGradientEnd;
+  background-image: linear-gradient($yellowGradientEnd, $yellowGradientStart);
 }
 
 .Pipe_2 {
-  background-color: $yellowGradientEnd;
-  background-image: linear-gradient($yellowGradientStart, $yellowGradientEnd);
-}
-
-.Pipe_3 {
   background-color: $greenGradientEnd;
   background-image: linear-gradient($greenGradientStart, $greenGradientEnd);
 }
 
-.Pipe_4{
+.Pipe_3 {
   background-color: $blueGradientEnd;
   background-image: linear-gradient($blueGradientStart, $blueGradientEnd);
 }
 
-.Pipe_5 {
+.Pipe_4 {
   background-color: $purpleGradientEnd;
   background-image: linear-gradient($purpleGradientStart, $purpleGradientEnd);
 }
@@ -123,16 +134,15 @@ body {
   grid-template-columns: 200px auto 200px;
   grid-template-rows: 300px 120px auto;
   height: 100vh;
+  overflow: hidden;
 }
 
 #centerLogo {
   @include centerXY;
-  // background-color: greenyellow;
   width: 600px;
   height: 150px;
   margin: auto;
   #centerUp {
-    // background-color: hotpink;
     height: 70%;
     position: relative;
     #Logo {
@@ -151,13 +161,14 @@ body {
   }
 }
 
-$leftTopperWidth: 150px;
-$rightTopperWidth: 150px;
+$leftTopperWidth: 220px;
+$rightTopperWidth: 220px;
 $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
 
 #Topper {
   width: 100vw;
   height: 30vh;
+  border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
   #Left {
     width: $leftTopperWidth;
     height: 100%;
@@ -169,7 +180,6 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
     position: relative;
     width: $middleTopperWidth;
     height: 100%;
-    // background-color: #802a46;
     display: inline;
     float: left;
     display: table;
@@ -184,7 +194,6 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
 }
 
 #Bottomer {
-  // background-color: #4f0198;
   width: 100vw;
   height: 70vh;
   #Upper {
@@ -195,14 +204,12 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
   }
   #Downer {
     position: relative;
-    // background-color: rgb(22, 129, 54);
     width: 100%;
     height: calc(100% - 100px);
     ul {
       @include centerX;
       width: auto;
-      height: 90%;
-      // background-color: white;
+      height: 360px;
       bottom: 0;
       display: flex;
       li {
@@ -212,8 +219,15 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
         border-top-right-radius: 20px;
         margin: 0 20px 0 20px;
         min-width: 180px;
-        height: 370px;
+        height: 90%;
         bottom: 0;
+        border: 5px solid white;
+        border-bottom: none;
+        cursor: pointer;
+        &:hover {
+          transition: .2s ease;
+          height: 365px;
+        }
       }
     }
   }
