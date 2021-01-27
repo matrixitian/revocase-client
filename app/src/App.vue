@@ -4,8 +4,8 @@
     <div id="Topper">
       <div id="Left">
         <div id="myCoins">
-          <p>My coins: <span id="myCoinsAmount">{{ myCoins }}</span></p>
-          <img src="@/assets/icons/coin.svg" alt="">
+          <p>My credits: <span id="myCoinsAmount">{{ myCoins }}</span></p>
+          <img src="@/assets/icons/bullet.png" alt="">
         </div>
         <div id="mySkins">
           <img src="@/assets/icons/rifle.svg" alt="">
@@ -19,7 +19,7 @@
             <p id="logoText">Revo Skins</p>
           </div>
           <div id="centerDown">
-            <p id="logoInfo">Watch Ads in Background while playing CS and earn up to 5$ a day in points!</p>
+            <p id="logoInfo">Earn points by watching ads in background while in-game!</p>
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
               <p>View Contents</p>
             </div>
             <div class="openBtnCon">
-              <img src="@/assets/icons/coin.svg" alt="">
+              <img src="@/assets/icons/bullet.png" alt="">
               <p>{{ casePrices[i] }}</p>
             </div>
           </li>
@@ -74,7 +74,7 @@ export default {
     return {
       myCoins: 120,
       selectedLang: 'english',
-      langListVisible: true,
+      langListVisible: false,
       langs: [
         'croatian', 'english', 'french', 'german', 'italian',
         'polish', 'portuguese', 'russian', 'serbian', 'spanish', 'turkish'
