@@ -1,8 +1,7 @@
 <template>
   <div class="main">
     <div id="Upper">
-      <input placeholder="Steam ID" type="text">
-      <img src="@/assets/icons/info.svg" alt="">
+     
     </div>
     <div id="Downer">
       <ul>
@@ -59,7 +58,6 @@ $blueGradientStart: #4ba8b7;
 $blueGradientEnd: #018498;
 $purpleGradientStart: #7967bb;
 $purpleGradientEnd: #5a43ab;
-
 
 .case {
   transform: scale(0.7);
@@ -154,31 +152,13 @@ $purpleGradientEnd: #5a43ab;
 
 
 #Upper {
-    // background-color: yellow;
-    width: 400px;
+    @include centerY;
+    top: -400px;
+    background-color: yellow;
+    width: 80vw;
     height: 100px;
-    margin: auto;
+    // margin: auto;
     position: relative;
-    input {
-      width: 185px;
-      height: 30px;
-      border-radius: 8px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      background-color: rgba(255, 255, 255, 0.05);
-      color: white;
-      padding: 5px 20px 5px 20px;
-      font-size: 17px;
-      font-weight: bold;
-      &::placeholder {
-        color: rgb(158, 158, 158);
-      }
-    }
-    img {
-      position: absolute;
-      height: 25px;
-      top: 10px;
-      right: 120px;
-    }
   }
   #Downer {
     position: relative;

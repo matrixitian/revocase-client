@@ -24,6 +24,23 @@
         </div>
       </div>
       <div id="Right">
+        <!-- <div id="Inputs">
+          <input placeholder="Steam ID" type="text">
+          <img src="@/assets/icons/info.svg" alt="">
+        </div> -->
+
+        <div id="Buttons">
+          <div id="playAds">
+            <img src="@/assets/icons/start.svg" alt="">
+            <p>Start Ads</p>
+          </div>
+
+          <div id="playTutorial">
+            <img src="@/assets/icons/play.svg" alt="">
+            <p>Tutorial</p>
+          </div>
+        </div>
+
         <img id="selectedLang" 
         :src="require(`@/assets/flags/${selectedLang}.svg`)" 
         alt=""
@@ -108,6 +125,61 @@ $blueGradientEnd: #018498;
 $purpleGradientStart: #7967bb;
 $purpleGradientEnd: #5a43ab;
 
+#Buttons {
+  position: absolute;
+  bottom: 20px;
+  #playAds, #playTutorial {
+    position: relative;
+    width: 180px;
+    height: 40px;
+    background-color: red;
+    border-radius: 20px;
+    cursor: pointer;
+    &:hover {
+      transition: .1s ease;
+      transform: scale(1.05);
+    }
+    img {
+      @include centerY;
+      left: 10px;
+    }
+    p {
+      @include centerXY;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+  img {
+    height: 30px;
+  }
+  #playTutorial {
+    margin-top: 10px;
+    background-color: rgb(0, 162, 255);
+  }
+}
+
+#Inputs {
+   input {
+      width: 185px;
+      height: 30px;
+      border-radius: 8px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      background-color: rgba(255, 255, 255, 0.05);
+      color: white;
+      padding: 5px 20px 5px 20px;
+      font-size: 17px;
+      font-weight: bold;
+      &::placeholder {
+        color: rgb(158, 158, 158);
+      }
+    }
+    img {
+      position: absolute;
+      height: 25px;
+      top: 10px;
+      right: 120px;
+    }
+}
 
 body {
   background-color: $grayBackground;
@@ -231,6 +303,7 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
     display: table;
   }
   #Right {
+    position: relative;
     width: $rightTopperWidth;
     height: 100%;
     display: inline;
@@ -256,7 +329,7 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
       right: 20px;
       width: 225px;
       height: auto;
-      background-color: rgba(255, 255, 255, 0.05);
+      background-color: rgb(40, 45, 114);
       border: 2px solid rgba(255, 255, 255, 0.1);
       border-radius: 7px;
       img {
