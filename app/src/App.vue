@@ -23,7 +23,14 @@
           </div>
         </div>
       </div>
-      <div id="Right">z</div>
+      <div id="Right">
+        <img id="selectedLang" :src="require(`@/assets/flags/${selectedLang}.svg`)" alt="">
+        <ul id="Languages">
+          <li v-for="lang in langs" :key="lang">
+            <img :src="require(`@/assets/flags/${lang}.svg`)">
+          </li>
+        </ul>
+      </div>
     </div>
 
     <div id="Bottomer">
@@ -61,6 +68,11 @@ export default {
   data() {
     return {
       myCoins: 120,
+      selectedLang: 'english',
+      langs: [
+        'croatian', 'english', 'french', 'german', 'italian',
+        'polish', 'portuguese', 'russian', 'serbian', 'spanish', 'turkish'
+      ],
       cases: [
         'clutch', 'fracture', 'chroma2',
         'phoenix', 'danger_zone'
@@ -321,9 +333,26 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
   #Right {
     width: $rightTopperWidth;
     height: 100%;
-    background-color: #259de3;
     display: inline;
     float: right;
+    #selectedLang {
+      position: absolute;
+      right: 20px;
+      top: 10px;
+      height: 40px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      padding: 0 5px 0 5px;
+      border-radius: 5px;
+      cursor: pointer;
+      &:hover {
+        transition: .2s ease;
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+    }
+
+    #Languages {
+      visibility: hidden;
+    }
   }
 }
 
