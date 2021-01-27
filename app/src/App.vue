@@ -39,7 +39,10 @@
     </div>
 
     <div id="Bottomer">
-      <div id="Upper">x</div>
+      <div id="Upper">
+        <input placeholder="Steam ID" type="text">
+        <img src="@/assets/icons/info.svg" alt="">
+      </div>
       <div id="Downer">
         <ul>
           <li v-for="(Case, i) in cases" :key="i"
@@ -63,12 +66,12 @@
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
+import Cases from './components/Cases.vue'
 
 export default {
   name: 'App',
   components: {
-    // HelloWorld
+    Cases
   },
   data() {
     return {
@@ -392,10 +395,31 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
   width: 100vw;
   height: 70vh;
   #Upper {
-    background-color: yellow;
+    // background-color: yellow;
     width: 400px;
     height: 100px;
     margin: auto;
+    position: relative;
+    input {
+      width: 185px;
+      height: 30px;
+      border-radius: 8px;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      background-color: rgba(255, 255, 255, 0.05);
+      color: white;
+      padding: 5px 20px 5px 20px;
+      font-size: 17px;
+      font-weight: bold;
+      &::placeholder {
+        color: rgb(158, 158, 158);
+      }
+    }
+    img {
+      position: absolute;
+      height: 25px;
+      top: 10px;
+      right: 120px;
+    }
   }
   #Downer {
     position: relative;
@@ -428,6 +452,7 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
 
 button, input {
   outline: none;
+  font-family: 'Lato'
 }
 
 * {
