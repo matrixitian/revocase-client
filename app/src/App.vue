@@ -24,10 +24,15 @@
         </div>
       </div>
       <div id="Right">
-        <img id="selectedLang" :src="require(`@/assets/flags/${selectedLang}.svg`)" alt="">
-        <ul id="Languages">
+        <img id="selectedLang" 
+        :src="require(`@/assets/flags/${selectedLang}.svg`)" 
+        alt=""
+        @mouseenter="langListVisible = true">
+        <ul id="Languages" v-if="langListVisible"
+        @mouseleave="langListVisible = false">
           <li v-for="lang in langs" :key="lang">
-            <img :src="require(`@/assets/flags/${lang}.svg`)">
+            <img :src="require(`@/assets/flags/${lang}.svg`)"
+            @click="selectLang(lang)">
           </li>
         </ul>
       </div>
@@ -69,6 +74,7 @@ export default {
     return {
       myCoins: 120,
       selectedLang: 'english',
+      langListVisible: true,
       langs: [
         'croatian', 'english', 'french', 'german', 'italian',
         'polish', 'portuguese', 'russian', 'serbian', 'spanish', 'turkish'
@@ -83,6 +89,10 @@ export default {
     }
   },
   methods: {
+    selectLang(lang) {
+      this.selectedLang = lang
+      this.langListVisible = false
+    },
     muteTab() {
       // Mute a singular HTML5 element
       function muteMe(elem) {
@@ -351,7 +361,29 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
     }
 
     #Languages {
-      visibility: hidden;
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      width: 225px;
+      height: auto;
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 7px;
+      img {
+        display: inline;
+        float: left;
+        margin: 10px;
+        height: 40px;
+        cursor: pointer;
+        border: 2px solid rgba(0, 0, 0, 0.5);
+        padding: 0 5px 0 5px;
+        border-radius: 5px;
+        &:hover {
+          transition: .2s ease;
+          transform: scale(1.05);
+          background-color: rgba(255, 255, 255, 0.05);
+        }
+      }
     }
   }
 }
