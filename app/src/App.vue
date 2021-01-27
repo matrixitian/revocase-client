@@ -21,7 +21,8 @@
       <div id="Upper">x</div>
       <div id="Downer">
         <ul>
-          <li v-for="(crate, i) in crates" :key="i">
+          <li v-for="(crate, i) in crates" :key="i"
+          :class="`Pipe_${i}`">
 
           </li>
         </ul>
@@ -55,6 +56,7 @@ export default {
   font-family: SoleilExtraBold;
   src: url('./assets/fonts/soleil_extrabold.ttf');
 }
+@import '@/assets/mixins/centerX';
 @import '@/assets/mixins/centerY';
 @import '@/assets/mixins/centerXY';
 
@@ -71,6 +73,36 @@ $blueGradientStart: #4ba8b7;
 $blueGradientEnd: #018498;
 $purpleGradientStart: #7967bb;
 $purpleGradientEnd: #5a43ab;
+
+.Pipe_0 {
+  background-color: $redGradientEnd;
+  background-image: linear-gradient($redGradientStart, $redGradientEnd);
+}
+
+.Pipe_1 {
+  background-color: $orangeGradientEnd;
+  background-image: linear-gradient($orangeGradientStart, $orangeGradientEnd);
+}
+
+.Pipe_2 {
+  background-color: $yellowGradientEnd;
+  background-image: linear-gradient($yellowGradientStart, $yellowGradientEnd);
+}
+
+.Pipe_3 {
+  background-color: $greenGradientEnd;
+  background-image: linear-gradient($greenGradientStart, $greenGradientEnd);
+}
+
+.Pipe_4{
+  background-color: $blueGradientEnd;
+  background-image: linear-gradient($blueGradientStart, $blueGradientEnd);
+}
+
+.Pipe_5 {
+  background-color: $purpleGradientEnd;
+  background-image: linear-gradient($purpleGradientStart, $purpleGradientEnd);
+}
 
 body {
   background-color: $grayBackground;
@@ -95,24 +127,24 @@ body {
 
 #centerLogo {
   @include centerXY;
-  background-color: greenyellow;
-  width: 400px;
+  // background-color: greenyellow;
+  width: 600px;
   height: 150px;
   margin: auto;
   #centerUp {
-    background-color: hotpink;
+    // background-color: hotpink;
     height: 70%;
     position: relative;
     #Logo {
       @include centerY;
-      left: 0;
+      left: 110px;
       height: 100px;
       width: 100px;
     }
     #logoText {
       @include centerY;
       position: absolute;
-      right: 0;
+      right: 110px;
       font-weight: bold;
       font-size: 47px;
     }
@@ -124,7 +156,6 @@ $rightTopperWidth: 150px;
 $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
 
 #Topper {
-  background-color: #018498;
   width: 100vw;
   height: 30vh;
   #Left {
@@ -138,7 +169,7 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
     position: relative;
     width: $middleTopperWidth;
     height: 100%;
-    background-color: #802a46;
+    // background-color: #802a46;
     display: inline;
     float: left;
     display: table;
@@ -163,9 +194,28 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
     margin: auto;
   }
   #Downer {
+    position: relative;
     background-color: rgb(22, 129, 54);
     width: 100%;
     height: calc(100% - 100px);
+    ul {
+      @include centerX;
+      width: auto;
+      height: 90%;
+      background-color: white;
+      bottom: 0;
+      display: flex;
+      li {
+        display: inline-block;
+        align-self: flex-end;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        margin: 0 20px 0 20px;
+        min-width: 180px;
+        height: 370px;
+        bottom: 0;
+      }
+    }
   }
 }
 
@@ -176,6 +226,10 @@ button, input {
 * {
   margin: 0;
   padding: 0;
+}
+
+li {
+  list-style: none;
 }
 
 </style>
