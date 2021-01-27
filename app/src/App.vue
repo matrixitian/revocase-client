@@ -25,13 +25,14 @@
           :class="`Pipe_${i}`">
             <img class="case" :src="require(`@/assets/cases/${Case}_case.png`)" alt="">
             <p class="caseTitle">{{ Case.toUpperCase() }}</p>
-            <p class="amountOpened">{{ `Opened ${caseOpened[i]}` }}</p>
+            <p class="amountOpened">Opened <span>{{ caseOpened[i] }}</span></p>
             <div class="viewContents">
               <img src="@/assets/icons/contents.svg" alt="">
               <p>View Contents</p>
             </div>
             <div class="openBtnCon">
-              <button>{{ casePrices[i] }}</button>
+              <img src="@/assets/icons/coin.svg" alt="">
+              <p>{{ casePrices[i] }}</p>
             </div>
           </li>
         </ul>
@@ -80,6 +81,10 @@ $blueGradientEnd: #018498;
 $purpleGradientStart: #7967bb;
 $purpleGradientEnd: #5a43ab;
 
+.case {
+  transform: scale(0.7);
+}
+
 .caseTitle {
   font-weight: bold;
   padding: 5px;
@@ -93,9 +98,16 @@ $purpleGradientEnd: #5a43ab;
   width: 50%;
   border-radius: 8px;
   background-color: rgba(0, 0, 0, 0.3);
+  padding: 2px;
+  span {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 0 3px 0 3px;
+    font-weight: bold;
+    border-radius: 4px;
+  }
 }
 
-.viewContents {
+.viewContents, .openBtnCon {
   margin: auto;
   margin-top: 10px;
   padding: 7px 10px 7px 10px;
@@ -106,8 +118,13 @@ $purpleGradientEnd: #5a43ab;
   font-weight: bold;
   font-size: 15px;
   max-width: 150px;
-  background-color: $purpleGradientEnd;
-  background-image: linear-gradient(rgb(46, 209, 54), rgb(18, 158, 41));
+  background-color: rgb(46, 117, 209);
+  background-image: linear-gradient(rgb(60, 167, 230), rgb(3, 100, 228));
+  cursor: pointer;
+  &:hover {
+    transition: .15s ease;
+    transform: scale(1.05);
+  }
   img {
     float: left;
     padding: 0;
@@ -115,8 +132,19 @@ $purpleGradientEnd: #5a43ab;
   }
 }
 
-.case {
-  transform: scale(0.7);
+.openBtnCon {
+  background-color: rgb(46, 209, 54);
+  background-image: linear-gradient(rgb(46, 209, 54), rgb(18, 158, 41));
+  border-radius: 20px;
+  max-width: 120px;
+  img {
+    margin-top: -5px;
+    height: 35px;
+    width: 35px;
+  }
+  p {
+    font-size: 20px;
+  }
 }
 
 .Pipe_0 {
@@ -238,7 +266,7 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
     ul {
       @include centerX;
       width: auto;
-      height: 375px;
+      height: 400px;
       bottom: 0;
       display: flex;
       li {
@@ -252,10 +280,9 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
         bottom: 0;
         border: 5px solid white;
         border-bottom: none;
-        cursor: pointer;
         &:hover {
           transition: .2s ease;
-          height: 380px;
+          height: 375px;
         }
       }
     }
