@@ -136,7 +136,7 @@ $purpleGradientEnd: #5a43ab;
   background-color: rgb(46, 209, 54);
   background-image: linear-gradient(rgb(46, 209, 54), rgb(18, 158, 41));
   border-radius: 20px;
-  max-width: 120px;
+  max-width: 100px;
   img {
     margin-top: -5px;
     height: 35px;
@@ -179,6 +179,8 @@ body {
 #logoInfo {
   position: absolute;
   bottom: 0;
+  font-size: 20px;
+  color: rgba(255, 255, 255, 0.4)
 }
 
 #app {
