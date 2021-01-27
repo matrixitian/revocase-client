@@ -184,7 +184,7 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
 }
 
 #Bottomer {
-  background-color: #4f0198;
+  // background-color: #4f0198;
   width: 100vw;
   height: 70vh;
   #Upper {
@@ -195,14 +195,14 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
   }
   #Downer {
     position: relative;
-    background-color: rgb(22, 129, 54);
+    // background-color: rgb(22, 129, 54);
     width: 100%;
     height: calc(100% - 100px);
     ul {
       @include centerX;
       width: auto;
       height: 90%;
-      background-color: white;
+      // background-color: white;
       bottom: 0;
       display: flex;
       li {
