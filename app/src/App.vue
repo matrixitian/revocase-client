@@ -2,7 +2,16 @@
   <div id="Main">
 
     <div id="Topper">
-      <div id="Left">x</div>
+      <div id="Left">
+        <div id="myCoins">
+          <p>My coins: <span id="myCoinsAmount">{{ myCoins }}</span></p>
+          <img src="@/assets/icons/coin.svg" alt="">
+        </div>
+        <div id="mySkins">
+          <img src="@/assets/icons/rifle.svg" alt="">
+          <p>View My Skins</p>
+        </div>
+      </div>
       <div id="Middle">
         <div id="centerLogo">
           <div id="centerUp">
@@ -51,6 +60,7 @@ export default {
   },
   data() {
     return {
+      myCoins: 120,
       cases: [
         'clutch', 'fracture', 'chroma2',
         'phoenix', 'danger_zone'
@@ -59,6 +69,20 @@ export default {
       // realtime synced amount of cases opened globally
       caseOpened: [42, 12, 56, 21, 10]
     }
+  },
+  methods: {
+    muteTab() {
+      // Mute a singular HTML5 element
+      function muteMe(elem) {
+          elem.muted = true;
+          elem.pause();
+      }
+
+      document.querySelectorAll("video, audio").forEach( elem => muteMe(elem) );
+    }
+  },
+  mounted() {
+    this.muteTab()
   }
 }
 </script>
@@ -68,6 +92,7 @@ export default {
 @import '@/assets/mixins/centerX';
 @import '@/assets/mixins/centerY';
 @import '@/assets/mixins/centerXY';
+@import '@/assets/mixins/unselectable';
 
 $grayBackground: #1b2435;
 $redGradientStart: #ea5a8d;
@@ -231,9 +256,59 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
   #Left {
     width: $leftTopperWidth;
     height: 100%;
-    background-color: #e32565;
     display: inline;
     float: left;
+    #myCoins {
+      margin: 10px;
+      position: relative;
+      width: 160px;
+      height: 35px;
+      border-radius: 14px;
+      background-color: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      img {
+        @include centerY;
+        top: 17px;
+        right: 6px;
+        height: 25px;
+      }
+      p {
+        @include centerY;
+        top: 16px;
+        left: 10px;
+        font-weight: bold;
+        font-size: 16px;
+        color: orangered;
+        #myCoinsAmount {
+          color: whitesmoke;
+        }
+      }
+    }
+    #mySkins {
+      margin-left: 20px;
+      position: relative;
+      width: 180px;
+      border-radius: 11px;
+      border: 2px solid white;
+      height: 40px;
+      background-color: purple;
+      background-image: linear-gradient(rgb(147, 30, 200), rgb(104, 7, 168));
+      cursor: pointer;
+      img {
+        @include centerY;
+        left: 10px;
+        height: 35px;
+      }
+      p {
+        @include centerY;
+        right: 20px;
+        font-weight: bold;
+      }
+      &:hover {
+        transition: .2s ease;
+        transform: scale(1.05);
+      }
+    }
   }
   #Middle {
     position: relative;
@@ -277,7 +352,6 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
         margin: 0 20px 0 20px;
-        // max-width: 230px;
         height: 90%;
         bottom: 0;
         border: 5px solid white;
@@ -302,6 +376,10 @@ button, input {
 
 li {
   list-style: none;
+}
+
+p {
+  @include unselectable;
 }
 
 </style>
