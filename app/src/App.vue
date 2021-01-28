@@ -139,6 +139,9 @@ $purpleGradientEnd: #5a43ab;
 #Buttons {
   position: absolute;
   bottom: 20px;
+  #playAds {
+    z-index: 0 !important;
+  }
   #playAds, #playTutorial {
     position: relative;
     width: 180px;
@@ -164,6 +167,7 @@ $purpleGradientEnd: #5a43ab;
     height: 30px;
   }
   #playTutorial {
+    z-index: 200 !important;
     margin-top: 10px;
     background-color: rgb(0, 162, 255);
   }
@@ -314,13 +318,13 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
     display: table;
   }
   #Right {
-    z-index: 200;
     position: relative;
     width: $rightTopperWidth;
     height: 100%;
     display: inline;
     float: right;
     #selectedLang {
+      z-index: 200 !important;
       position: absolute;
       right: 20px;
       top: 10px;
@@ -336,6 +340,7 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
     }
 
     #Languages {
+      z-index: 200 !important;
       position: absolute;
       top: 60px;
       right: 20px;

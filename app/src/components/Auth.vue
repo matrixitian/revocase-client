@@ -209,6 +209,10 @@ button {
   cursor: pointer;
 }
 
+input {
+  font-weight: bold;
+}
+
 #password_strength {
   margin: auto;
   margin-top: -10px;
