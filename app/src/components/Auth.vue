@@ -2,31 +2,41 @@
   <div class="main">
 
     <form :class="{loginFormHeight: !signUpForm}">
+
+      <!-- Switch Auth -->
       <button id="switch_to_login"
       @click.prevent="toggleFormType()">
         {{
           signUpForm ? "Or login" : "Or sign up"
         }}
       </button>
-      <transition name="slide-fade">
+
       <div id="center" v-if="mounted">
         <p>{{ signUpForm ? "Create a new account" : "Login to your account" }}</p>
         <p v-show="signUpForm">Revo Skins: Let ads run in background and earn points!</p>
-        <input v-show="signUpForm" type="text" placeholder="Your first name" ref="fname"
+        <input v-show="signUpForm" type="text" placeholder="Username" ref="fname"
         v-model="name"
         @keyup="hideShowInfo">
-        <input type="text" placeholder="Your email or phone number"
-        v-model="emailOrPhoneNum"
+
+        <input type="text" placeholder="Your e-mail"
+        v-model="email"
         @focus="showForm = true"
         @keyup="hideShowInfo">
-        <transition name="slide-fade">
-          <input v-if="showForm && signUpForm" type="text" placeholder="Confirm email/phone number"
-          v-model="cEmailOrPhoneNum"
-          @keyup="hideShowInfo">
-        </transition>
-        <input type="text" :placeholder="passwordPlaceholder()" v-model="password"
+
+        <input
+        v-if="signUpForm"
+        type="text" placeholder="Confirm email/phone number"
+        v-model="cemail"
+        @keyup="hideShowInfo">
+
+        <!-- Password -->
+        <input type="text"
+        :placeholder="passwordPlaceholder()"
+        v-model="password"
         @keyup="updatePasswordMeter()">
-        <div v-if="password && signUpForm && !showInfo" id="password_strength">
+
+        <!-- Password Meter -->
+        <div v-if="signUpForm && !showInfo" id="password_strength">
           <p>Password is <span 
           :class="{
             ps_red: passwordStrength === 'Weak',
@@ -34,6 +44,7 @@
             ps_green: passwordStrength === 'Strong'}">
           {{ passwordStrength }}</span></p>
         </div>
+
         <transition name="slide-fade">
           <p id="err_msg" v-if="showInfo" :class="{info_warning: errorOccured}">
             {{ curInfoMessage }}
@@ -47,7 +58,6 @@
           {{ signUpForm ? "Create your Revo account" : "Login" }}
         </button>
       </div>
-      </transition>
     </form>
 
   </div>
@@ -60,10 +70,10 @@ export default {
   data() {
     return {
       alreadySignedUp: null,
-      passwordStrength: null,
+      passwordStrength: "Weak",
       name: null,
-      emailOrPhoneNum: null,
-      cEmailOrPhoneNum: null,
+      email: null,
+      cemail: null,
       password: null,
       pageText: null,
       signUpFormText: null,
@@ -96,37 +106,47 @@ export default {
     },
     authenticate() {
         if (this.signUpForm) {
-          if (this.emailOrPhoneNum !== this.cEmailOrPhoneNum) {
+
+          // Check E-mails match
+          if (this.email !== this.cemail) {
             this.curInfoMessage = this.signUpFormText.data.fieldsDontMatch
-            this.createErrorMessage('E-mail/Phone number.')
+            this.createErrorMessage('E-mails don\'t match.')
           }
+
           const format = /[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/
           const containsSymbol = format.test(this.password)
+
+          // Check password not empty
           if (!this.password) {
             this.curInfoMessage = this.signUpFormText.data.password
             this.createErrorMessage('Password field is empty.')
           }
+
+          // Check password length and has symbols
           const passwordLen = this.password.length
           if (!containsSymbol || passwordLen < 8) {
             this.curInfoMessage = this.signUpFormText.data.password
             this.createErrorMessage('Password not secure.')
           }
+
+          // Check client has connection
           if (!window.navigator.onLine) {
             this.curInfoMessage = this.signUpFormText.data.noConnection
             this.createErrorMessage('Client is offline.')
           }
+
           axios({
             method: 'post',
             url: 'http://localhost:3000/create-user',
             data: {
               name: this.name,
-              emailOrPhoneNum: this.emailOrPhoneNum,
+              email: this.email,
               password: this.password
             }
           }).then((res) => {
             console.log(res.data)
             if (res.data === 11000) {
-              this.curInfoMessage = this.signUpFormText.data.emailOrPhoneNumTaken
+              this.curInfoMessage = this.signUpFormText.data.emailTaken
               this.createErrorMessage('E-mail or phone number already taken.')
             } else {
               localStorage.setItem('token', res.data.token)
@@ -145,7 +165,7 @@ export default {
             url: 'http://localhost:3000/login',
             data: {
               name: this.name,
-              emailOrPhoneNum: this.emailOrPhoneNum,
+              email: this.email,
               password: this.password
             }
           }).then((res) => {
@@ -178,9 +198,17 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/mixins/unselectable';
 @import '@/assets/mixins/centerX';
+@import '@/assets/mixins/centerXY';
+
 .ps_red { background-color: red !important; }
 .ps_yellow { background-color: yellow !important; }
 .ps_green { background-color: greenyellow !important; }
+
+button {
+  font-weight: bold;
+  cursor: pointer;
+}
+
 #password_strength {
   margin: auto;
   margin-top: -10px;
@@ -195,43 +223,13 @@ export default {
     }
   }
 }
+
 .loginBtnMargin {
   margin-top: 10px !important;
 }
+
 .loginFormHeight {
   height: 320px !important;
-}
-#license {
-  #copyright {
-    font-weight: bold;
-  }
-  p {
-    margin-top: 12px;
-    font-size: 15px;
-  }
-  span {
-    font-size: 17px;
-  }
-  a:nth-child(2) {
-    margin-left: 50px;
-  }
-  a {
-    margin-right: 20px;
-    text-decoration: none;
-  }
-  #create_ad {
-    background: rgb(27, 209, 21);
-    background: linear-gradient(270deg, rgb(56, 212, 69) 0%, rgb(111, 245, 122) 100%);
-    padding: 3px 6px 3px 6px;
-    border-radius: 7px;
-    color: white;
-    font-weight: bold;
-    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.12);
-    border: 1px solid transparent;
-    &:hover {
-      border: 1px solid rgb(31, 190, 39);
-    }
-  }
 }
 
 #switch_to_login {
@@ -250,37 +248,23 @@ export default {
   &:hover {
     transition: .1s ease-in-out;
     border: 4px solid white;
-    // border-color: rgb(109, 177, 255);
   }
 }
 
 p {
   @include unselectable;
+  margin: 0;
+  color: rgb(31, 31, 31);
 }
 
-.slide-fade-enter-active {
-  transition: all .3s ease;
-}
-.slide-fade-enter-from, .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
-  transform: translateX(10px);
-  opacity: 0;
-}
 form {
-  z-index: 100;
-  float: right;
-  position: absolute;
+  @include centerXY;
   height: 550px;
   width: 350px;
   border-radius: 10px;
-  top: 50%;
-  bottom: 50%;
-  right: 100px;
-  transform: translate(-50%, -50%);
   background-color: white;
   box-shadow: 0px 0px 10px 5px rgba(0, 0, 0, 0.07);
   div#center {
-    // background-color: blue;
     width: 80%;
     margin: auto;
     p:nth-child(1) {
@@ -335,10 +319,7 @@ form {
     }
   }
 }
-p {
-  margin: 0;
-  color: rgb(31, 31, 31);
-}
+
 #reset_password {
   color:rgb(255, 255, 255);
   font-weight: bold;
@@ -349,13 +330,13 @@ p {
   font-size: 14px;
   margin: auto;
   margin-top: 20px;
-  // position: absolute;
   cursor: pointer;
   &:hover {
     transition: .5s ease;
     background: rgb(21, 150, 209);
   }
 }
+
 #err_msg {
   width: calc(100% - 23px);
   color: white;
@@ -368,6 +349,7 @@ p {
   background: rgb(27, 209, 21);
   background: linear-gradient(270deg, rgb(56, 212, 69) 0%, rgb(111, 245, 122) 100%);
 }
+
 .info_warning {
   background: rgb(209, 90, 21) !important;
   background: linear-gradient(270deg, rgb(223, 114, 64) 0%, rgb(219, 62, 34) 100%) !important;
