@@ -175,6 +175,11 @@ export default {
             this.createErrorMessage("Password needs to contain a symbol and be at least 8 characters long!")
           }
 
+          // Check Username exists
+          if (!this.agreed) {
+            this.createErrorMessage("You cannot create an account if you are a minor!")
+          }
+
           // Check client has connection
           if (!window.navigator.onLine) {
             this.createErrorMessage("Please check you internet connection and refresh page!")
@@ -271,6 +276,7 @@ export default {
       top: 0;
       left: 5px;
       height: 40px;
+      cursor: pointer;
     }
   }
 }
