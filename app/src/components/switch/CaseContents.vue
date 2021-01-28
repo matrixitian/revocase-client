@@ -15,9 +15,6 @@
 </template>
 
 <script>
-// import axios from 'axios';
-// const steamprice = require('steam-price-api');
-
 export default {
   name: 'CaseContents',
   props: ['Case'],

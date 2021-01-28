@@ -1,6 +1,10 @@
 <template>
   <div id="Main">
 
+    <div id="Auth">
+      <Auth />
+    </div>
+
     <div id="Topper">
       <div id="Left">
         <div id="myCoins">
@@ -66,12 +70,13 @@
 </template>
 
 <script>
-import * as Parts from '@/components'
+import * as Parts from '@/components/switch'
+import Auth from '@/components/Auth'
 
 export default {
   name: 'App',
   components: {
-    ...Parts
+    ...Parts, Auth
   },
   data() {
     return {
@@ -125,6 +130,11 @@ $blueGradientStart: #4ba8b7;
 $blueGradientEnd: #018498;
 $purpleGradientStart: #7967bb;
 $purpleGradientEnd: #5a43ab;
+
+#Auth {
+  z-index: 100;
+  @include centerXY;
+}
 
 #Buttons {
   position: absolute;
