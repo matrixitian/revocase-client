@@ -1,7 +1,7 @@
 <template>
   <div id="Main">
 
-    <div id="Auth">
+    <div id="Auth" v-if="!user">
       <Auth />
     </div>
 
@@ -80,7 +80,8 @@ export default {
   },
   data() {
     return {
-      selectedPart: 'CaseContents',
+      user: null,
+      selectedPart: 'Cases',
       myCoins: 120,
       selectedLang: 'english',
       langListVisible: false,
@@ -90,6 +91,13 @@ export default {
         'polish', 'portuguese', 'russian', 'serbian', 'spanish', 'turkish'
       ]
     }
+  },
+  created() {
+     this.$store.subscribe(async(mutation, state) => {
+      if (mutation.type === 'setUser') {
+        this.user = state.user
+      }
+    })
   },
   methods: {
     selectLang(lang) {
@@ -107,7 +115,11 @@ export default {
     }
   },
   mounted() {
-    this.muteTab()
+    const user = JSON.parse(localStorage.getItem('user'))
+    console.log(user)
+    if (user) {
+      this.user = user
+    }
   }
 }
 </script>

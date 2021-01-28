@@ -18,8 +18,9 @@
         <p v-show="signUpForm">Revo Skins: Let ads run in background and earn points!</p>
 
         <!-- Username -->
-        <input v-show="signUpForm" type="text" placeholder="Username" ref="fname"
-        v-model="name"
+        <input v-show="signUpForm" type="text"
+        placeholder="Username" ref="uname"
+        v-model="uname"
         @keyup="hideShowInfo">
 
         <!-- E-mail -->
@@ -41,6 +42,19 @@
         v-model="password"
         @keyup="updatePasswordMeter()">
 
+        <!-- Ad agreement -->
+        <div id="agreement"
+        v-if="signUpForm">
+          <div>
+            <p>I agree that I am over 18 
+            and I am okay with adult content being shown to me.</p>
+          </div>
+          <div>
+            <input type="checkbox"
+            v-model="agreed">
+          </div>
+        </div>
+
         <!-- Password Meter -->
         <div v-if="signUpForm && !showInfo" id="password_strength">
           <p>Password is <span 
@@ -60,17 +74,17 @@
 
         <!-- Terms and Privacy -->
         <p id="terms" v-if="signUpForm">
-          By creating your Revo Skins account, you agree to our <a>Terms</a>, 
-          <a>Data Policy</a> and <a>Cookie Policy</a>. You may receive E-Mails 
-          from us and may opt out at any time.
+          By signing up you agree to our <a>Terms</a>, 
+          <a>Data Policy</a> and <a>Cookie Policy</a>.
         </p>
 
         <!-- Reset password -->
         <p v-show="!signUpForm" id="reset_password">Forgot your password?</p>
 
         <!-- Login or Register -->
-        <button type="submit" @click.prevent="authenticate()"
+        <button type="submit"
         id="formButton"
+        @click.prevent="authenticate()"
         :class="{loginBtnMargin: !signUpForm}">
           {{ signUpForm ? "Create your Revo account" : "Login" }}
         </button>
@@ -82,16 +96,16 @@
 </template>
 
 <script>
-// import { firestore } from '@/firebase/config.js'
-import axios from 'axios'
+import { auth } from '@/firebase/config.js'
 const passwordStrength = require('check-password-strength')
 
 export default {
   data() {
     return {
+      agreed: true,
       alreadySignedUp: null,
       passwordStrength: "Weak",
-      name: null,
+      uname: null,
       email: null,
       cemail: null,
       password: null,
@@ -116,21 +130,35 @@ export default {
       if (this.password) {
         this.passwordStrength = passwordStrength(this.password).value
       } else {
-        this.passwordStrength = null
+        this.passwordStrength = "Weak"
       }
     },
     createErrorMessage(msg) {
       this.errorOccured = true
       this.showInfo = true
+      this.curInfoMessage = msg
       throw new Error(msg)
     },
     authenticate() {
         if (this.signUpForm) {
 
+          // Check Username exists
+          if (!this.uname) {
+            this.createErrorMessage("You forgot to enter a username!")
+          }
+
+          // Check Username length
+          if (this.uname.length < 3) {
+            this.createErrorMessage("Username needs to be at least 3 characters long!")
+          }
+
+          if (!this.email) {
+            this.createErrorMessage("You need to enter an e-mail!")
+          }
+
           // Check E-mails match
           if (this.email !== this.cemail) {
-            this.curInfoMessage = this.signUpFormText.data.fieldsDontMatch
-            this.createErrorMessage('E-mails don\'t match.')
+            this.createErrorMessage("E-mails don't match!")
           }
 
           const format = /[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/
@@ -138,65 +166,53 @@ export default {
 
           // Check password not empty
           if (!this.password) {
-            this.curInfoMessage = this.signUpFormText.data.password
-            this.createErrorMessage('Password field is empty.')
+            this.createErrorMessage("Password cannot be empty!")
           }
 
           // Check password length and has symbols
           const passwordLen = this.password.length
           if (!containsSymbol || passwordLen < 8) {
-            this.curInfoMessage = this.signUpFormText.data.password
-            this.createErrorMessage('Password not secure.')
+            this.createErrorMessage("Password needs to contain a symbol and be at least 8 characters long!")
           }
 
           // Check client has connection
           if (!window.navigator.onLine) {
-            this.curInfoMessage = this.signUpFormText.data.noConnection
-            this.createErrorMessage('Client is offline.')
+            this.createErrorMessage("Please check you internet connection and refresh page!")
           }
 
-          axios({
-            method: 'post',
-            url: 'http://localhost:3000/create-user',
-            data: {
-              name: this.name,
-              email: this.email,
-              password: this.password
-            }
-          }).then((res) => {
-            console.log(res.data)
-            if (res.data === 11000) {
-              this.curInfoMessage = this.signUpFormText.data.emailTaken
-              this.createErrorMessage('E-mail or phone number already taken.')
-            } else {
-              localStorage.setItem('token', res.data.token)
-              this.errorOccured = false
-              this.showInfo = true
-              this.curInfoMessage = this.signUpFormText.data.successRedirecting
-              
-              setTimeout(() => {
-                this.$router.push({ name: 'Fillout' })
-              }, 1000)
-            }
-          })
+          this.createAccount()
         } else {
-          axios({
-            method: 'post',
-            url: 'http://localhost:3000/login',
-            data: {
-              name: this.name,
-              email: this.email,
-              password: this.password
-            }
-          }).then((res) => {
-            if (res.status === 200) {
-              this.showInfo = true
-              this.curInfoMessage = this.loginFormText.data.loginSuccesful
-              this.$router.push({ name: 'Home' })
-            }
-          })
+          this.login()
         }
-      
+    },
+    saveUserAndRedirect(user) {
+      localStorage.setItem('user', JSON.stringify(user))
+      this.$store.commit('setUser', { user })
+    },
+    login() {
+      auth.signInWithEmailAndPassword(this.email, this.password)
+      .then((userCredential) => {
+        this.saveUserAndRedirect(userCredential)
+      })
+      .catch((error) => {
+        this.createErrorMessage(error.message)
+      });
+    },
+    createAccount() {
+      auth.createUserWithEmailAndPassword(
+        this.email, this.password)
+      .then((userCredential) => {
+        const user = auth.currentUser;
+
+        user.updateProfile({
+          displayName: this.uname
+        }).then(() => {
+          this.saveUserAndRedirect(userCredential)
+        })
+      })
+      .catch((error) => {
+        this.createErrorMessage(error.message)
+      })
     },
     toggleFormType() {
       this.showInfo = false
@@ -209,7 +225,7 @@ export default {
   mounted() {
     this.mounted = true
     setTimeout(() => {
-      this.$refs.fname.focus()
+      this.$refs.uname.focus()
     }, 100)  
   }
 }
@@ -224,6 +240,41 @@ export default {
 .ps_yellow { background-color: yellow !important; }
 .ps_green { background-color: greenyellow !important; }
 
+#agreement {
+  margin-top: 10px;
+  width: 100%;
+  height: 50px;
+  div:nth-child(1) {
+    position: relative;
+    width: 90%;
+    height: 100%;
+    float: right;
+    p {
+      @include centerX;
+      top: 0;
+      margin: 0 !important;
+      width: 100%;
+      font-size: 13px !important;
+      text-align: justify;
+      text-justify: inter-word;
+    }
+  }
+  
+  div:nth-child(2) {
+    position: relative;
+    width: 10%;
+    height: 100%;
+    float: left;
+    input {
+      margin: 0 !important;
+      position: absolute;
+      top: 0;
+      left: 5px;
+      height: 40px;
+    }
+  }
+}
+
 button {
   font-weight: bold;
   cursor: pointer;
@@ -235,7 +286,7 @@ input {
 
 #password_strength {
   margin: auto;
-  margin-top: -10px;
+  margin-top: -30px;
   text-align: center;
   p {
     font-size: 14px !important;
@@ -301,7 +352,7 @@ form {
       margin-bottom: 20px;
     }
     input {
-      margin-top: 15px;
+      margin-top: 12px;
       border: none;
       outline: none;
       background-color: rgba(0, 0, 0, 0.12);
