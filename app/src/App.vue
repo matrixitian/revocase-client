@@ -90,7 +90,8 @@ export default {
   },
   data() {
     return {
-      user: "hi",
+      authChecked: false,
+      user: null,
       selectedPart: 'Cases',
       myCoins: 0,
       selectedLang: 'english',
@@ -103,15 +104,9 @@ export default {
     }
   },
   created() {
-    auth.onAuthStateChanged(function(user) {
-      if (user) {
-        console.log('user found')
-        this.user = user
-        console.log(this.user)
-
-      } else {
-        // No user is signed in.
-        console.log('user not found')
+    this.$store.subscribe(async(mutation, state) => {
+      if (mutation.type === 'setUser') {
+        this.user = state.user
       }
     })
   },
@@ -122,9 +117,9 @@ export default {
         this.$store.commit('setUser', { user: null })
         this.user = null
       }).catch((error) => {
-  // An error happened.
-  alert(error)
-});
+        // An error happened.
+        alert(error)
+      });
     },
     selectLang(lang) {
       this.selectedLang = lang
@@ -141,13 +136,17 @@ export default {
     }
   },
   mounted() {
+    auth.onAuthStateChanged(function(user) {
+      if (user) {
+        console.log('user found')
+        this.user = user
+      } else {
+        // No user is signed in.
+        this.user = null
+        console.log('user not found')
+      }
+    })
     
-
-    console.log(this.user)
-
-    // const user = JSON.parse(localStorage.getItem('user'))
-    // console.log(user)
- 
     detectAnyAdblocker().then((detected) => {
       if (detected){
         // alert('Please turn off your Ad Blocker!')
