@@ -310,7 +310,8 @@ form {
       color: white;
       font-size: 15px;
       padding: 10px 0 10px 0;
-      border: 2px solid white;
+      border: none;
+      // border: 2px solid rgb(165, 35, 35);
       outline: none;
       &:hover {
         transition: .15s ease;

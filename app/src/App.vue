@@ -314,6 +314,7 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
     display: table;
   }
   #Right {
+    z-index: 200;
     position: relative;
     width: $rightTopperWidth;
     height: 100%;
