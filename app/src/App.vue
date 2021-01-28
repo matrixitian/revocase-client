@@ -34,6 +34,14 @@
         </div> -->
 
         <div id="Buttons">
+          <transition name="slide-fade">
+            <div id="logout" v-if="user"
+            @click="signOut()">
+              <img src="@/assets/icons/logout.svg" alt="">
+              <p>Logout</p>
+            </div>
+          </transition>
+
           <div id="playAds">
             <img src="@/assets/icons/start.svg" alt="">
             <p>Start Ads</p>
@@ -49,7 +57,7 @@
         :src="require(`@/assets/flags/${selectedLang}.svg`)" 
         alt=""
         @mouseenter="langListVisible = true">
-        <ul id="Languages" v-if="langListVisible"
+        <ul id="Languages" v-show="langListVisible"
         @mouseleave="langListVisible = false">
           <li v-for="lang in langs" :key="lang">
             <img :src="require(`@/assets/flags/${lang}.svg`)"
@@ -70,6 +78,8 @@
 </template>
 
 <script>
+import { auth } from '@/firebase/config.js'
+import { detectAnyAdblocker } from 'just-detect-adblock'
 import * as Parts from '@/components/switch'
 import Auth from '@/components/Auth'
 
@@ -80,9 +90,9 @@ export default {
   },
   data() {
     return {
-      user: null,
+      user: "hi",
       selectedPart: 'Cases',
-      myCoins: 120,
+      myCoins: 0,
       selectedLang: 'english',
       langListVisible: false,
       caseClicked: 'clutch',
@@ -93,13 +103,29 @@ export default {
     }
   },
   created() {
-     this.$store.subscribe(async(mutation, state) => {
-      if (mutation.type === 'setUser') {
-        this.user = state.user
+    auth.onAuthStateChanged(function(user) {
+      if (user) {
+        console.log('user found')
+        this.user = user
+        console.log(this.user)
+
+      } else {
+        // No user is signed in.
+        console.log('user not found')
       }
     })
   },
   methods: {
+    signOut() {
+      auth.signOut().then(() => {
+        localStorage.setItem('user', null)
+        this.$store.commit('setUser', { user: null })
+        this.user = null
+      }).catch((error) => {
+  // An error happened.
+  alert(error)
+});
+    },
     selectLang(lang) {
       this.selectedLang = lang
       this.langListVisible = false
@@ -115,11 +141,18 @@ export default {
     }
   },
   mounted() {
-    const user = JSON.parse(localStorage.getItem('user'))
-    console.log(user)
-    if (user) {
-      this.user = user
-    }
+    
+
+    console.log(this.user)
+
+    // const user = JSON.parse(localStorage.getItem('user'))
+    // console.log(user)
+ 
+    detectAnyAdblocker().then((detected) => {
+      if (detected){
+        // alert('Please turn off your Ad Blocker!')
+      }
+    })
   }
 }
 </script>
@@ -143,6 +176,14 @@ $blueGradientEnd: #018498;
 $purpleGradientStart: #7967bb;
 $purpleGradientEnd: #5a43ab;
 
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-enter-from, .slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
 #Auth {
   z-index: 100;
   @include centerXY;
@@ -154,7 +195,7 @@ $purpleGradientEnd: #5a43ab;
   #playAds {
     z-index: 0 !important;
   }
-  #playAds, #playTutorial {
+  #playAds, #playTutorial, #logout {
     position: relative;
     width: 180px;
     height: 40px;
@@ -177,6 +218,10 @@ $purpleGradientEnd: #5a43ab;
   }
   img {
     height: 30px;
+  }
+  #logout {
+    margin-bottom: 10px;
+    background-color: rgb(30, 175, 42);
   }
   #playTutorial {
     z-index: 200 !important;

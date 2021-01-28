@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" @keypress.enter.prevent>
 
     <form :class="{loginFormHeight: !signUpForm}">
 

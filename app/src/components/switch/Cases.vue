@@ -107,6 +107,7 @@ $purpleGradientEnd: #5a43ab;
     float: left;
     padding: 0;
     margin: 0;
+    margin-top: -2px;
   }
 }
 

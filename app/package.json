@@ -13,6 +13,7 @@
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
     "firebase": "^8.2.4",
+    "just-detect-adblock": "^1.1.0",
     "steam-price-api": "^2.0.0",
     "vue": "^3.0.0",
     "vuex": "^4.0.0-0"
