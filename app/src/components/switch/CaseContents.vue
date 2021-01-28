@@ -2,13 +2,26 @@
   <div>
     <ul>
       <li v-for="(gun, i) in guns" :key="i">
+
+        <!-- Skin Image -->
         <img :src="require(`@/assets/skins/${guns[i]}.png`)" alt="">
+        <!-- Skin Name -->
         <p class="skinTitle">{{ gun }}</p>
-        <p class="price">Lowest price (FN): 
-          <span>$2.67</span></p>
+        <!-- Lowest Price -->
+        <p class="price">
+          Lowest price (FN): 
+          <span>$2.67</span>
+        </p>
+
+        <!-- Go to Market -->
+        <button class="inspect goToMarket" @click="inspectGun(gun)">
+          Go to Market
+        </button>
+        <!-- Inspect Gun -->
         <button class="inspect" @click="inspectGun(gun)">
           Inspect in-game (FN)
         </button>
+
       </li>
     </ul>
   </div>
@@ -78,7 +91,7 @@ ul {
   li {
     float: left;
     margin: 15px;
-    height: 250px;
+    height: 280px;
     width: 250px;
     border: 2px solid rgba(255, 255, 255, 0.2);
     background-color: rgba(255, 255, 255, 0.05);
@@ -100,8 +113,16 @@ ul {
         color: rgb(43, 142, 255);
       }
     }
+
+    .goToMarket {
+      margin-top: 15px !important;
+       &:hover {
+        background: -webkit-linear-gradient(#d67322,#976404 60%,#ffb663) !important;
+      }
+    }
+
     .inspect {
-      margin-top: 15px;
+      margin-top: 5px;
       width: 90%;
       padding: 5px 0 5px 0;
       border: none;

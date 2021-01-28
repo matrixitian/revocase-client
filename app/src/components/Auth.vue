@@ -12,20 +12,26 @@
       </button>
 
       <div id="center" v-if="mounted">
+
         <p>{{ signUpForm ? "Create a new account" : "Login to your account" }}</p>
+
         <p v-show="signUpForm">Revo Skins: Let ads run in background and earn points!</p>
+
+        <!-- Username -->
         <input v-show="signUpForm" type="text" placeholder="Username" ref="fname"
         v-model="name"
         @keyup="hideShowInfo">
 
+        <!-- E-mail -->
         <input type="text" placeholder="Your e-mail"
         v-model="email"
         @focus="showForm = true"
         @keyup="hideShowInfo">
 
+        <!-- Confirm E-mail -->
         <input
         v-if="signUpForm"
-        type="text" placeholder="Confirm email/phone number"
+        type="text" placeholder="Confirm email"
         v-model="cemail"
         @keyup="hideShowInfo">
 
@@ -45,18 +51,30 @@
           {{ passwordStrength }}</span></p>
         </div>
 
+        <!-- Error Message -->
         <transition name="slide-fade">
           <p id="err_msg" v-if="showInfo" :class="{info_warning: errorOccured}">
             {{ curInfoMessage }}
           </p>
         </transition>
-        <p id="terms" v-if="signUpForm">By creating your Karma account, you agree to our <a>Terms</a>, <a>Data Policy</a> and <a>Cookie Policy</a>. You may receive E-Mails from us and may opt out at any time.</p>
+
+        <!-- Terms and Privacy -->
+        <p id="terms" v-if="signUpForm">
+          By creating your Revo Skins account, you agree to our <a>Terms</a>, 
+          <a>Data Policy</a> and <a>Cookie Policy</a>. You may receive E-Mails 
+          from us and may opt out at any time.
+        </p>
+
+        <!-- Reset password -->
         <p v-show="!signUpForm" id="reset_password">Forgot your password?</p>
+
+        <!-- Login or Register -->
         <button type="submit" @click.prevent="authenticate()"
         id="formButton"
         :class="{loginBtnMargin: !signUpForm}">
           {{ signUpForm ? "Create your Revo account" : "Login" }}
         </button>
+
       </div>
     </form>
 
@@ -64,8 +82,10 @@
 </template>
 
 <script>
+// import { firestore } from '@/firebase/config.js'
 import axios from 'axios'
 const passwordStrength = require('check-password-strength')
+
 export default {
   data() {
     return {
