@@ -1,7 +1,7 @@
 <template>
   <div id="Main">
 
-    <div id="Auth" v-if="!user">
+    <div id="Auth" v-if="!user && authChecked">
       <Auth />
     </div>
 
@@ -11,7 +11,7 @@
           <p>My credits: <span id="myCoinsAmount">{{ myCoins }}</span></p>
           <img src="@/assets/icons/bullet.png" alt="">
         </div>
-        <div id="mySkins">
+        <div id="mySkins" @click="dynamicComponent = 'MySkins'">
           <img src="@/assets/icons/rifle.svg" alt="">
           <p>View My Skins</p>
         </div>
@@ -28,10 +28,6 @@
         </div>
       </div>
       <div id="Right">
-        <!-- <div id="Inputs">
-          <input placeholder="Steam ID" type="text">
-          <img src="@/assets/icons/info.svg" alt="">
-        </div> -->
 
         <div id="Buttons">
           <transition name="slide-fade">
@@ -70,7 +66,7 @@
     <div id="Bottomer">
       <div id="bottomAligner">
         <keep-alive>
-          <component :is="selectedPart" :Case="caseClicked"></component>
+          <component :is="dynamicComponent" :Case="caseClicked"></component>
         </keep-alive>
       </div>
     </div>
@@ -92,7 +88,7 @@ export default {
     return {
       authChecked: false,
       user: null,
-      selectedPart: 'Cases',
+      dynamicComponent: 'Cases',
       myCoins: 0,
       selectedLang: 'english',
       langListVisible: false,
@@ -136,19 +132,19 @@ export default {
     }
   },
   mounted() {
-    auth.onAuthStateChanged(function(user) {
+    auth.onAuthStateChanged(user => {
       if (user) {
-        console.log('user found')
         this.user = user
+        this.authChecked = true
       } else {
         // No user is signed in.
         this.user = null
-        console.log('user not found')
+        this.authChecked = true
       }
     })
     
     detectAnyAdblocker().then((detected) => {
-      if (detected){
+      if (detected) {
         // alert('Please turn off your Ad Blocker!')
       }
     })
@@ -227,29 +223,6 @@ $purpleGradientEnd: #5a43ab;
     margin-top: 10px;
     background-color: rgb(0, 162, 255);
   }
-}
-
-#Inputs {
-   input {
-      width: 185px;
-      height: 30px;
-      border-radius: 8px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      background-color: rgba(255, 255, 255, 0.05);
-      color: white;
-      padding: 5px 20px 5px 20px;
-      font-size: 17px;
-      font-weight: bold;
-      &::placeholder {
-        color: rgb(158, 158, 158);
-      }
-    }
-    img {
-      position: absolute;
-      height: 25px;
-      top: 10px;
-      right: 120px;
-    }
 }
 
 body {

@@ -36,8 +36,6 @@ export default {
       guns: [] // arr of gun names
     }
   },
-  // trading url
-  // https://steamcommunity.com/my/tradeoffers/privacy#trade_offer_access_url
   async mounted() {
     console.log(this.Case)
 
