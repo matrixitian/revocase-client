@@ -88,7 +88,7 @@ export default {
     return {
       authChecked: false,
       user: null,
-      dynamicComponent: 'Cases',
+      dynamicComponent: 'CaseContents',
       myCoins: 0,
       selectedLang: 'english',
       langListVisible: false,
@@ -424,5 +424,31 @@ li {
 p {
   @include unselectable;
 }
+
+
+::-webkit-scrollbar-track
+{
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar
+{
+  width: 12px;
+  background-color: #F5F5F5;
+  border-radius: 10px;
+  box-shadow: 0 0 0 0 black;
+}
+
+::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #29d68e;
+}
+
 
 </style>

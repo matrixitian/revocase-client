@@ -184,7 +184,7 @@ div {
 ul {
   @include centerXY;
   // border: 1px solid white;
-  width: calc(90% - 50px);
+  width: 90%;
   height: 80%;
   overflow-y: auto;
   li {
