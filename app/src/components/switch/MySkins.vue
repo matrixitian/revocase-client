@@ -1,7 +1,7 @@
 <template>
   <div>
     <div id="Inputs">
-      <input placeholder="Steam ID" type="text">
+      <input placeholder="Trade URL" type="text">
       <a href="https://steamcommunity.com/my/tradeoffers/privacy#trade_offer_access_url"
       target="_blank">
         <img src="@/assets/icons/info.svg" alt="">
@@ -151,6 +151,8 @@ div {
       height: 25px;
       top: 10px;
       right: -30px;
+      background-color: rgb(65, 65, 65);
+      border-radius: 100%;
       cursor: pointer;
       &:hover {
         transition: .2s ease;
