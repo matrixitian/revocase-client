@@ -2,14 +2,16 @@
   <div class="main">
     <div id="Upper">
       <ul>
-        <li v-for="(gun, i) in gunsOpened" :key="i"
-        class="Pipe_2">
-          <img src="@/assets/skins/rareitem.png" alt="">
-          <p class="skin">{{ gun.gunType }} | <span class="skinName">{{ gun.skin }}</span></p>
-          <p class="condition">{{ translateCondition(gun.condition) }}</p>
-          <p class="uname">{{ gun.uname }}</p>
-          <p class="time">{{ getTime(gun.timeOpened) }}</p>
-        </li>
+        <transition-group name="slide-fade">
+          <li v-for="(gun, i) in gunsOpened" :key="i"
+          class="Pipe_2">
+            <img src="@/assets/skins/rareitem.png" alt="">
+            <p class="skin">{{ gun.gunType }} | <span class="skinName">{{ gun.skin }}</span></p>
+            <p class="condition">{{ translateCondition(gun.condition) }}</p>
+            <p class="uname">{{ gun.uname }}</p>
+            <p class="time">{{ getTime(gun.timeOpened) }}</p>
+          </li>
+        </transition-group>
       </ul>
     </div>
     <div id="Downer">
@@ -105,6 +107,14 @@ $blueGradientStart: #4ba8b7;
 $blueGradientEnd: #018498;
 $purpleGradientStart: #7967bb;
 $purpleGradientEnd: #5a43ab;
+
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-enter-from, .slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}
 
 .case {
   transform: scale(0.7);
@@ -229,10 +239,12 @@ $purpleGradientEnd: #5a43ab;
   ul {
     border-radius: 10px;
     padding: 10px;
-    border: 3px solid rgba(0, 0, 0, 0.1);
+    border: 3px solid rgba(200, 200, 200, 0.1);
     background-color: rgba(0, 0, 0, 0.3);
     margin: auto;
+    min-height: 210px;
     li {
+      float: right;
       position: relative;
       padding: 5px;
       border-radius: 10px;
