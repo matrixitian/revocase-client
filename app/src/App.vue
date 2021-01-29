@@ -1,6 +1,12 @@
 <template>
   <div id="Main">
 
+    <ul>
+      <li v-for="(msg, i) in chat" :key="i">
+        {{ msg }}
+      </li>
+    </ul>
+
     <div id="Auth" v-if="!user && authChecked">
       <Auth />
     </div>
@@ -74,7 +80,7 @@
 </template>
 
 <script>
-import { auth } from '@/firebase/config.js'
+import { auth, firestore } from '@/firebase/config.js'
 import { detectAnyAdblocker } from 'just-detect-adblock'
 import * as Parts from '@/components/switch'
 import Auth from '@/components/Auth'
@@ -86,6 +92,7 @@ export default {
   },
   data() {
     return {
+      chat: [],
       authChecked: false,
       user: null,
       dynamicComponent: 'MySkins',
@@ -115,7 +122,7 @@ export default {
       }).catch((error) => {
         // An error happened.
         alert(error)
-      });
+      })
     },
     selectLang(lang) {
       this.selectedLang = lang
@@ -131,17 +138,48 @@ export default {
       document.querySelectorAll("video, audio").forEach( elem => muteMe(elem) );
     }
   },
-  mounted() {
+  async mounted() {
     auth.onAuthStateChanged(user => {
       if (user) {
         this.user = user
         this.authChecked = true
+
+        firestore.collection('chat').onSnapshot((snap) => {
+          let results = []
+          snap.docs.forEach(doc => {
+            doc.data().createdAt && results.push({ ...doc.data(), id: doc.id})
+          })
+
+          this.chat = results
+
+          console.log(results)
+        })
       } else {
         // No user is signed in.
         this.user = null
         this.authChecked = true
       }
     })
+
+    // firestore.collection("chat").add({
+    //   uname: 'winter',
+    //   msg: 'hello',
+    //   createdAt: Date.now()
+    // }).then((res) => {
+    //   console.log(res)
+    // }).catch((err) => {
+    //   console.log(err)
+    // })
+
+    // const colRef = firestore.collection('chat').orderBy('createdAt')
+    // setInterval(() => {
+    //   console.log(this.user)
+    // }, 1000)
+   
+
+    // setInterval(() => {
+    //   console.log(this.chat)
+    // }, 500)
     
     detectAnyAdblocker().then((detected) => {
       if (detected) {
