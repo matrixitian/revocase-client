@@ -1,7 +1,8 @@
 <template>
   <div>
     <div id="Inputs">
-      <input placeholder="Trade URL" type="text">
+      <input placeholder="Trade URL" type="text"
+      v-model="tradeURL">
       <a href="https://steamcommunity.com/my/tradeoffers/privacy#trade_offer_access_url"
       target="_blank">
         <img src="@/assets/icons/info.svg" alt="">
@@ -33,6 +34,7 @@ export default {
   name: "MySkins",
   data() {
     return {
+      tradeURL: null,
       mySkins: [
         {
           gunType: 'AK47',
