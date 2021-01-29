@@ -16,10 +16,10 @@
     </div>
     <div id="Downer">
       <ul>
-        <li v-for="(Case, i) in cases" :key="i"
+        <li v-for="(caseName, i) in cases" :key="i"
         :class="`Pipe_${i}`">
-          <img class="case" :src="require(`@/assets/cases/${Case}_case.png`)" alt="">
-          <p class="caseTitle">{{ Case.toUpperCase() }}</p>
+          <img class="case" :src="getCaseImg(caseName)" alt="">
+          <p class="caseTitle">{{ caseName.toUpperCase() }}</p>
           <p class="amountOpened">Opened <span>{{ caseOpened[i] }}</span></p>
           <div class="viewContents">
             <img src="@/assets/icons/contents.svg" alt="">
@@ -44,11 +44,23 @@ export default {
   name: 'Cases',
   data() {
     return {
+      caseCDNlink: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-",
+      caseLinks: [
+        "fRPasw8rsUFJ5KBFZv668FFY5naqQIz4R7Yjix9bZkvKiZrmAzzlTu5AoibiT8d_x21Wy8hY_MWz1doSLMlhpM3FKbNs/256fx256f.png",
+        "fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk/256fx256f.png",
+        "fRPasw8rsUFJ5KBFZv668FFAuhqSaKWtEu43mxtbbk6b1a77Twm4Iu8Yl3bCU9Imii1Xt80M5MmD7JZjVLFH-6VnQJQ/256fx256f.png",
+        "fRPasw8rsUFJ5KBFZv668FFUuh6qZJmlD7tiyl4OIlaGhYuLTzjhVupJ12urH89ii3lHlqEdoMDr2I5jVLFFSv_J2Rg/256fx256f.png",
+        "fRPasw8rsUFJ5KBFZv668FFUxnaPLJz5H74y1xtTcz6etNumIx29U6Zd3j7yQoYih3lG1-UJqY27xJIeLMlhpaD9Aclo/256fx256f.png"
+      ],
       user: null,
       gunsOpened: [],
       cases: [
         'clutch', 'fracture', 'chroma2',
-        'phoenix', 'danger_zone'
+        'phoenix', 'dangerZone'
+      ],
+      casesForRender: [
+        'Clutch', 'Fracture', 'Chroma 2',
+        'Phoenix', 'Danger Zone'
       ],
       casePrices: [100, 250, 120, 214, 51],
       // realtime synced amount of cases opened globally
@@ -56,6 +68,11 @@ export default {
     }
   },
   methods: {
+    getCaseImg(caseName) {
+      const index = this.cases.indexOf(caseName)
+
+      return this.caseCDNlink + this.caseLinks[index]
+    },
     getTime(timestamp) {
       return translateTimestamp(timestamp)
     },
