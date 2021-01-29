@@ -133,7 +133,7 @@ export default {
   right: 50px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: #36393f;
   box-shadow: 5px 6px 10px 3px rgba(0, 0, 0, 0.3);
   #topper {
     position: relative;
@@ -170,13 +170,13 @@ export default {
       @include centerXY;
       margin: auto;
       height: 90%;
-      width: 90%;
+      width: 100%;
       overflow: auto;
       max-height: 200px;
       li {
         position: relative;
         border-radius: 10px;
-        background-color: rgba(255, 255, 255, 0.2);
+        background-color: rgba(0, 0, 0, 0.2);
         margin-top: 5px;
         width: 95%;
         height: auto;
