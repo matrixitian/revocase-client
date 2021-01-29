@@ -148,8 +148,8 @@ export default {
           }
 
           // Check Username length
-          if (this.uname.length < 3) {
-            this.createErrorMessage("Username needs to be at least 3 characters long!")
+          if (!(this.uname.length > 3) && !(this.uname.length > 10) ) {
+            this.createErrorMessage("Username must be between 3-10 characters long!")
           }
 
           if (!this.email) {

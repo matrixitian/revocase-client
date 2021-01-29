@@ -1,7 +1,7 @@
 <template>
   <div id="Main">
 
-    <Chat v-if="user" :chat="chat" />
+    <Chat v-if="user" />
 
     <div id="Auth" v-if="!user && authChecked">
       <Auth />
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { auth, firestore } from '@/firebase/config.js'
+import { auth } from '@/firebase/config.js'
 import { detectAnyAdblocker } from 'just-detect-adblock'
 import * as Parts from '@/components/switch'
 import Auth from '@/components/Auth'
@@ -89,7 +89,6 @@ export default {
   },
   data() {
     return {
-      chat: [],
       authChecked: false,
       user: null,
       dynamicComponent: 'MySkins',
@@ -140,45 +139,12 @@ export default {
       if (user) {
         this.user = user
         this.authChecked = true
-
-        const colRef = firestore.collection('chat')
-        .orderBy('createdAt').limit(2)
-
-        colRef.onSnapshot((snap) => {
-          let results = []
-          snap.docs.forEach(doc => {
-            doc.data().createdAt && results.push({ ...doc.data(), id: doc.id})
-          })
-
-          this.chat = results
-
-          console.log(results)
-        })
       } else {
         // No user is signed in.
         this.user = null
         this.authChecked = true
       }
     })
-
-    // firestore.collection("chat").add({
-    //   uname: 'winter',
-    //   msg: 'hello',
-    //   createdAt: Date.now()
-    // }).then((res) => {
-    //   console.log(res)
-    // }).catch((err) => {
-    //   console.log(err)
-    // })
-
-    // setInterval(() => {
-    //   console.log(this.user)
-    // }, 1000)
-   
-
-    // setInterval(() => {
-    //   console.log(this.chat)
-    // }, 500)
     
     detectAnyAdblocker().then((detected) => {
       if (detected) {
@@ -264,6 +230,7 @@ $purpleGradientEnd: #5a43ab;
 
 body {
   background-color: $grayBackground;
+  overflow: none;
 }
 
 #logoInfo {
