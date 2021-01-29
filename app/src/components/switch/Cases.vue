@@ -1,7 +1,16 @@
 <template>
   <div class="main">
     <div id="Upper">
-     
+      <ul>
+        <li v-for="(gun, i) in gunsOpened" :key="i"
+        class="Pipe_2">
+          <img src="@/assets/skins/rareitem.png" alt="">
+          <p class="skin">{{ gun.gunType }} | <span class="skinName">{{ gun.skin }}</span></p>
+          <p class="condition">{{ translateCondition(gun.condition) }}</p>
+          <p class="uname">{{ gun.uname }}</p>
+          <p class="time">{{ getTime(gun.timeOpened) }}</p>
+        </li>
+      </ul>
     </div>
     <div id="Downer">
       <ul>
@@ -25,10 +34,16 @@
 </template>
 
 <script>
+import { auth, firestore } from '@/firebase/config.js'
+import getCondition from '@/js/translateGunCondition.js'
+import translateTimestamp from '@/js/translateTimestamp.js'
+
 export default {
   name: 'Cases',
   data() {
     return {
+      user: null,
+      gunsOpened: [],
       cases: [
         'clutch', 'fracture', 'chroma2',
         'phoenix', 'danger_zone'
@@ -37,6 +52,38 @@ export default {
       // realtime synced amount of cases opened globally
       caseOpened: [42, 12, 56, 21, 10]
     }
+  },
+  methods: {
+    getTime(timestamp) {
+      return translateTimestamp(timestamp)
+    },
+    translateCondition(shorthand) {
+      return getCondition(shorthand)
+    }
+  },
+  mounted() {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        this.user = user
+
+        const colRef = firestore.collection('items_opened')
+        .orderBy('timeOpened').limit(10)
+
+        colRef.onSnapshot((snap) => {
+          let results = []
+          snap.docs.forEach(doc => {
+            doc.data().timeOpened && results.push({ ...doc.data(), id: doc.id})
+          })
+
+          this.gunsOpened = results
+
+          console.log('guns', results)
+        })
+      } else {
+        // No user is signed in.
+        // this.authChecked = true
+      }
+    })
   }
 }
 </script>
@@ -151,15 +198,94 @@ $purpleGradientEnd: #5a43ab;
   background-image: linear-gradient($purpleGradientStart, $purpleGradientEnd);
 }
 
+.consumerGrade {
+  background: linear-gradient(rbg(175,175,175), rgb(133, 133, 133));
+}
+.industrialGrade {
+  background: linear-gradient(rbg(135,199,255), rgb(89, 151, 206));
+}
+.mil-spec {
+  background: linear-gradient(rgb(11, 58, 151), rgb(17,85,221));
+}
+.restricted {
+  background: linear-gradient(rgb(136,71,255),rgb(88, 34, 189));
+}
+.classified {
+  background: linear-gradient(rgb(211,44,230),rgb(152, 26, 167));
+}
+.covert {
+  background: linear-gradient(rgb(235,75,75),rgb(155, 27, 27));
+}
+.gold {
+  background: linear-gradient(rgb(202,171,5),rgb(206, 152, 4));
+}
 
 #Upper {
-    @include centerY;
-    top: -400px;
-    background-color: yellow;
-    width: 80vw;
-    height: 100px;
-    // margin: auto;
-    position: relative;
+  @include centerY;
+  top: -300px;
+  width: 80vw;
+  height: 230px;
+  position: relative;
+  ul {
+    border-radius: 10px;
+    padding: 10px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.3);
+    margin: auto;
+    li {
+      position: relative;
+      padding: 5px;
+      border-radius: 10px;
+      width: 200px;
+      height: 200px;
+      border: 1px solid white;
+      background: linear-gradient(rgb(11, 58, 151), rgb(17,85,221));
+      p {
+        margin-top: 5px;
+      }
+      .skin {
+        width: auto;
+        padding: 3px;
+        border-radius: 5px;
+        margin-left: 0;
+        background-color: rgba(0, 0, 0, 0.3);
+        .skinName {
+          color: white;
+          font-weight: bold;
+        }
+      }
+      .condition {
+        color: red;
+        font-weight: bold;
+        border-radius: 20px;
+        background-color: rgba(0, 0, 0, 0.7);
+        width: 140px;
+        margin: auto;
+        margin-top: 5px;
+        padding: 3px;
+      }
+      img {
+        height: 100px;
+      }
+      .uname {
+        background-color: rgba(0, 0, 0, 0.3);
+        padding: 3px;
+        width: 120px;
+        margin: auto;
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 5px;
+      }
+      .time {
+        position: absolute;
+        top: 5px;
+        font-weight: bold;
+        background-color: rgba(0, 0, 0, 0.3);
+        font-size: 10px;
+        padding: 3px;
+        border-radius: 5px;
+      }
+    }
+  }
   }
   #Downer {
     position: relative;

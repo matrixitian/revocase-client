@@ -91,7 +91,7 @@ export default {
     return {
       authChecked: false,
       user: null,
-      dynamicComponent: 'MySkins',
+      dynamicComponent: 'Cases',
       myCoins: 0,
       selectedLang: 'english',
       langListVisible: false,
