@@ -23,7 +23,7 @@
     </ul>
 
     <div id="tradeDurationInfo">
-      <p>It can take up to <span>one week</span> until your Steam account receives the trade invite!</p>
+      <p>It can take up to <span>24 hours</span> until your Steam account receives the trade offer!</p>
     </div>
 
   </div>

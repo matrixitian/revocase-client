@@ -1,11 +1,7 @@
 <template>
   <div id="Main">
 
-    <ul>
-      <li v-for="(msg, i) in chat" :key="i">
-        {{ msg }}
-      </li>
-    </ul>
+    <Chat v-if="user" :chat="chat" />
 
     <div id="Auth" v-if="!user && authChecked">
       <Auth />
@@ -84,11 +80,12 @@ import { auth, firestore } from '@/firebase/config.js'
 import { detectAnyAdblocker } from 'just-detect-adblock'
 import * as Parts from '@/components/switch'
 import Auth from '@/components/Auth'
+import Chat from '@/components/Chat'
 
 export default {
   name: 'App',
   components: {
-    ...Parts, Auth
+    ...Parts, Auth, Chat
   },
   data() {
     return {
@@ -144,7 +141,10 @@ export default {
         this.user = user
         this.authChecked = true
 
-        firestore.collection('chat').onSnapshot((snap) => {
+        const colRef = firestore.collection('chat')
+        .orderBy('createdAt').limit(2)
+
+        colRef.onSnapshot((snap) => {
           let results = []
           snap.docs.forEach(doc => {
             doc.data().createdAt && results.push({ ...doc.data(), id: doc.id})
@@ -171,7 +171,6 @@ export default {
     //   console.log(err)
     // })
 
-    // const colRef = firestore.collection('chat').orderBy('createdAt')
     // setInterval(() => {
     //   console.log(this.user)
     // }, 1000)
