@@ -230,7 +230,6 @@ $purpleGradientEnd: #5a43ab;
 
 body {
   background-color: $grayBackground;
-  overflow: none;
 }
 
 #logoInfo {

@@ -9,9 +9,10 @@
     </div>
 
     <div id="chat" v-show="chatOpen">
-      <ul>
+      <ul ref="chatHistory">
         <li v-for="(msg, i) in chat" :key="i">
-          <div class="unameCon">
+          <div class="unameCon"
+          :class="{sentByYou: msg.uname === user.displayName}">
             <p class="uname">{{ msg.uname }}</p>
             <p class="time">{{ getTime(msg.createdAt) }}</p>
           </div>
@@ -41,13 +42,16 @@ export default {
   name: 'Chat',
   data() {
     return {
-      chatOpen: true,
+      chatOpen: false,
       user: null,
       newMsg: null,
       chat: []
     }
   },
   methods: {
+    scrollChat() {
+      this.$refs.chatHistory.scrollTop = this.$refs.chatHistory.scrollHeight + 100
+    },
     toggleChat() {
       this.chatOpen = !this.chatOpen
     },
@@ -77,6 +81,7 @@ export default {
       }
 
       this.newMsg = null
+      this.scrollChat()
     }
   },
   mounted() {
@@ -113,6 +118,10 @@ export default {
 .chatClosed {
   height: 30px !important;
   background-color: transparent;
+}
+
+.sentByYou {
+  background-color: royalblue !important;
 }
 
 #chatWindow {
