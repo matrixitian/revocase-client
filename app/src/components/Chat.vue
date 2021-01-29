@@ -1,8 +1,10 @@
 <template>
-  <div id="chatWindow"
-  >
+  <div id="chatWindow">
     <div id="topper">
-
+      <p>Global Chat</p>
+      <span class="material-icons">
+        minimize
+      </span>
     </div>
 
     <div id="chat">
@@ -37,6 +39,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/mixins/centerXY';
 
 #chatWindow {
   z-index: 100;
@@ -50,16 +53,46 @@ export default {
   background-color: #36393f;
   box-shadow: 5px 6px 10px 3px rgba(0, 0, 0, 0.3);
   #topper {
+    position: relative;
     height: 30px;
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
-    background-color: rgb(29, 105, 204);
+    background-color: rgb(34, 200, 103);
     box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.2);
+    p {
+      position: absolute;
+      left: 10px;
+      top: 3px;
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 3px 15px 3px 15px;
+      font-weight: bold;
+      border-radius: 6px;
+    }
+    span {
+      position: absolute;
+      right: 10px;
+      top: 3px;
+      border-radius: 5px;
+      background-color: rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+    }
   }
   #chat {
+    position: relative;
     margin: auto;
     width: 90%;
     height: calc(90% - 50px);
+    ul {
+      @include centerXY;
+      margin: auto;
+      height: 90%;
+      width: 90%;
+      li {
+        border-radius: 10px;
+        background-color: rgba(0, 0, 0, 0.2);
+        margin-top: 5px;
+      }
+    }
   }
   #addMsg {
     margin: auto;
@@ -81,9 +114,14 @@ export default {
     }
     span {
       float: right;
-      background-color: rgb(29, 105, 204);
+      background-color:rgb(34, 200, 103) ;
       border-radius: 5px;
       padding: 5px;
+      cursor: pointer;
+      &:hover {
+        transition: .2s ease;
+        background-color: rgb(95, 233, 152);
+      }
     }
   }
 }
