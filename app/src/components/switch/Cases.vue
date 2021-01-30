@@ -19,7 +19,7 @@
         <li v-for="(caseName, i) in cases" :key="i"
         :class="`Pipe_${i}`">
           <img class="case" :src="getCaseImg(caseName)" alt="">
-          <p class="caseTitle">{{ caseName.toUpperCase() }}</p>
+          <p class="caseTitle">{{ formattedCaseName(caseName) }}</p>
           <p class="amountOpened">Opened <span>{{ caseOpened[i] }}</span></p>
           <div class="viewContents">
             <img src="@/assets/icons/contents.svg" alt="">
@@ -58,7 +58,7 @@ export default {
         'clutch', 'fracture', 'chroma2',
         'phoenix', 'dangerZone'
       ],
-      casesForRender: [
+      formattedCaseNames: [
         'Clutch', 'Fracture', 'Chroma 2',
         'Phoenix', 'Danger Zone'
       ],
@@ -68,6 +68,11 @@ export default {
     }
   },
   methods: {
+    formattedCaseName(caseName) {
+      const index = this.cases.indexOf(caseName)
+
+      return this.formattedCaseNames[index]
+    },
     getCaseImg(caseName) {
       const index = this.cases.indexOf(caseName)
 
