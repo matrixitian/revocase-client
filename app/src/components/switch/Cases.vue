@@ -25,7 +25,7 @@
             <img src="@/assets/icons/contents.svg" alt="">
             <p>View Contents</p>
           </div>
-          <div class="openBtnCon">
+          <div class="openBtnCon" @click="buyCase(caseName)">
             <img src="@/assets/icons/bullet.png" alt="">
             <p>{{ casePrices[i] }}</p>
           </div>
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { auth, firestore } from '@/firebase/config.js'
 import getCondition from '@/js/translateGunCondition.js'
 import translateTimestamp from '@/js/translateTimestamp.js'
@@ -62,10 +63,24 @@ export default {
       ],
       casePrices: [350, 400, 450, 750, 1100],
       // realtime synced amount of cases opened globally
-      caseOpened: [42, 12, 56, 21, 10]
+      caseOpened: [57, 32, 30, 14, 6]
     }
   },
   methods: {
+    async buyCase(caseName) {
+
+      // if (this.cred)
+
+      const res = await axios.post('http://localhost:3000/buy-case', 
+      { caseName, userID: this.user.uid })
+
+      if (res.status === 200) {
+        console.log('200')
+      }
+
+      console.log(res)
+
+    },
     formattedCaseName(caseName) {
       const index = this.cases.indexOf(caseName)
 

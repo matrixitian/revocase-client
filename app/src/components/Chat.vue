@@ -108,6 +108,7 @@ export default {
 @import '@/assets/mixins/centerXY';
 
 .chatClosed {
+  width: 170px !important;
   height: 30px !important;
   background-color: transparent;
 }
