@@ -75,10 +75,10 @@ export default {
       { caseName, userID: this.user.uid })
 
       if (res.status === 200) {
-        console.log('200')
+        // console.log('200')
       }
 
-      console.log(res)
+      console.log(res.data)
 
     },
     formattedCaseName(caseName) {
@@ -243,9 +243,6 @@ $purpleGradientEnd: #5a43ab;
   background-image: linear-gradient($purpleGradientStart, $purpleGradientEnd);
 }
 
-.industrialGrade {
-  background: linear-gradient(rbg(135,199,255), rgb(89, 151, 206));
-}
 .mil-spec {
   background: linear-gradient(rgb(11, 58, 151), rgb(17,85,221));
 }
@@ -258,7 +255,7 @@ $purpleGradientEnd: #5a43ab;
 .covert {
   background: linear-gradient(rgb(235,75,75),rgb(155, 27, 27));
 }
-.gold {
+.exceedingly_rare {
   background: linear-gradient(rgb(202,171,5),rgb(206, 152, 4));
 }
 

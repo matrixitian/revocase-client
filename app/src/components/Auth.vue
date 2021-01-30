@@ -96,6 +96,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { auth } from '@/firebase/config.js'
 const passwordStrength = require('check-password-strength')
 
@@ -191,7 +192,6 @@ export default {
         }
     },
     saveUserAndRedirect(user) {
-      localStorage.setItem('user', JSON.stringify(user))
       this.$store.commit('setUser', { user })
     },
     login() {
@@ -203,7 +203,7 @@ export default {
         this.createErrorMessage(error.message)
       });
     },
-    createAccount() {
+    async createAccount() {
       auth.createUserWithEmailAndPassword(
         this.email, this.password)
       .then((userCredential) => {
@@ -212,6 +212,8 @@ export default {
         user.updateProfile({
           displayName: this.uname
         }).then(() => {
+          axios.post('http://localhost:3000/create-user', { userUID: user.uid })
+          
           this.saveUserAndRedirect(userCredential)
         })
       })
