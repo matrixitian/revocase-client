@@ -139,6 +139,8 @@ export default {
       if (user) {
         this.user = user
         this.authChecked = true
+
+        console.log(this.user.uid)
       } else {
         // No user is signed in.
         this.user = null

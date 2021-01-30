@@ -55,14 +55,12 @@ export default {
       user: null,
       gunsOpened: [],
       cases: [
-        'clutch', 'fracture', 'chroma2',
-        'phoenix', 'dangerZone'
+        'dangerZone', 'chroma2', 'clutch', 'fracture', 'phoenix'
       ],
       formattedCaseNames: [
-        'Clutch', 'Fracture', 'Chroma 2',
-        'Phoenix', 'Danger Zone'
+        'Danger Zone', 'Chroma 2', 'Clutch', 'Fracture', 'Phoenix'
       ],
-      casePrices: [100, 250, 120, 214, 51],
+      casePrices: [350, 400, 450, 750, 1100],
       // realtime synced amount of cases opened globally
       caseOpened: [42, 12, 56, 21, 10]
     }
@@ -205,12 +203,12 @@ $purpleGradientEnd: #5a43ab;
   }
 }
 
-.Pipe_0 {
+.Pipe_3 {
   background-color: $redGradientEnd;
   background-image: linear-gradient($redGradientStart, $redGradientEnd);
 }
 
-.Pipe_1 {
+.Pipe_4 {
   background-color: $yellowGradientEnd;
   background-image: linear-gradient($yellowGradientEnd, $yellowGradientStart);
 }
@@ -220,19 +218,16 @@ $purpleGradientEnd: #5a43ab;
   background-image: linear-gradient($greenGradientStart, $greenGradientEnd);
 }
 
-.Pipe_3 {
+.Pipe_1 {
   background-color: $blueGradientEnd;
   background-image: linear-gradient($blueGradientStart, $blueGradientEnd);
 }
 
-.Pipe_4 {
+.Pipe_0 {
   background-color: $purpleGradientEnd;
   background-image: linear-gradient($purpleGradientStart, $purpleGradientEnd);
 }
 
-.consumerGrade {
-  background: linear-gradient(rbg(175,175,175), rgb(133, 133, 133));
-}
 .industrialGrade {
   background: linear-gradient(rbg(135,199,255), rgb(89, 151, 206));
 }
@@ -328,7 +323,7 @@ $purpleGradientEnd: #5a43ab;
     ul {
       @include centerX;
       width: auto;
-      height: 400px;
+      height: 420px;
       bottom: 0;
       display: flex;
       li {
@@ -343,7 +338,7 @@ $purpleGradientEnd: #5a43ab;
         border-bottom: none;
         &:hover {
           transition: .2s ease;
-          height: 375px;
+          height: 390px;
         }
       }
     }
