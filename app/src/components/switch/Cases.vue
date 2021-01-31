@@ -46,7 +46,6 @@
 import moment from 'moment'
 import axios from 'axios'
 import { auth, firestore } from '@/firebase/config.js'
-import getCondition from '@/js/translateGunCondition.js'
 import translateTimestamp from '@/js/translateTimestamp.js'
 
 export default {
@@ -130,9 +129,6 @@ export default {
     getTime(timestamp) {
       return translateTimestamp(timestamp)
     },
-    translateCondition(shorthand) {
-      return getCondition(shorthand)
-    },
     openedAgo(timestamp) {
       return moment(timestamp).fromNow()
     },
@@ -183,6 +179,8 @@ export default {
 @import '@/assets/mixins/centerY';
 @import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/unselectable';
+@import '@/assets/mixins/skinGrades';
+@import '@/assets/mixins/skinCondition';
 
 $grayBackground: #1b2435;
 $redGradientStart: #ea5a8d;
@@ -252,42 +250,6 @@ $purpleGradientEnd: #5a43ab;
 .Pipe_0 {
   background-color: $purpleGradientEnd;
   background-image: linear-gradient($purpleGradientStart, $purpleGradientEnd);
-}
-
-.mil_spec {
-  background: linear-gradient(rgb(11, 58, 151), rgb(17,85,221));
-}
-.restricted {
-  background: linear-gradient(rgb(136,71,255),rgb(88, 34, 189));
-}
-.classified {
-  background: linear-gradient(rgb(211,44,230),rgb(152, 26, 167));
-}
-.covert {
-  background: linear-gradient(rgb(235,75,75),rgb(155, 27, 27));
-}
-.exceedingly_rare {
-  background: linear-gradient(rgb(202,171,5),rgb(206, 152, 4));
-}
-
-.bs {
-  color: rgb(250, 0, 0);
-}
-
-.ww {
-  color: rgb(255, 145, 0);
-}
-
-.ft {
-  color: rgb(255, 251, 0);
-}
-
-.mw {
-  color: rgb(164, 255, 90);
-}
-
-.fn {
-  color: rgb(0, 255, 76);
 }
 
 .blink {

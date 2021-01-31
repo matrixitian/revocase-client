@@ -8,7 +8,7 @@ module.exports = function getCondition(shorthand) {
   ]
   
   const gunConditionShorthand = [
-    'FN', 'MW', 'FT', 'WW', 'BS'
+    'fn', 'mw', 'ft', 'ww', 'bs'
   ]
 
   const index = gunConditionShorthand.indexOf(shorthand)

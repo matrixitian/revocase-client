@@ -10,14 +10,19 @@
     </div>
 
     <ul>
-      <li v-for="(skin, i) in mySkins" :key="i">
+      <li v-for="(skin, i) in mySkins" :key="i"
+      :class="skin.grade">
         <img src="@/assets/skins/rareitem.png" alt="">
-        <p>{{ skin.gunType }} | <span>{{ skin.skinName }}</span></p>
-        <p class="gunCondition">{{ skin.condition }}</p>
+        <p>{{ skin.skinName }}</p>
+        <p class="gunCondition"
+        :class="skin.condition">{{ formatCondition(skin.condition) }}</p>
+        <button class="sell" v-if="!skin.tradeRequested">
+        {{ `Sell skin ${skin.sellingPrice}` }}
+        </button>
         <button 
         class="requestTrade"
-        :class="{tradeRequsted: skin.tradeRequested}">
-          {{ skin.tradeRequested ? 'Trade requested' : 'Trade to account' }}
+        :class="{disabled: skin.tradeRequested}">
+          {{ skin.tradeRequested ? 'Skin will be sent within 1 day  ' : 'Trade to account' }}
         </button>
       </li>
     </ul>
@@ -30,6 +35,8 @@
 </template>
 
 <script>
+import getCondition from '@/js/translateGunCondition.js'
+
 export default {
   name: "MySkins",
   data() {
@@ -39,62 +46,26 @@ export default {
         {
           gunType: 'AK47',
           skinName: 'Redline',
-          condition: 'Factory New',
-          requestedTrade: false
+          condition: 'ft',
+          requestedTrade: false,
+          grade: 'mil_spec',
+          sellingPrice: 50,
         },
         {
           gunType: 'AWP',
           skinName: 'Redline',
-          condition: 'Minimal Wear',
-          tradeRequested: true
+          condition: 'mw',
+          tradeRequested: true,
+          grade: 'classified',
+          sellingPrice: 30,
         },
          {
+          grade: 'restricted',
           gunType: 'AK47',
           skinName: 'Redline',
-          condition: 'Factory New',
-          requestedTrade: false
-        },
-        {
-          gunType: 'AWP',
-          skinName: 'Redline',
-          condition: 'Minimal Wear',
-          tradeRequested: true
-        },
-         {
-          gunType: 'AK47',
-          skinName: 'Redline',
-          condition: 'Factory New',
-          requestedTrade: false
-        },
-        {
-          gunType: 'AWP',
-          skinName: 'Redline',
-          condition: 'Minimal Wear',
-          tradeRequested: true
-        },
-         {
-          gunType: 'AK47',
-          skinName: 'Redline',
-          condition: 'Factory New',
-          requestedTrade: false
-        },
-        {
-          gunType: 'AWP',
-          skinName: 'Redline',
-          condition: 'Minimal Wear',
-          tradeRequested: true
-        },
-         {
-          gunType: 'AK47',
-          skinName: 'Redline',
-          condition: 'Factory New',
-          requestedTrade: false
-        },
-        {
-          gunType: 'AWP',
-          skinName: 'Redline',
-          condition: 'Minimal Wear',
-          tradeRequested: true
+          condition: 'fn',
+          requestedTrade: false,
+          sellingPrice: 40
         }
       ],
       gunCDNimgLink: 'https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_',
@@ -102,6 +73,9 @@ export default {
     }
   },
   methods: {
+    formatCondition(skinCon) {
+      return getCondition(skinCon)
+    }
   },
   mounted() {
     // this.CDNgunIDs = require(`@/assets/gunData/cdn_gun_ids.json`)
@@ -118,9 +92,9 @@ export default {
 <style lang="scss" scoped>
 
 @import '@/assets/mixins/centerX';
-@import '@/assets/mixins/centerY';
 @import '@/assets/mixins/centerXY';
-@import '@/assets/mixins/unselectable';
+@import '@/assets/mixins/skinGrades';
+@import '@/assets/mixins/skinCondition';
 
 div {
   height: 70vh;
@@ -163,11 +137,6 @@ div {
     }
 }
 
-.tradeRequsted {
-  color: rgb(53, 53, 53) !important;
-  background: linear-gradient(rgb(129, 129, 129), rgb(56, 56, 56)) !important;
-}
-
 #tradeDurationInfo {
   position: absolute;
   bottom: 0;
@@ -192,7 +161,7 @@ ul {
   li {
     float: left;
     margin: 15px;
-    height: 270px;
+    height: 290px;
     width: 250px;
     border: 2px solid rgba(255, 255, 255, 0.2);
     background-color: rgba(255, 255, 255, 0.05);
@@ -220,26 +189,44 @@ ul {
       font-size: 14px;
       width: 140px;
       border-radius: 10px;
-      color: red;
       padding: 3px !important; 
+      font-weight: bold;
+      background-color: rgba(0, 0, 0, 0.65) !important;
     }
 
-    .requestTrade {
+    .requestTrade, .sell {
+      margin-top: 10px;
       font-weight: bold;
-      margin-top: 30px;
       width: 90%;
       padding: 5px 0 5px 0;
       border: none;
       border-radius: 5px;
       color: whitesmoke;
-      background: linear-gradient(rgb(24, 97, 194), rgb(5, 63, 199));
+      background: linear-gradient(rgb(228, 154, 44),rgb(231, 65, 15));
       box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
       cursor: pointer;
       &:hover {
         transition: .15s ease;
-        background: -webkit-linear-gradient(#337bce,#0b5aa8 60%,#65a9ee);
+        background: -webkit-linear-gradient(#e48a37,#aa4a0a 60%,#e06823);
       }
     }
+    .sell {
+      background: linear-gradient(rgb(90, 235, 71), rgb(8, 165, 29)) ;
+      &:hover {
+        transition: .15s ease;
+        background: -webkit-linear-gradient(#29cc31,#08a515 60%,#23c052);
+      }
+    }
+  }
+}
+
+.disabled {
+  margin-top: 40px !important;
+  color: rgba(0, 0, 0, 0.6) !important;
+  background: linear-gradient(#d4d4d4,#b1b1b1) !important;
+  cursor: default !important;
+  &:hover {
+    background: linear-gradient(#787d85,#4a4d50) !important;
   }
 }
 
