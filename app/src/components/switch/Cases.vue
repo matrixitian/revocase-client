@@ -10,7 +10,7 @@
         <transition-group name="slide-fade">
           <li v-for="(gun, i) in gunsOpened" :key="i"
           :class="gun.grade">
-            <img src="@/assets/skins/rareitem.png" alt="">
+            <img :src="getWpnImg(gun.skin_longhand)" alt="">
             <p class="skin"><span class="skinName">{{ gun.skin }}</span></p>
             <p class="condition">{{ gun.condition.toUpperCase() }}</p>
             <p class="uname">{{ gun.uname }}</p>
@@ -52,6 +52,8 @@ export default {
   name: 'Cases',
   data() {
     return {
+      wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
+      wpnLinks: {},
       caseCDNlink: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-",
       caseLinks: [
         "fRPasw8rsUFJ5KBFZv668FFY5naqQIz4R7Yjix9bZkvKiZrmAzzlTu5AoibiT8d_x21Wy8hY_MWz1doSLMlhpM3FKbNs/256fx256f.png",
@@ -84,7 +86,7 @@ export default {
       if (res.status === 200) {
         console.log(res.data)
 
-        firestore.collection("items_opened").add({
+        firestore.collection("drops").add({
           uname: this.user.displayName,
           skin: res.data.skin,
           grade: res.data.skinGrade,
@@ -104,6 +106,11 @@ export default {
 
       return this.formattedCaseNames[index]
     },
+    getWpnImg(wpnLonghand) {
+      const wpnID = this.wpnLinks[wpnLonghand]
+      
+      return `${this.wpnCDNlink}${wpnID}.png`
+    },
     getCaseImg(caseName) {
       const index = this.cases.indexOf(caseName)
 
@@ -120,11 +127,15 @@ export default {
     },
   },
   mounted() {
+    this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
+
+    console.log(this.wpnLinks)
+
     auth.onAuthStateChanged(user => {
       if (user) {
         this.user = user
 
-        const colRef = firestore.collection('items_opened')
+        const colRef = firestore.collection('drops')
         .orderBy('timeOpened').limit(6)
 
         colRef.onSnapshot((snap) => {

@@ -104,7 +104,7 @@ export default {
   methods: {
   },
   mounted() {
-    this.CDNgunIDs = require(`@/assets/gunData/cdn_gun_ids.json`)
+    // this.CDNgunIDs = require(`@/assets/gunData/cdn_gun_ids.json`)
     
     // this.CDNgunIDs = this.CDNgunIDs.map(gun => {
     //   return {
