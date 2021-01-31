@@ -42,6 +42,18 @@
         v-model="password"
         @keyup="updatePasswordMeter()">
 
+        <!-- Trade URL -->
+        <input type="text" v-if="signUpForm"
+        placeholder="Your Trade URL"
+        v-model="tradeURL">
+
+        <!-- Trade URL Info -->
+        <a href="https://steamcommunity.com/my/tradeoffers/privacy#trade_offer_access_url"
+          target="_blank"
+          id="tradeInfo">
+          <img src="@/assets/icons/info.svg" alt="">
+        </a>
+
         <!-- Ad agreement -->
         <div id="agreement"
         v-if="signUpForm">
@@ -110,6 +122,7 @@ export default {
       email: null,
       cemail: null,
       password: null,
+      tradeURL: null,
       pageText: null,
       signUpFormText: null,
       loginFormText: null,
@@ -176,6 +189,14 @@ export default {
             this.createErrorMessage("Password needs to contain a symbol and be at least 8 characters long!")
           }
 
+          if (!this.tradeURL) {
+            this.createErrorMessage("Enter your Trade URL so we can send you Trade Offers!")
+          }
+
+          if(!this.tradeURL.includes('steamcommunity.com/tradeoffer/new/')) {
+            this.createErrorMessage("The Trade URL entered is not valid, click on the info icon!")
+          }
+
           // Check Username exists
           if (!this.agreed) {
             this.createErrorMessage("You cannot create an account if you are a minor!")
@@ -212,7 +233,8 @@ export default {
         user.updateProfile({
           displayName: this.uname
         }).then(() => {
-          axios.post('http://localhost:3000/create-user', { userUID: user.uid })
+          axios.post('http://localhost:3000/create-user', 
+          { userUID: user.uid, tradeURL: this.tradeURL })
           
           this.saveUserAndRedirect(userCredential)
         })
@@ -246,6 +268,33 @@ export default {
 .ps_red { background-color: red !important; }
 .ps_yellow { background-color: yellow !important; }
 .ps_green { background-color: greenyellow !important; }
+
+.slide-fade-enter-active {
+  transition: all .3s ease;
+}
+.slide-fade-enter-from, .slide-fade-leave-to {
+  transform: translateX(10px);
+  opacity: 0;
+}
+
+#tradeInfo {
+  position: absolute;
+  top: 342px;
+  right: 50px;
+  img {
+    height: 25px;
+    border-radius: 100%;
+    border: 1px solid black;
+    background-color: rgb(65, 65, 65);
+    border-radius: 100%;
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    &:hover {
+      transition: .2s ease;
+      transform: scale(1.1);
+    }
+  }
+}
 
 #agreement {
   margin-top: 10px;
@@ -342,7 +391,7 @@ p {
 
 form {
   @include centerXY;
-  height: 550px;
+  height: 610px;
   width: 350px;
   border-radius: 10px;
   background-color: white;

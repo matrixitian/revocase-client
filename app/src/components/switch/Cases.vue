@@ -82,7 +82,19 @@ export default {
       { caseName, userUID: this.user.uid })
 
       if (res.status === 200) {
-        // console.log('200')
+        console.log(res.data)
+
+        firestore.collection("items_opened").add({
+          uname: this.user.displayName,
+          skin: res.data.skin,
+          grade: res.data.skinGrade,
+          condition: res.data.skinCon,
+          timeOpened: Number(Date.now())
+        }).then((res) => {
+          console.log(res)
+        }).catch((err) => {
+          console.log(err)
+        })
       }
 
       console.log(res.data)
@@ -122,10 +134,12 @@ export default {
           })
 
           this.gunsOpened = results
-          console.log(results)
-
-          console.log('guns', results)
         })
+
+        // Get Money, Skins
+        // const dbUser = await axios.post('http://localhost:3000/get-user-data')
+
+        // console.log(dbUser)
       } else {
         // No user is signed in.
         // this.authChecked = true
