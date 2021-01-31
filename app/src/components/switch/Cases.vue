@@ -89,6 +89,7 @@ export default {
         firestore.collection("drops").add({
           uname: this.user.displayName,
           skin: res.data.skin,
+          skin_longhand: res.data.skinLonghand,
           grade: res.data.skinGrade,
           condition: res.data.skinCon,
           timeOpened: Number(Date.now())
@@ -108,7 +109,7 @@ export default {
     },
     getWpnImg(wpnLonghand) {
       const wpnID = this.wpnLinks[wpnLonghand]
-      
+
       return `${this.wpnCDNlink}${wpnID}.png`
     },
     getCaseImg(caseName) {
