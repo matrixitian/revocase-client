@@ -9,7 +9,7 @@
       <ul>
         <transition-group name="slide-fade">
           <li v-for="(gun, i) in gunsOpened" :key="i"
-          class="Pipe_2">
+          :class="gun.grade">
             <img src="@/assets/skins/rareitem.png" alt="">
             <p class="skin"><span class="skinName">{{ gun.skin }}</span></p>
             <p class="condition">{{ gun.condition.toUpperCase() }}</p>
@@ -76,7 +76,6 @@ export default {
   },
   methods: {
     async buyCase(caseName) {
-
       // if (this.cred)
 
       const res = await axios.post('http://localhost:3000/buy-case', 
@@ -87,7 +86,6 @@ export default {
       }
 
       console.log(res.data)
-
     },
     formattedCaseName(caseName) {
       const index = this.cases.indexOf(caseName)
@@ -124,6 +122,7 @@ export default {
           })
 
           this.gunsOpened = results
+          console.log(results)
 
           console.log('guns', results)
         })
@@ -209,7 +208,7 @@ $purpleGradientEnd: #5a43ab;
   background-image: linear-gradient($purpleGradientStart, $purpleGradientEnd);
 }
 
-.mil-spec {
+.mil_spec {
   background: linear-gradient(rgb(11, 58, 151), rgb(17,85,221));
 }
 .restricted {
@@ -258,7 +257,6 @@ $purpleGradientEnd: #5a43ab;
       width: 120px;
       height: 120px;
       border: 1px solid white;
-      background: linear-gradient(rgb(11, 58, 151), rgb(17,85,221));
       p {
         margin-top: 5px;
       }
@@ -292,22 +290,25 @@ $purpleGradientEnd: #5a43ab;
       .uname {
         border: 1px solid black;
         position: absolute;
-        top: -22px;
-        right: 0;
-        background-color: rgba(5, 197, 255, 1);
+        top: -17px;
+        right: -2px;
+        background-color:rgb(5, 218, 51);
         padding: 3px 10px 3px 10px;
         width: auto;
         margin: auto;
         font-size: 10px;
+        font-weight: bold;
+        color: white;
         border-radius: 6px;
       }
       .time {
+        color: black;
         border: 1px solid black;
         position: absolute;
-        top: -10px;
-        right: 0px;
+        top: -5px;
+        right: -2px;
         font-weight: bold;
-        background-color: rgba(218, 90, 5, 1);
+        background-color: whitesmoke;
         font-size: 10px;
         padding: 3px 10px 3px 10px;
         border-radius: 6px;
