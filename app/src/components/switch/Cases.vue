@@ -145,7 +145,7 @@ export default {
         this.user = user
 
         const dropsRef = firestore.collection('drops')
-        .orderBy('timeOpened').limitToLast(6)
+        .orderBy('timeOpened').limitToLast(8)
 
         dropsRef.onSnapshot((snap) => {
           let results = []
@@ -302,12 +302,13 @@ $purpleGradientEnd: #5a43ab;
 
 #Upper {
   margin: auto;
-  margin-bottom: 270px;
-  width: 880px;
-  min-width: 880px;
-  height: 230px;
+  margin-bottom: 340px;
+  width: 1100px;
+  min-width: 1100px;
+  height: 250px;
   position: relative;
   ul {
+    @include centerXY;
     border-radius: 10px;
     padding: 10px;
     border: 3px solid rgba(200, 200, 200, 0.1);
@@ -316,10 +317,9 @@ $purpleGradientEnd: #5a43ab;
     min-height: 150px;
     height: 150px;
     overflow: hidden;
-    width: 880px;
+    width: 1140px;
     li {
-      margin-top: 20px;
-      margin-left: 10px;
+      margin: 15px 5px 0 5px;
       float: right;
       position: relative;
       padding: 5px;
