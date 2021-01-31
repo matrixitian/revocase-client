@@ -27,7 +27,7 @@
         :class="`Pipe_${i}`">
           <img class="case" :src="getCaseImg(caseName)" alt="">
           <p class="caseTitle">{{ formattedCaseName(caseName) }}</p>
-          <p class="amountOpened">Opened <span>{{ caseOpened[i] }}</span></p>
+          <p class="amountOpened">Opened <span>{{ casesOpened[caseName] }}</span></p>
           <div class="viewContents">
             <img src="@/assets/icons/contents.svg" alt="">
             <p>View Contents</p>
@@ -74,7 +74,13 @@ export default {
       ],
       casePrices: [350, 400, 450, 750, 1100],
       // realtime synced amount of cases opened globally
-      caseOpened: [57, 32, 30, 14, 6]
+      casesOpened: {
+        dangerZone: 0,
+        chroma2: 0,
+        clutch: 0,
+        fracture: 0,
+        phoenix: 0
+      }
     }
   },
   methods: {
@@ -96,6 +102,9 @@ export default {
           timeOpened: Number(Date.now())
         }).then((res) => {
           console.log(res)
+           firestore.collection("casesOpened").doc('EYF66qQOWNDJ1PeSFHi0').update({
+            caseName: 1
+          })
         }).catch((err) => {
           console.log(err)
         })
@@ -131,23 +140,29 @@ export default {
   mounted() {
     this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
 
-    console.log(this.wpnLinks)
-
     auth.onAuthStateChanged(user => {
       if (user) {
         this.user = user
 
-        const colRef = firestore.collection('drops')
+        const dropsRef = firestore.collection('drops')
         .orderBy('timeOpened').limitToLast(6)
 
-        colRef.onSnapshot((snap) => {
+        dropsRef.onSnapshot((snap) => {
           let results = []
           snap.docs.forEach(doc => {
-            console.log(doc.data())
+            // console.log(doc.data())
             doc.data().timeOpened && results.push({ ...doc.data(), id: doc.id})
           })
 
           this.gunsOpened = results
+        })
+
+        const casesOpenedRef = firestore.collection('casesOpened')
+
+        casesOpenedRef.onSnapshot((snap) => {
+          snap.docs.forEach(doc => {
+            this.casesOpened = doc.data().cases
+          })
         })
 
         // Get Money, Skins
@@ -187,8 +202,7 @@ $purpleGradientEnd: #5a43ab;
 .slide-fade-leave-active {
   transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
-.slide-fade-enter-from, .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
+.slide-fade-enter-from, .slide-fade-leave-to {
   transform: translateX(10px);
   opacity: 0;
 }
