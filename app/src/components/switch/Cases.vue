@@ -1,20 +1,26 @@
 <template>
   <div class="main">
     <div id="Upper">
+      <div id="liveFeed">
+        <p>LIVE DROPS</p>
+        <div id="dropIcon" class="blink"></div>
+      </div>
+
       <ul>
         <transition-group name="slide-fade">
           <li v-for="(gun, i) in gunsOpened" :key="i"
           class="Pipe_2">
             <img src="@/assets/skins/rareitem.png" alt="">
-            <p class="skin">{{ gun.gunType }} | <span class="skinName">{{ gun.skin }}</span></p>
-            <p class="condition">{{ translateCondition(gun.condition) }}</p>
-            <p class="uname">{{ gun.uname }}</p>
+            <p class="skin"><span class="skinName">{{ gun.skin }}</span></p>
+            <p class="condition">{{ gun.condition.toUpperCase() }}</p>
+            <!-- <p class="uname">{{ gun.uname }}</p> -->
             <p class="time">{{ getTime(gun.timeOpened) }}</p>
           </li>
         </transition-group>
       </ul>
     </div>
     <div id="Downer">
+
       <ul>
         <li v-for="(caseName, i) in cases" :key="i"
         :class="`Pipe_${i}`">
@@ -54,6 +60,7 @@ export default {
         "fRPasw8rsUFJ5KBFZv668FFUxnaPLJz5H74y1xtTcz6etNumIx29U6Zd3j7yQoYih3lG1-UJqY27xJIeLMlhpaD9Aclo/256fx256f.png"
       ],
       user: null,
+      money: 0,
       gunsOpened: [],
       cases: [
         'dangerZone', 'chroma2', 'clutch', 'fracture', 'phoenix'
@@ -72,7 +79,7 @@ export default {
       // if (this.cred)
 
       const res = await axios.post('http://localhost:3000/buy-case', 
-      { caseName, userID: this.user.uid })
+      { caseName, userUID: this.user.uid })
 
       if (res.status === 200) {
         // console.log('200')
@@ -151,70 +158,25 @@ $purpleGradientEnd: #5a43ab;
   opacity: 0;
 }
 
-.case {
-  transform: scale(0.7);
-}
-
-.caseTitle {
-  font-weight: bold;
-  padding: 5px;
-  background-color: rgba(0, 0, 0, 0.15);
-}
-
-.amountOpened {
-  font-size: 13px;
-  margin: auto;
-  margin-top: 10px;
-  width: 50%;
-  border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.3);
-  padding: 2px;
-  span {
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 0 3px 0 3px;
-    font-weight: bold;
-    border-radius: 4px;
-  }
-}
-
-.viewContents, .openBtnCon {
-  margin: auto;
-  margin-top: 10px;
-  padding: 7px 10px 7px 10px;
-  box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.15);
-  border-radius: 7px;
-  border: 2px solid white;
-  color: white;
-  font-weight: bold;
-  font-size: 15px;
-  max-width: 150px;
-  background-color: rgb(46, 117, 209);
-  background-image: linear-gradient(rgb(60, 167, 230), rgb(3, 100, 228));
-  cursor: pointer;
-  &:hover {
-    transition: .15s ease;
-    transform: scale(1.05);
-  }
-  img {
-    float: left;
-    padding: 0;
-    margin: 0;
-    margin-top: -2px;
-  }
-}
-
-.openBtnCon {
-  background-color: rgb(46, 209, 54);
-  background-image: linear-gradient(rgb(46, 209, 54), rgb(18, 158, 41));
-  border-radius: 20px;
-  max-width: 100px;
-  img {
-    margin-top: -5px;
-    height: 35px;
-    width: 35px;
-  }
+#liveFeed {
+  position: absolute;
+  top: -25px;
+  left: 10px;
+  z-index: 200;
   p {
-    font-size: 20px;
+    float: left;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+  }
+  #dropIcon {
+    margin-left: 20px;
+    margin-top: 3px;
+    float: right;
+    height: 15px; width: 15px;
+    background-color: limegreen;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    border-radius: 100%;
   }
 }
 
@@ -259,9 +221,19 @@ $purpleGradientEnd: #5a43ab;
   background: linear-gradient(rgb(202,171,5),rgb(206, 152, 4));
 }
 
+.blink {
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
 #Upper {
   @include centerY;
-  top: -300px;
+  top: -180px;
   width: 80vw;
   height: 230px;
   position: relative;
@@ -271,20 +243,21 @@ $purpleGradientEnd: #5a43ab;
     border: 3px solid rgba(200, 200, 200, 0.1);
     background-color: rgba(0, 0, 0, 0.3);
     margin: auto;
-    min-height: 210px;
+    min-height: 100px;
     li {
       float: right;
       position: relative;
       padding: 5px;
       border-radius: 10px;
-      width: 200px;
-      height: 200px;
+      width: 100px;
+      height: 100px;
       border: 1px solid white;
       background: linear-gradient(rgb(11, 58, 151), rgb(17,85,221));
       p {
         margin-top: 5px;
       }
       .skin {
+        font-size: 14px;
         width: auto;
         padding: 3px;
         border-radius: 5px;
@@ -296,17 +269,19 @@ $purpleGradientEnd: #5a43ab;
         }
       }
       .condition {
+        font-size: 12px;
         color: red;
         font-weight: bold;
         border-radius: 20px;
         background-color: rgba(0, 0, 0, 0.7);
-        width: 140px;
+        width: 40px;
         margin: auto;
         margin-top: 5px;
         padding: 3px;
       }
       img {
-        height: 100px;
+        height: 60px;
+        margin-bottom: -15px;
       }
       .uname {
         background-color: rgba(0, 0, 0, 0.3);
@@ -318,7 +293,7 @@ $purpleGradientEnd: #5a43ab;
       }
       .time {
         position: absolute;
-        top: 5px;
+        top: -10px;
         font-weight: bold;
         background-color: rgba(0, 0, 0, 0.3);
         font-size: 10px;
@@ -335,7 +310,7 @@ $purpleGradientEnd: #5a43ab;
     ul {
       @include centerX;
       width: auto;
-      height: 420px;
+      height: 325px;
       bottom: 0;
       display: flex;
       li {
@@ -343,8 +318,9 @@ $purpleGradientEnd: #5a43ab;
         align-self: flex-end;
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
-        margin: 0 20px 0 20px;
+        margin: 0 10px 0 10px;
         height: 90%;
+        width: 200px;
         bottom: 0;
         border: 5px solid white;
         border-bottom: none;
@@ -355,4 +331,80 @@ $purpleGradientEnd: #5a43ab;
       }
     }
   }
+
+.case {
+  transform: scale(0.6);
+  margin-top: -30px;
+  margin-left: -30px;
+}
+
+.caseTitle {
+  font-weight: bold;
+  margin-top: -40px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.amountOpened {
+  font-size: 13px;
+  margin: auto;
+  margin-top: 10px;
+  width: 50%;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 2px;
+  span {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 0 3px 0 3px;
+    font-weight: bold;
+    border-radius: 4px;
+  }
+}
+
+.viewContents, .openBtnCon {
+  margin: auto;
+  margin-top: 10px;
+  box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.15);
+  border-radius: 7px;
+  border: 2px solid white;
+  color: white;
+  font-weight: bold;
+  font-size: 15px;
+  max-width: 150px;
+  background-color: rgb(46, 117, 209);
+  background-image: linear-gradient(rgb(60, 167, 230), rgb(3, 100, 228));
+  cursor: pointer;
+  &:hover {
+    transition: .15s ease;
+    transform: scale(1.05);
+  }
+  img {
+    float: left;
+    padding: 0;
+    margin: 0;
+    margin-top: -2px;
+  }
+}
+
+.viewContents {
+  height: 15px;
+  font-size: 14px;
+  padding: 4px 5px 4px 5px;
+}
+
+.openBtnCon {
+  padding: 7px 10px 7px 10px;
+  background-color: rgb(46, 209, 54);
+  background-image: linear-gradient(rgb(46, 209, 54), rgb(18, 158, 41));
+  border-radius: 20px;
+  max-width: 100px;
+  img {
+    margin-top: -5px;
+    height: 30px;
+    width: 30px;
+  }
+  p {
+    font-size: 18px;
+  }
+}
 </style>
