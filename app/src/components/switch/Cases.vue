@@ -13,8 +13,8 @@
             <img src="@/assets/skins/rareitem.png" alt="">
             <p class="skin"><span class="skinName">{{ gun.skin }}</span></p>
             <p class="condition">{{ gun.condition.toUpperCase() }}</p>
-            <!-- <p class="uname">{{ gun.uname }}</p> -->
-            <p class="time">{{ getTime(gun.timeOpened) }}</p>
+            <p class="uname">{{ gun.uname }}</p>
+            <p class="time">{{ openedAgo(gun.timeOpened) }}</p>
           </li>
         </transition-group>
       </ul>
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import axios from 'axios'
 import { auth, firestore } from '@/firebase/config.js'
 import getCondition from '@/js/translateGunCondition.js'
@@ -103,7 +104,10 @@ export default {
     },
     translateCondition(shorthand) {
       return getCondition(shorthand)
-    }
+    },
+    openedAgo(timestamp) {
+      return moment(timestamp).fromNow()
+    },
   },
   mounted() {
     auth.onAuthStateChanged(user => {
@@ -232,9 +236,8 @@ $purpleGradientEnd: #5a43ab;
 }
 
 #Upper {
-  @include centerY;
-  // top: -180px;
-  margin-bottom: 130px;
+  margin: auto;
+  margin-bottom: 270px;
   width: 80vw;
   max-width: 950px;
   height: 230px;
@@ -245,8 +248,9 @@ $purpleGradientEnd: #5a43ab;
     border: 3px solid rgba(200, 200, 200, 0.1);
     background-color: rgba(0, 0, 0, 0.3);
     margin: auto;
-    min-height: 130px;
+    min-height: 150px;
     li {
+      margin-top: 20px;
       float: right;
       position: relative;
       padding: 5px;
@@ -286,21 +290,27 @@ $purpleGradientEnd: #5a43ab;
         margin-bottom: -15px;
       }
       .uname {
-        background-color: rgba(0, 0, 0, 0.3);
-        padding: 3px;
-        width: 120px;
+        border: 1px solid black;
+        position: absolute;
+        top: -22px;
+        right: 0;
+        background-color: rgba(5, 197, 255, 1);
+        padding: 3px 10px 3px 10px;
+        width: auto;
         margin: auto;
-        border-bottom-left-radius: 4px;
-        border-bottom-right-radius: 5px;
+        font-size: 10px;
+        border-radius: 6px;
       }
       .time {
+        border: 1px solid black;
         position: absolute;
         top: -10px;
+        right: 0px;
         font-weight: bold;
-        background-color: rgba(0, 0, 0, 0.3);
+        background-color: rgba(218, 90, 5, 1);
         font-size: 10px;
-        padding: 3px;
-        border-radius: 5px;
+        padding: 3px 10px 3px 10px;
+        border-radius: 6px;
       }
     }
   }
