@@ -125,11 +125,12 @@ export default {
         this.user = user
 
         const colRef = firestore.collection('items_opened')
-        .orderBy('timeOpened').limit(10)
+        .orderBy('timeOpened').limit(6)
 
         colRef.onSnapshot((snap) => {
           let results = []
           snap.docs.forEach(doc => {
+            console.log(doc.data())
             doc.data().timeOpened && results.push({ ...doc.data(), id: doc.id})
           })
 
@@ -262,8 +263,12 @@ $purpleGradientEnd: #5a43ab;
     background-color: rgba(0, 0, 0, 0.3);
     margin: auto;
     min-height: 150px;
+    height: 150px;
+    overflow: none;
+    width: auto;
     li {
       margin-top: 20px;
+      margin-left: 10px;
       float: right;
       position: relative;
       padding: 5px;
