@@ -12,7 +12,8 @@
           :class="gun.grade">
             <img :src="getWpnImg(gun.skin_longhand)" alt="">
             <p class="skin"><span class="skinName">{{ gun.skin }}</span></p>
-            <p class="condition">{{ gun.condition.toUpperCase() }}</p>
+            <p class="condition"
+            :class="gun.condition">{{ gun.condition.toUpperCase() }}</p>
             <p class="uname">{{ gun.uname }}</p>
             <p class="time">{{ openedAgo(gun.timeOpened) }}</p>
           </li>
@@ -183,7 +184,11 @@ $purpleGradientEnd: #5a43ab;
 .slide-fade-enter-active {
   transition: all .3s ease;
 }
-.slide-fade-enter-from, .slide-fade-leave-to {
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter-from, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
   transform: translateX(10px);
   opacity: 0;
 }
@@ -251,6 +256,26 @@ $purpleGradientEnd: #5a43ab;
   background: linear-gradient(rgb(202,171,5),rgb(206, 152, 4));
 }
 
+.bs {
+  color: rgb(250, 0, 0);
+}
+
+.ww {
+  color: rgb(255, 145, 0);
+}
+
+.ft {
+  color: rgb(255, 251, 0);
+}
+
+.mw {
+  color: rgb(164, 255, 90);
+}
+
+.fn {
+  color: rgb(0, 255, 76);
+}
+
 .blink {
   animation: blinker 1s linear infinite;
 }
@@ -305,7 +330,6 @@ $purpleGradientEnd: #5a43ab;
       }
       .condition {
         font-size: 12px;
-        color: red;
         font-weight: bold;
         border-radius: 20px;
         background-color: rgba(0, 0, 0, 0.7);
