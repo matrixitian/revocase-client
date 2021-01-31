@@ -233,8 +233,10 @@ $purpleGradientEnd: #5a43ab;
 
 #Upper {
   @include centerY;
-  top: -180px;
+  // top: -180px;
+  margin-bottom: 130px;
   width: 80vw;
+  max-width: 950px;
   height: 230px;
   position: relative;
   ul {
@@ -243,14 +245,14 @@ $purpleGradientEnd: #5a43ab;
     border: 3px solid rgba(200, 200, 200, 0.1);
     background-color: rgba(0, 0, 0, 0.3);
     margin: auto;
-    min-height: 100px;
+    min-height: 130px;
     li {
       float: right;
       position: relative;
       padding: 5px;
       border-radius: 10px;
-      width: 100px;
-      height: 100px;
+      width: 120px;
+      height: 120px;
       border: 1px solid white;
       background: linear-gradient(rgb(11, 58, 151), rgb(17,85,221));
       p {
@@ -280,7 +282,7 @@ $purpleGradientEnd: #5a43ab;
         padding: 3px;
       }
       img {
-        height: 60px;
+        height: 80px;
         margin-bottom: -15px;
       }
       .uname {
@@ -326,7 +328,7 @@ $purpleGradientEnd: #5a43ab;
         border-bottom: none;
         &:hover {
           transition: .2s ease;
-          height: 390px;
+          height: 300px;
         }
       }
     }
@@ -382,7 +384,7 @@ $purpleGradientEnd: #5a43ab;
     float: left;
     padding: 0;
     margin: 0;
-    margin-top: -2px;
+    margin-top: -4px;
   }
 }
 
@@ -390,6 +392,9 @@ $purpleGradientEnd: #5a43ab;
   height: 15px;
   font-size: 14px;
   padding: 4px 5px 4px 5px;
+  p {
+    margin-top: -2px;
+  }
 }
 
 .openBtnCon {
