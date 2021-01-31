@@ -137,7 +137,7 @@ export default {
         this.user = user
 
         const colRef = firestore.collection('drops')
-        .orderBy('timeOpened').limit(6)
+        .orderBy('timeOpened').limitToLast(6)
 
         colRef.onSnapshot((snap) => {
           let results = []
@@ -264,8 +264,8 @@ $purpleGradientEnd: #5a43ab;
 #Upper {
   margin: auto;
   margin-bottom: 270px;
-  width: 80vw;
-  max-width: 950px;
+  width: 880px;
+  min-width: 880px;
   height: 230px;
   position: relative;
   ul {
@@ -276,8 +276,8 @@ $purpleGradientEnd: #5a43ab;
     margin: auto;
     min-height: 150px;
     height: 150px;
-    overflow: none;
-    width: auto;
+    overflow: hidden;
+    width: 880px;
     li {
       margin-top: 20px;
       margin-left: 10px;
