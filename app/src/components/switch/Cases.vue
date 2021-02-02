@@ -28,7 +28,8 @@
           <img class="case" :src="getCaseImg(caseName)" alt="">
           <p class="caseTitle">{{ formattedCaseName(caseName) }}</p>
           <p class="amountOpened">Opened <span>{{ casesOpened[caseName] }}</span></p>
-          <div class="viewContents">
+          <div class="viewContents"
+          @click="changeView()">
             <img src="@/assets/icons/contents.svg" alt="">
             <p>View Contents</p>
           </div>
@@ -83,6 +84,9 @@ export default {
     }
   },
   methods: {
+    changeView() {
+      this.$store.commit('changeView', { view: 'CaseContents' })
+    },
     async buyCase(caseName) {
       // if (this.cred)
 

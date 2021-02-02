@@ -2,13 +2,15 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    user: null
+    user: null,
+    currentView: 'Cases'
   },
   mutations: {
+    changeView(state, payload) {
+      state.currentView = payload.view
+    },
     setUser(state, payload) {
       state.user = payload.user
-
-      console.log(state.user)
     }
   },
   getters: {

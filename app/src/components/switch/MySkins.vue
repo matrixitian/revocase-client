@@ -10,23 +10,21 @@
     </div>
 
     <ul>
-      <transition-group name="slide-fade">
-        <li v-for="(skin, i) in mySkins" :key="i"
-        :class="skin.grade">
-          <img src="@/assets/skins/rareitem.png" alt="">
-          <p>{{ skin.skinName }}</p>
-          <p class="gunCondition"
-          :class="skin.condition">{{ formatCondition(skin.condition) }}</p>
-          <button class="sell" v-if="!skin.tradeRequested">
-          {{ `Sell skin ${skin.sellingPrice}` }}
-          </button>
-          <button 
-          class="requestTrade"
-          :class="{disabled: skin.tradeRequested}">
-            {{ skin.tradeRequested ? 'Skin will be sent within 1 day  ' : 'Trade to account' }}
-          </button>
-        </li>
-      </transition-group>
+      <li v-for="(skin, i) in mySkins" :key="i"
+      :class="skin.grade">
+        <img src="@/assets/skins/rareitem.png" alt="">
+        <p>{{ skin.skinName }}</p>
+        <p class="gunCondition"
+        :class="skin.condition">{{ formatCondition(skin.condition) }}</p>
+        <button class="sell" v-if="!skin.tradeRequested">
+        {{ `Sell skin ${skin.sellingPrice}` }}
+        </button>
+        <button 
+        class="requestTrade"
+        :class="{disabled: skin.tradeRequested}">
+          {{ skin.tradeRequested ? 'Skin will be sent within 1 day  ' : 'Trade to account' }}
+        </button>
+      </li>
     </ul>
 
     <div id="tradeDurationInfo">
@@ -97,18 +95,6 @@ export default {
 @import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/skinGrades';
 @import '@/assets/mixins/skinCondition';
-@import '@/assets/mixins/vueSlideFade';
-
-.slide-fade-enter-active {
-  transition: all .3s ease;
-}
-.slide-fade-leave-active {
-  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-.slide-fade-enter-from, .slide-fade-leave-to {
-  transform: translateX(10px);
-  opacity: 0;
-}
 
 div {
   height: 70vh;

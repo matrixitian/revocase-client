@@ -117,14 +117,18 @@ export default {
       if (mutation.type === 'setUser') {
         this.user = state.user
       }
+
+      if (mutation.type === 'changeView') {
+        this.dynamicComponent = state.currentView
+      }
     })
   },
   methods: {
     switchDynamicComponent() {
       if (this.dynamicComponent !== 'Cases') {
-        this.dynamicComponent = 'Cases'
+        this.$store.commit('changeView', { view: 'Cases' })
       } else {
-        this.dynamicComponent = 'MySkins'
+        this.$store.commit('changeView', { view: 'MySkins' })
       }
     },
     signOut() {

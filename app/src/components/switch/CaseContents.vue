@@ -4,7 +4,7 @@
       <li v-for="(gun, i) in guns" :key="i">
 
         <!-- Skin Image -->
-        <img :src="require(`@/assets/skins/${guns[i]}.png`)" alt="">
+        <img :src="require(`@/assets/skins/rareitem.png`)" alt="">
         <!-- Skin Name -->
         <p class="skinTitle">{{ gun }}</p>
         <!-- Lowest Price -->
@@ -114,8 +114,9 @@ ul {
 
     .goToMarket {
       margin-top: 15px !important;
+      background: -webkit-linear-gradient(#3fd364,#0aac4e) !important;
        &:hover {
-        background: -webkit-linear-gradient(#d67322,#976404 60%,#ffb663) !important;
+        background: -webkit-linear-gradient(rgb(35, 187, 21),#09b651) !important;
       }
     }
 
@@ -126,13 +127,13 @@ ul {
       border: none;
       border-radius: 5px;
       color: whitesmoke;
-      background: -webkit-linear-gradient(#484e55,#3a3f44 60%,#313539);
+      background: -webkit-linear-gradient(#4793e9,#0b71d8);
       box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
       cursor: pointer;
       &:hover {
         transition: .15s ease;
         transform: scale(1.01);
-        background: -webkit-linear-gradient(#337bce,#0b5aa8 60%,#65a9ee);
+        background: -webkit-linear-gradient(#337bce,#0b5aa8);
       }
     }
   }
