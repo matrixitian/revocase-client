@@ -82,7 +82,6 @@ div {
 
 ul {
   @include centerXY;
-  // border: 1px solid white;
   width: 90%;
   height: 90%;
   overflow-y: auto;

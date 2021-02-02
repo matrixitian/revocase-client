@@ -86,6 +86,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import { auth } from '@/firebase/config.js'
 import { detectAnyAdblocker } from 'just-detect-adblock'
 import * as Parts from '@/components/switch'
@@ -121,9 +122,22 @@ export default {
       if (mutation.type === 'changeView') {
         this.dynamicComponent = state.currentView
       }
+
+      if (mutation.type === 'updateMyCoins') {
+        this.myCoins = state.myCoins
+      }
     })
   },
   methods: {
+    async fetchCredits() {
+      const user = await axios.post('http://localhost:3000/get-user-credits', {
+        userUID: this.user.uid
+      })
+
+      this.myCoins = user.data.credits
+
+      this.$store.commit('updateMyCoins', { type: 'set', amount: this.myCoins })
+    },
     switchDynamicComponent() {
       if (this.dynamicComponent !== 'Cases') {
         this.$store.commit('changeView', { view: 'Cases' })
@@ -161,7 +175,7 @@ export default {
         this.user = user
         this.authChecked = true
 
-        console.log(this.user.uid)
+        this.fetchCredits()
       } else {
         // No user is signed in.
         this.user = null

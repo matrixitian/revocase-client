@@ -53,6 +53,7 @@ export default {
   name: 'Cases',
   data() {
     return {
+      myCoins: 0,
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
       wpnLinks: {},
       caseCDNlink: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-",
@@ -83,12 +84,24 @@ export default {
       }
     }
   },
+  created() {
+    this.$store.subscribe(async(mutation, state) => {
+      if (mutation.type === 'updateMyCoins') {
+        this.myCoins = state.myCoins
+      }
+    })
+  },
   methods: {
     changeView() {
       this.$store.commit('changeView', { view: 'CaseContents' })
     },
     async buyCase(caseName) {
-      // if (this.cred)
+      const caseIndex = this.cases.indexOf(caseName)
+      const casePrice = this.casePrices[caseIndex]
+
+      if (this.myCoins < casePrice) {
+        throw new Error('Insufficient coins')
+      }
 
       const res = await axios.post('http://localhost:3000/buy-case', 
       { caseName, userUID: this.user.uid })
@@ -111,6 +124,8 @@ export default {
         }).catch((err) => {
           console.log(err)
         })
+
+        this.$store.commit('updateMyCoins', { type: 'subtract', amount: casePrice })
       }
 
       console.log(res.data)
