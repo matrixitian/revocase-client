@@ -28,9 +28,11 @@
 
         </div>
 
-        <div id="referralCode">
-          <p>Referral Code</p>
-          <input type="text" :placeholder="myReferalCode">
+        <div id="Referral" v-if="user">
+          <div>
+            <p>Referral Code</p>
+          </div>
+          <input id="referralCode" type="text" :value="myReferralCode">
           <img src="@/assets/icons/info.svg" alt="">
         </div>
       </div>
@@ -111,7 +113,7 @@ export default {
       user: null,
       dynamicComponent: 'Cases',
       myCoins: 0,
-      myReferalCode: null,
+      myReferralCode: 'HolidayGT6',
       selectedLang: 'english',
       langListVisible: false,
       caseClicked: 'clutch',
@@ -227,24 +229,47 @@ $purpleGradientEnd: #5a43ab;
   opacity: 0;
 }
 
-#referralCode {
-position: relative;
-background-color: green;
-width: 300px;
-p {
-  float: left;
-  width: 120px;
-  height: 50px;
+#Referral {
+  position: relative;
+  width: 190px;
+  height: 40px;
+  margin-top: 10px;
+  margin-left: 20px;
+  border: none;
+  border: 1px solid white;
+  border-radius: 15px;
   background-color: orangered;
-}
- input {
-   float: right;
-   border: none;
-   border-top-right-radius: 10px;
-   border-bottom-right-radius: 10px;
-   height: 50px;
-   background-color: orange;
- }
+  #referralCode {
+    @include centerXY;
+    height: 30px;
+    width: 90%;
+    border-radius: 12px;
+    background-color: rgba(0, 0, 0, 0.55);
+    color: white;
+    font-size: 15px;
+    border: none;
+    outline: none;
+    text-align: center;
+    font-weight: bold;
+  }
+  div {
+    @include centerX;
+    margin: 0;
+    bottom: -18px;
+    float: left;
+    width: 80%;
+    height: 15px;
+    color: rgba(0, 0, 0, 0.7);
+    background-color: whitesmoke;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    p {
+      @include centerXY;
+      font-size: 13px;
+      width: 100%;
+      font-weight: bold;
+    }
+  }
   img {
     position: absolute;
     height: 25px;
