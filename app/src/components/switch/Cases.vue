@@ -138,7 +138,11 @@ export default {
     getWpnImg(wpnLonghand) {
       const wpnID = this.wpnLinks[wpnLonghand]
 
-      return `${this.wpnCDNlink}${wpnID}.png`
+      if (wpnLonghand === 'rare_item') {
+        return require('@/assets/cases/rare_item.png')
+      } else {
+        return `${this.wpnCDNlink}${wpnID}.png`
+      }
     },
     getCaseImg(caseName) {
       const index = this.cases.indexOf(caseName)

@@ -1,12 +1,14 @@
 <template>
   <div>
     <ul>
-      <li v-for="(gun, i) in guns" :key="i">
+      <li v-for="(gun, i) in guns.formatted" :key="i">
 
         <!-- Skin Image -->
-        <img :src="require(`@/assets/skins/rareitem.png`)" alt="">
+        <img :src="getWpnImg(guns.raw[i])" alt="">
         <!-- Skin Name -->
-        <p class="skinTitle">{{ gun }}</p>
+        <p class="skinTitle" :class="guns.grade[i]">
+          {{ gun }}
+        </p>
         <!-- Lowest Price -->
         <p class="price">
           Lowest price (FN): 
@@ -33,21 +35,27 @@ export default {
   props: ['Case'],
   data() {
     return {
-      guns: [] // arr of gun names
+      wpnLinks: {},
+      wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
+      guns: {} // raw, formatted, grade
     }
   },
   async mounted() {
     console.log(this.Case)
+    this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
 
     this.importGunData()
-
-    // const data = await axios.get(
-    //   'http://steamcommunity.com/market/priceoverview/?currency=3&appid=730&market_hash_name=StatTrak%E2%84%A2%20P250%20%7C%20Steel%20Disruption%20%28Factory%20New%29'
-    // )
-
-    //  console.log(data)
   },
   methods: {
+    getWpnImg(wpnLonghand) {
+      const wpnID = this.wpnLinks[wpnLonghand]
+
+      if (wpnLonghand === 'rare_item') {
+        return require('@/assets/cases/rare_item.png')
+      } else {
+        return `${this.wpnCDNlink}${wpnID}.png`
+      }
+    },
     inspectGun(gun) {
       console.log(gun)
       const gun_id = "20M3462576415354083999A13819871659D16352124405222944812"
@@ -74,6 +82,7 @@ export default {
 @import '@/assets/mixins/centerY';
 @import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/unselectable';
+@import '@/assets/mixins/skinGrades';
 
 div {
   height: 70vh;
@@ -91,13 +100,13 @@ ul {
     height: 280px;
     width: 250px;
     border: 2px solid rgba(255, 255, 255, 0.2);
-    background-color: rgba(255, 255, 255, 0.05);
     border-radius: 10px;
     img {
       margin-top: 20px;
       height: 120px;
     }
-    p {
+    .skinTitle {
+      padding: 3px 0 3px 0;
       font-weight: bold;
     }
     .price {

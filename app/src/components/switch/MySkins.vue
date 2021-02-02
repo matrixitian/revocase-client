@@ -12,7 +12,7 @@
     <ul>
       <li v-for="(skin, i) in mySkins" :key="i"
       :class="skin.grade">
-        <img src="@/assets/skins/rareitem.png" alt="">
+        <img src="@/assets/cases/rare_item.png" alt="">
         <p>{{ skin.skinName }}</p>
         <p class="gunCondition"
         :class="skin.condition">{{ formatCondition(skin.condition) }}</p>
@@ -90,7 +90,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 @import '@/assets/mixins/centerX';
 @import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/skinGrades';

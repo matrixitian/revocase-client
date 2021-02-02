@@ -9,7 +9,6 @@ export default createStore({
   mutations: {
     updateMyCoins(state, payload) {
       if (payload.type === 'set') {
-        console.log(payload)
         state.myCoins = payload.amount
       } else if (payload.type === 'add') {
         state.myCoins += payload.amount
