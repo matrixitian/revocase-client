@@ -181,6 +181,7 @@ export default {
 @import '@/assets/mixins/unselectable';
 @import '@/assets/mixins/skinGrades';
 @import '@/assets/mixins/skinCondition';
+@import '@/assets/mixins/vueSlideFade';
 
 $grayBackground: #1b2435;
 $redGradientStart: #ea5a8d;
@@ -193,17 +194,6 @@ $blueGradientStart: #4ba8b7;
 $blueGradientEnd: #018498;
 $purpleGradientStart: #7967bb;
 $purpleGradientEnd: #5a43ab;
-
-.slide-fade-enter-active {
-  transition: all .3s ease;
-}
-.slide-fade-leave-active {
-  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-.slide-fade-enter-from, .slide-fade-leave-to {
-  transform: translateX(10px);
-  opacity: 0;
-}
 
 #liveFeed {
   position: absolute;

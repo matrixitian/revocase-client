@@ -13,9 +13,19 @@
           <p>My credits: <span id="myCoinsAmount">{{ myCoins }}</span></p>
           <img src="@/assets/icons/bullet.png" alt="">
         </div>
-        <div id="mySkins" @click="dynamicComponent = 'MySkins'">
-          <img src="@/assets/icons/rifle.svg" alt="">
-          <p>View My Skins</p>
+        <div id="mySkins" @click="switchDynamicComponent()"
+        :class="{goBackBtn : dynamicComponent !== 'Cases'}">
+
+          <div v-if="dynamicComponent === 'Cases'">
+            <img src="@/assets/icons/rifle.svg" alt="">
+            <p>View My Skins</p>
+          </div>
+
+          <div v-else>
+            <img src="@/assets/icons/rifle.svg" alt="">
+            <p>Go Back</p>
+          </div>
+
         </div>
       </div>
       <div id="Middle">
@@ -110,6 +120,13 @@ export default {
     })
   },
   methods: {
+    switchDynamicComponent() {
+      if (this.dynamicComponent !== 'Cases') {
+        this.dynamicComponent = 'Cases'
+      } else {
+        this.dynamicComponent = 'MySkins'
+      }
+    },
     signOut() {
       auth.signOut().then(() => {
         localStorage.setItem('user', null)
@@ -430,6 +447,11 @@ p {
   @include unselectable;
 }
 
+.goBackBtn {
+  background-color: rgb(5, 125, 223) !important;
+  background-image: linear-gradient(rgb(32, 146, 240), rgb(0, 109, 211)) !important;
+  width: 130px !important;
+}
 
 ::-webkit-scrollbar-track
 {
@@ -454,6 +476,5 @@ p {
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
   background-color: #29d68e;
 }
-
 
 </style>
