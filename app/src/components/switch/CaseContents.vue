@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul>
+    <ul v-if="wpnPrices">
       <li v-for="(gun, i) in guns.formatted" :key="i">
 
         <!-- Skin Image -->
@@ -12,7 +12,7 @@
         <!-- Lowest Price -->
         <p class="price">
           Lowest price (FN): 
-          <span>$2.67</span>
+          <span>{{ '$0.00' }}</span>
         </p>
 
         <!-- Go to Market -->
@@ -30,6 +30,8 @@
 </template>
 
 <script>
+// import axios from 'axios'
+
 export default {
   name: 'CaseContents',
   props: ['Case'],
@@ -37,14 +39,24 @@ export default {
     return {
       wpnLinks: {},
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
-      guns: {} // raw, formatted, grade
+      guns: {}, // raw, formatted, grade
+      wpnPrices: []
     }
   },
   async mounted() {
-    console.log(this.Case)
     this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
-
     this.importGunData()
+
+    // let formattedGuns = this.guns.formatted.map((gun) => {
+    //   return `${gun} (Factory New)`
+    // })
+
+    // formattedGuns.shift()
+
+    // const res = await axios.post('http://localhost:3000/get-wpn-prices',
+    // { wpns: formattedGuns })
+  
+    // this.wpnPrices = res.data.prices
   },
   methods: {
     getWpnImg(wpnLonghand) {

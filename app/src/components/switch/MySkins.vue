@@ -35,10 +35,12 @@
 </template>
 
 <script>
+import axios from 'axios'
 import getCondition from '@/js/translateGunCondition.js'
 
 export default {
   name: "MySkins",
+  props: ['user'],
   data() {
     return {
       tradeURL: null,
@@ -73,18 +75,18 @@ export default {
     }
   },
   methods: {
+    async fetchSkins() {
+      const data = await axios.post('http://localhost:3000/get-user-skins', 
+      { userUID: this.user.uid })
+
+      console.log(data)
+    },
     formatCondition(skinCon) {
       return getCondition(skinCon)
     }
   },
   mounted() {
-    // this.CDNgunIDs = require(`@/assets/gunData/cdn_gun_ids.json`)
-    
-    // this.CDNgunIDs = this.CDNgunIDs.map(gun => {
-    //   return {
-
-    //   }
-    // })
+    this.fetchSkins()
   }
 }
 </script>

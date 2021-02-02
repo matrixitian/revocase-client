@@ -27,7 +27,7 @@
         :class="`Pipe_${i}`">
           <img class="case" :src="getCaseImg(caseName)" alt="">
           <p class="caseTitle">{{ formattedCaseName(caseName) }}</p>
-          <p class="amountOpened">Opened <span>{{ casesOpened[caseName] }}</span></p>
+          <p class="amountOpened">Opened <span>{{ news[i] }}</span></p>
           <div class="viewContents"
           @click="changeView()">
             <img src="@/assets/icons/contents.svg" alt="">
@@ -39,6 +39,7 @@
           </div>
         </li>
       </ul>
+
     </div>
   </div>
 </template>
@@ -53,6 +54,7 @@ export default {
   name: 'Cases',
   data() {
     return {
+      news: [0, 0, 0, 0, 0],
       myCoins: 0,
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
       wpnLinks: {},
@@ -73,15 +75,7 @@ export default {
       formattedCaseNames: [
         'Danger Zone', 'Chroma 2', 'Clutch', 'Fracture', 'Phoenix'
       ],
-      casePrices: [350, 400, 450, 750, 1100],
-      // realtime synced amount of cases opened globally
-      casesOpened: {
-        dangerZone: 0,
-        chroma2: 0,
-        clutch: 0,
-        fracture: 0,
-        phoenix: 0
-      }
+      casePrices: [350, 400, 450, 750, 1100]
     }
   },
   created() {
@@ -109,21 +103,21 @@ export default {
       if (res.status === 200) {
         console.log(res.data)
 
-        firestore.collection("drops").add({
-          uname: this.user.displayName,
-          skin: res.data.skin,
-          skin_longhand: res.data.skinLonghand,
-          grade: res.data.skinGrade,
-          condition: res.data.skinCon,
-          timeOpened: Number(Date.now())
-        }).then((res) => {
-          console.log(res)
-           firestore.collection("casesOpened").doc('EYF66qQOWNDJ1PeSFHi0').update({
-            caseName: 1
-          })
-        }).catch((err) => {
-          console.log(err)
-        })
+        // firestore.collection("drops").add({
+        //   uname: this.user.displayName,
+        //   skin: res.data.skin,
+        //   skin_longhand: res.data.skinLonghand,
+        //   grade: res.data.skinGrade,
+        //   condition: res.data.skinCon,
+        //   timeOpened: Number(Date.now())
+        // }).then((res) => {
+        //   console.log(res)
+        //    firestore.collection("casesOpened").doc('EYF66qQOWNDJ1PeSFHi0').update({
+        //     caseName: 1
+        //   })
+        // }).catch((err) => {
+        //   console.log(err)
+        // })
 
         this.$store.commit('updateMyCoins', { type: 'subtract', amount: casePrice })
       }

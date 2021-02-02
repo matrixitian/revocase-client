@@ -91,8 +91,6 @@ export default {
           })
 
           this.chat = results
-
-          console.log(results)
         })
       } else {
         // No user is signed in.

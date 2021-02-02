@@ -10,7 +10,7 @@
     <div id="Topper">
       <div id="Left">
         <div id="myCoins">
-          <p>My credits: <span id="myCoinsAmount">{{ myCoins }}</span></p>
+          <p>My Bullets: <span id="myCoinsAmount">{{ myCoins }}</span></p>
           <img src="@/assets/icons/bullet.png" alt="">
         </div>
         <div id="mySkins" @click="switchDynamicComponent()"
@@ -26,6 +26,12 @@
             <p>Go Back</p>
           </div>
 
+        </div>
+
+        <div id="referralCode">
+          <p>Referral Code</p>
+          <input type="text" :placeholder="myReferalCode">
+          <img src="@/assets/icons/info.svg" alt="">
         </div>
       </div>
       <div id="Middle">
@@ -78,7 +84,8 @@
     <div id="Bottomer">
       <div id="bottomAligner">
         <keep-alive>
-          <component :is="dynamicComponent" :Case="caseClicked"></component>
+          <component :is="dynamicComponent" :Case="caseClicked"
+          :user="user"></component>
         </keep-alive>
       </div>
     </div>
@@ -104,6 +111,7 @@ export default {
       user: null,
       dynamicComponent: 'Cases',
       myCoins: 0,
+      myReferalCode: null,
       selectedLang: 'english',
       langListVisible: false,
       caseClicked: 'clutch',
@@ -217,6 +225,39 @@ $purpleGradientEnd: #5a43ab;
 .slide-fade-enter-from, .slide-fade-leave-to {
   transform: translateX(10px);
   opacity: 0;
+}
+
+#referralCode {
+position: relative;
+background-color: green;
+width: 300px;
+p {
+  float: left;
+  width: 120px;
+  height: 50px;
+  background-color: orangered;
+}
+ input {
+   float: right;
+   border: none;
+   border-top-right-radius: 10px;
+   border-bottom-right-radius: 10px;
+   height: 50px;
+   background-color: orange;
+ }
+  img {
+    position: absolute;
+    height: 25px;
+    top: 10px;
+    right: -30px;
+    background-color: rgb(65, 65, 65);
+    border-radius: 100%;
+    cursor: pointer;
+    &:hover {
+      transition: .2s ease;
+      transform: scale(1.1);
+    }
+  }
 }
 
 #Auth {
