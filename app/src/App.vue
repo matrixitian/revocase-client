@@ -1,6 +1,9 @@
 <template>
   <div id="Main">
 
+    <Referral v-if="user && !haveReferral" 
+    @referralEntered="hideReferralMenu()" />
+
     <Chat v-if="user" />
 
     <div id="Auth" v-if="!user && authChecked">
@@ -15,8 +18,6 @@
         </div>
         <div id="mySkins" @click="switchDynamicComponent()"
         :class="{goBackBtn : dynamicComponent !== 'Cases'}">
-
-          <!-- <Referral v-if="user && !haveReferral" /> -->
 
           <div v-if="dynamicComponent === 'Cases'">
             <img src="@/assets/icons/rifle.svg" alt="">
@@ -147,6 +148,9 @@ export default {
     })
   },
   methods: {
+    hideReferralMenu() {
+      this.haveReferral = true
+    },
     selectCode() {
       this.$refs.referralCode.select()
 
@@ -214,7 +218,7 @@ export default {
         const res = await axios.get('http://localhost:3000/get-user')
         this.user = res.data
 
-        // this.$store.commit('updateMyCoins', {})
+        this.myReferralCode = res.data.username
 
         this.$store.commit('setUser',  { user: res.data })
         this.fetchCredits()
@@ -238,8 +242,13 @@ export default {
     //     this.authChecked = true
     //   }
     // })
+    console.log(this.haveReferral)
 
     this.fetchUser()
+
+    if (localStorage.getItem('referralHidden')) {
+      this.haveReferral = true
+    }
     
     detectAnyAdblocker().then((detected) => {
       if (detected) {
@@ -443,7 +452,7 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
     #myCoins {
       margin: 10px;
       position: relative;
-      width: 160px;
+      width: 170px;
       height: 35px;
       border-radius: 14px;
       background-color: rgba(0, 0, 0, 0.5);
