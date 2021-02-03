@@ -12,17 +12,18 @@
     <ul>
       <li v-for="(skin, i) in mySkins" :key="i"
       :class="skin.grade">
-        <img src="@/assets/cases/rare_item.png" alt="">
+        <img :src="getWpnImg(skin.skin)" alt="">
         <p>{{ skin.skinName }}</p>
         <p class="gunCondition"
         :class="skin.condition">{{ formatCondition(skin.condition) }}</p>
-        <button class="sell" v-if="!skin.tradeRequested">
+        <button class="sell" v-if="!skin.requestedTrade">
         {{ `Sell skin ${skin.sellingPrice}` }}
         </button>
         <button 
         class="requestTrade"
-        :class="{disabled: skin.tradeRequested}">
-          {{ skin.tradeRequested ? 'Skin will be sent within 1 day  ' : 'Trade to account' }}
+        :class="{disabled: skin.requestedTrade}"
+        @click="requestTrade(skin._id, i)">
+          {{ skin.requestedTrade ? 'Skin will be sent within 1 day  ' : 'Trade to account' }}
         </button>
       </li>
     </ul>
@@ -44,47 +45,46 @@ export default {
   data() {
     return {
       tradeURL: null,
-      mySkins: [
-        {
-          gunType: 'AK47',
-          skinName: 'Redline',
-          condition: 'ft',
-          requestedTrade: false,
-          grade: 'mil_spec',
-          sellingPrice: 50,
-        },
-        {
-          gunType: 'AWP',
-          skinName: 'Redline',
-          condition: 'mw',
-          tradeRequested: true,
-          grade: 'classified',
-          sellingPrice: 30,
-        },
-         {
-          grade: 'restricted',
-          gunType: 'AK47',
-          skinName: 'Redline',
-          condition: 'fn',
-          requestedTrade: false,
-          sellingPrice: 40
-        }
-      ],
+      mySkins: [],
       gunCDNimgLink: 'https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_',
-      CDNgunIDs: []
+      CDNgunIDs: [],
+      wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
+      wpnLinks: {},
     }
   },
   methods: {
-    async fetchSkins() {
-      const data = await axios.get('http://localhost:3000/get-user-skins')
+    async requestTrade(skinID, i) {
+      const res = await axios.post('http://localhost:3000/request-trade', { skinID })
 
-      console.log(data)
+      console.log(res)
+
+      if (res.status === 200) {
+        this.mySkins[i].requestedTrade = true
+      }
+    },
+    async fetchSkins() {
+      const res = await axios.get('http://localhost:3000/get-user-skins')
+
+      console.log(res.data)
+
+      this.mySkins = res.data
+    },
+    getWpnImg(wpnLonghand) {
+      const wpnID = this.wpnLinks[wpnLonghand]
+
+      if (wpnLonghand === 'rare_item') {
+        return require('@/assets/cases/rare_item.png')
+      } else {
+        return `${this.wpnCDNlink}${wpnID}.png`
+      }
     },
     formatCondition(skinCon) {
       return getCondition(skinCon)
     }
   },
   mounted() {
+    this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
+
     this.fetchSkins()
   }
 }
