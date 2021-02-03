@@ -16,6 +16,8 @@
         <div id="mySkins" @click="switchDynamicComponent()"
         :class="{goBackBtn : dynamicComponent !== 'Cases'}">
 
+          <!-- <Referral v-if="user && !haveReferral" /> -->
+
           <div v-if="dynamicComponent === 'Cases'">
             <img src="@/assets/icons/rifle.svg" alt="">
             <p>View My Skins</p>
@@ -32,7 +34,10 @@
           <div>
             <p>Referral Code</p>
           </div>
-          <input id="referralCode" type="text" :value="myReferralCode">
+          <input id="referralCode" type="text"
+          @click="selectCode()"
+          ref="referralCode"
+          :value="myReferralCode">
           <img src="@/assets/icons/info.svg" alt="">
         </div>
       </div>
@@ -101,14 +106,16 @@ import { detectAnyAdblocker } from 'just-detect-adblock'
 import * as Parts from '@/components/switch'
 import Auth from '@/components/Auth'
 import Chat from '@/components/Chat'
+import Referral from '@/components/Referral'
 
 export default {
   name: 'App',
   components: {
-    ...Parts, Auth, Chat
+    ...Parts, Auth, Chat, Referral
   },
   data() {
     return {
+      haveReferral: false,
       authChecked: false,
       user: null,
       dynamicComponent: 'Cases',
@@ -140,6 +147,11 @@ export default {
     })
   },
   methods: {
+    selectCode() {
+      this.$refs.referralCode.select()
+
+      document.execCommand("copy")
+    },
     async fetchCredits() {
       const user = await axios.get('http://localhost:3000/get-user-credits')
 
