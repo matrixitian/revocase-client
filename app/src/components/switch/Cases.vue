@@ -83,6 +83,10 @@ export default {
       if (mutation.type === 'updateMyCoins') {
         this.myCoins = state.myCoins
       }
+
+      if (mutation.type === 'setUser') {
+        this.user = state.user
+      }
     })
   },
   methods: {
@@ -102,7 +106,7 @@ export default {
 
       if (res.status === 200) {
         firestore.collection("drops").add({
-          uname: this.user.displayName,
+          uname: this.user.username,
           skin: res.data.skin,
           skin_longhand: res.data.skinLonghand,
           grade: res.data.skinGrade,
@@ -225,8 +229,8 @@ $purpleGradientEnd: #5a43ab;
 
 #liveFeed {
   position: absolute;
-  top: -25px;
-  left: 10px;
+  top: 0px;
+  left: -10px;
   z-index: 200;
   p {
     float: left;

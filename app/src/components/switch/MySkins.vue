@@ -76,8 +76,7 @@ export default {
   },
   methods: {
     async fetchSkins() {
-      const data = await axios.post('http://localhost:3000/get-user-skins', 
-      { userUID: this.user.uid })
+      const data = await axios.get('http://localhost:3000/get-user-skins')
 
       console.log(data)
     },
