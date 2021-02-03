@@ -20,7 +20,7 @@
           Go to Market
         </button>
         <!-- Inspect Gun -->
-        <button class="inspect" @click="inspectGun(gun)">
+        <button class="inspect" @click="inspectGun(guns.raw[i])">
           Inspect in-game (FN)
         </button>
 
@@ -40,11 +40,13 @@ export default {
       wpnLinks: {},
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
       guns: {}, // raw, formatted, grade
-      wpnPrices: []
+      wpnPrices: [],
+      inspectGunLinks: {}
     }
   },
   async mounted() {
     this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
+    this.inspectGunLinks = require(`@/assets/gunData/inspect_guns.json`)
     this.importGunData()
 
     // let formattedGuns = this.guns.formatted.map((gun) => {
@@ -70,7 +72,7 @@ export default {
     },
     inspectGun(gun) {
       console.log(gun)
-      const gun_id = "20M3462576415354083999A13819871659D16352124405222944812"
+      const gun_id = this.inspectGunLinks[gun]
       const link = `steam://rungame/730/76561202255233023/+csgo_econ_action_preview%${gun_id}`
 
       window.open(link)
@@ -78,6 +80,9 @@ export default {
     importGunData() {
       switch (this.Case) {
         case 'clutch':
+            this.guns = require(`@/assets/gunData/${this.Case}.json`)
+          break;
+        case 'chroma2':
             this.guns = require(`@/assets/gunData/${this.Case}.json`)
           break;
       
