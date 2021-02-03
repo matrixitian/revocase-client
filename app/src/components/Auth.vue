@@ -237,6 +237,7 @@ export default {
       console.log(res)
       if (res.status === 200) {
         console.log('Logged in.')
+        this.$store.commit('updateMyCoins', { type: 'set', amount: res.data.user.credits })
         this.saveUserAndRedirect({ user: res.data.user, token: res.data.token })
       } else {
         console.log(res)

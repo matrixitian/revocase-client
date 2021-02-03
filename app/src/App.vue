@@ -171,6 +171,7 @@ export default {
         localStorage.setItem('token', null)
         this.$store.commit('setUser', { user: null })
         this.user = null
+        this.myCoins = 0
         console.log('Logged out.')
       } else {
         console.log('Log out failed.')
@@ -190,9 +191,9 @@ export default {
       document.querySelectorAll("video, audio").forEach( elem => muteMe(elem) );
     },
     async fetchUser() {
-      const token = JSON.parse(localStorage.getItem('token'))
+      const token = localStorage.getItem('token')
 
-      if (token) {
+      if (token != 'null') {
         axios.defaults.headers = {
           'Content-Type': 'application/json',
           Authorization: token
@@ -200,10 +201,12 @@ export default {
 
         const res = await axios.get('http://localhost:3000/get-user')
         this.user = res.data
-        // console.log(this.user)
+
+        // this.$store.commit('updateMyCoins', {})
 
         this.$store.commit('setUser',  { user: res.data })
         this.fetchCredits()
+        this.authChecked = true
       } else {
         console.log('No user is signed in.')
         this.authChecked = true

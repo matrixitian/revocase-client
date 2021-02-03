@@ -98,26 +98,24 @@ export default {
       }
 
       const res = await axios.post('http://localhost:3000/buy-case', 
-      { caseName, userUID: this.user.uid })
+      { caseName })
 
       if (res.status === 200) {
-        console.log(res.data)
-
-        // firestore.collection("drops").add({
-        //   uname: this.user.displayName,
-        //   skin: res.data.skin,
-        //   skin_longhand: res.data.skinLonghand,
-        //   grade: res.data.skinGrade,
-        //   condition: res.data.skinCon,
-        //   timeOpened: Number(Date.now())
-        // }).then((res) => {
-        //   console.log(res)
-        //    firestore.collection("casesOpened").doc('EYF66qQOWNDJ1PeSFHi0').update({
-        //     caseName: 1
-        //   })
-        // }).catch((err) => {
-        //   console.log(err)
-        // })
+        firestore.collection("drops").add({
+          uname: this.user.displayName,
+          skin: res.data.skin,
+          skin_longhand: res.data.skinLonghand,
+          grade: res.data.skinGrade,
+          condition: res.data.skinCon,
+          timeOpened: Number(Date.now())
+        }).then((res) => {
+          console.log(res)
+           firestore.collection("casesOpened").doc('EYF66qQOWNDJ1PeSFHi0').update({
+            caseName: 1
+          })
+        }).catch((err) => {
+          console.log(err)
+        })
 
         this.$store.commit('updateMyCoins', { type: 'subtract', amount: casePrice })
       }
@@ -152,6 +150,19 @@ export default {
   },
   mounted() {
     this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
+
+    const dropsRef = firestore.collection('drops')
+      .orderBy('timeOpened').limitToLast(8)
+
+    dropsRef.onSnapshot((snap) => {
+      let results = []
+      snap.docs.forEach(doc => {
+        // console.log(doc.data())
+        doc.data().timeOpened && results.push({ ...doc.data(), id: doc.id})
+      })
+
+      this.gunsOpened = results
+    })
 
     auth.onAuthStateChanged(user => {
       if (user) {
