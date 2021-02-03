@@ -53,7 +53,7 @@
           <transition name="slide-fade">
             <div id="logout" v-if="user"
             @click="signOut()">
-              <img src="@/assets/icons/logout.svg" alt="">
+              <span class="material-icons">logout</span>
               <p>Logout</p>
             </div>
           </transition>
@@ -307,7 +307,7 @@ $purpleGradientEnd: #5a43ab;
       transition: .1s ease;
       transform: scale(1.05);
     }
-    img {
+    span, img {
       @include centerY;
       left: 10px;
     }
