@@ -13,7 +13,7 @@
       <li v-for="(skin, i) in mySkins" :key="i"
       :class="skin.grade">
         <img :src="getWpnImg(skin.skin)" alt="">
-        <p>{{ skin.skinName }}</p>
+        <p>{{ formatSkinName(skin.skin) }}</p>
         <p class="gunCondition"
         :class="skin.condition">{{ formatCondition(skin.condition) }}</p>
         <button class="sell" v-if="!skin.requestedTrade">
@@ -50,9 +50,13 @@ export default {
       CDNgunIDs: [],
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
       wpnLinks: {},
+      normalGunNames: {}
     }
   },
   methods: {
+    formatSkinName(wpnLonghand) {
+      return this.normalGunNames[wpnLonghand]
+    },
     async requestTrade(skinID, i) {
       const res = await axios.post('http://localhost:3000/request-trade', { skinID })
 
@@ -84,6 +88,7 @@ export default {
   },
   mounted() {
     this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
+    this.normalGunNames = require(`@/assets/gunData/guns_to_normal.json`)
 
     this.fetchSkins()
   }
