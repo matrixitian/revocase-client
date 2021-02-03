@@ -75,7 +75,7 @@ export default {
       formattedCaseNames: [
         'Danger Zone', 'Chroma 2', 'Clutch', 'Fracture', 'Phoenix'
       ],
-      casePrices: [350, 400, 450, 750, 1100]
+      casePrices: [600, 750, 900, 1400, 1800]
     }
   },
   created() {

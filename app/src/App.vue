@@ -59,7 +59,7 @@
           </transition>
 
           <div id="playAds">
-            <span class="material-icons">not_started</span>
+            <img src="@/assets/icons/start.svg" alt="">
             <p>Start Ads</p>
           </div>
 
