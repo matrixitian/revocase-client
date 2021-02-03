@@ -59,7 +59,7 @@
           </transition>
 
           <div id="playAds">
-            <img src="@/assets/icons/start.svg" alt="">
+            <span class="material-icons">not_started</span>
             <p>Start Ads</p>
           </div>
 
@@ -96,7 +96,7 @@
 
 <script>
 import axios from 'axios'
-import { auth } from '@/firebase/config.js'
+// import { auth } from '@/firebase/config.js'
 import { detectAnyAdblocker } from 'just-detect-adblock'
 import * as Parts from '@/components/switch'
 import Auth from '@/components/Auth'
@@ -140,9 +140,7 @@ export default {
   },
   methods: {
     async fetchCredits() {
-      const user = await axios.post('http://localhost:3000/get-user-credits', {
-        userUID: this.user.uid
-      })
+      const user = await axios.get('http://localhost:3000/get-user-credits')
 
       this.myCoins = user.data.credits
 
@@ -156,14 +154,17 @@ export default {
       }
     },
     signOut() {
-      auth.signOut().then(() => {
-        localStorage.setItem('user', null)
-        this.$store.commit('setUser', { user: null })
-        this.user = null
-      }).catch((error) => {
-        // An error happened.
-        alert(error)
-      })
+      // auth.signOut().then(() => {
+      //   localStorage.setItem('user', null)
+      //   this.$store.commit('setUser', { user: null })
+      //   this.user = null
+      // }).catch((error) => {
+      //   // An error happened.
+      //   alert(error)
+      // })
+      localStorage.setItem('token', null)
+      this.$store.commit('setUser', { user: null })
+      this.user = null
     },
     selectLang(lang) {
       this.selectedLang = lang
@@ -177,21 +178,43 @@ export default {
       }
 
       document.querySelectorAll("video, audio").forEach( elem => muteMe(elem) );
+    },
+    async fetchUser() {
+      const token = localStorage.getItem('token')
+
+      if (token) {
+        axios.defaults.headers = {
+          'Content-Type': 'application/json',
+          Authorization: token
+        }
+
+        const res = await axios.get('http://localhost:3000/get-user')
+        this.user = res.data
+        // console.log(this.user)
+
+        this.$store.commit('setUser',  { user: res.data })
+        this.fetchCredits()
+      } else {
+        console.log('No user is signed in.')
+        this.authChecked = true
+      }
     }
   },
   async mounted() {
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        this.user = user
-        this.authChecked = true
+    // auth.onAuthStateChanged(user => {
+    //   if (user) {
+    //     this.user = user
+    //     this.authChecked = true
 
-        this.fetchCredits()
-      } else {
-        // No user is signed in.
-        this.user = null
-        this.authChecked = true
-      }
-    })
+    //     this.fetchCredits()
+    //   } else {
+    //     // No user is signed in.
+    //     this.user = null
+    //     this.authChecked = true
+    //   }
+    // })
+
+    this.fetchUser()
     
     detectAnyAdblocker().then((detected) => {
       if (detected) {

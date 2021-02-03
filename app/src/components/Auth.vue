@@ -212,8 +212,10 @@ export default {
           this.login()
         }
     },
-    saveUserAndRedirect(user) {
-      this.$store.commit('setUser', { user })
+    saveUserAndRedirect(payload) {
+      localStorage.setItem('user', JSON.stringify(payload.user))
+      localStorage.setItem('token', payload.token)
+      this.$store.commit('setUser', { user: payload.user })
     },
     login() {
       auth.signInWithEmailAndPassword(this.email, this.password)
@@ -225,23 +227,37 @@ export default {
       });
     },
     async createAccount() {
-      auth.createUserWithEmailAndPassword(
-        this.email, this.password)
-      .then((userCredential) => {
-        const user = auth.currentUser;
+      // auth.createUserWithEmailAndPassword(
+      //   this.email, this.password)
+      // .then((userCredential) => {
+      //   const user = auth.currentUser;
 
-        user.updateProfile({
-          displayName: this.uname
-        }).then(() => {
-          axios.post('http://localhost:3000/create-user', 
-          { userUID: user.uid, tradeURL: this.tradeURL })
+      //   user.updateProfile({
+      //     displayName: this.uname
+      //   }).then(() => {
+      //     axios.post('http://localhost:3000/create-user', 
+      //     { userUID: user.uid, tradeURL: this.tradeURL })
           
-          this.saveUserAndRedirect(userCredential)
-        })
+      //     this.saveUserAndRedirect(userCredential)
+      //   })
+      // })
+      // .catch((error) => {
+      //   this.createErrorMessage(error.message)
+      // })
+
+      const res = await axios.post('http://localhost:3000/signup', {
+        username: this.uname,
+        email: this.email,
+        password: this.password,
+        tradeURL: this.tradeURL
       })
-      .catch((error) => {
-        this.createErrorMessage(error.message)
-      })
+
+      if (res.status === 201) {
+        console.log('201')
+        this.saveUserAndRedirect({ user: res.data.user, token: res.data.token })
+      } else {
+        console.log(res)
+      }
     },
     toggleFormType() {
       this.showInfo = false
@@ -256,6 +272,12 @@ export default {
     setTimeout(() => {
       this.$refs.uname.focus()
     }, 100)  
+
+    const token = localStorage.getItem('token')
+    axios.defaults.headers = {
+      'Content-Type': 'application/json',
+      Authorization: token
+    }
   }
 }
 </script>
