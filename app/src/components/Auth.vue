@@ -109,7 +109,7 @@
 
 <script>
 import axios from 'axios'
-import { auth } from '@/firebase/config.js'
+// import { auth } from '@/firebase/config.js'
 const passwordStrength = require('check-password-strength')
 
 export default {
@@ -213,18 +213,34 @@ export default {
         }
     },
     saveUserAndRedirect(payload) {
-      localStorage.setItem('user', JSON.stringify(payload.user))
       localStorage.setItem('token', payload.token)
       this.$store.commit('setUser', { user: payload.user })
+
+      axios.defaults.headers = {
+        'Content-Type': 'application/json',
+        Authorization: payload.token
+      }
     },
-    login() {
-      auth.signInWithEmailAndPassword(this.email, this.password)
-      .then((userCredential) => {
-        this.saveUserAndRedirect(userCredential)
+    async login() {
+      // auth.signInWithEmailAndPassword(this.email, this.password)
+      // .then((userCredential) => {
+      //   this.saveUserAndRedirect(userCredential)
+      // })
+      // .catch((error) => {
+      //   this.createErrorMessage(error.message)
+      // });
+      const res = await axios.post('http://localhost:3000/login', {
+        email: this.email,
+        password: this.password
       })
-      .catch((error) => {
-        this.createErrorMessage(error.message)
-      });
+
+      console.log(res)
+      if (res.status === 200) {
+        console.log('Logged in.')
+        this.saveUserAndRedirect({ user: res.data.user, token: res.data.token })
+      } else {
+        console.log(res)
+      }
     },
     async createAccount() {
       // auth.createUserWithEmailAndPassword(

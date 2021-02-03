@@ -127,6 +127,7 @@ export default {
     this.$store.subscribe(async(mutation, state) => {
       if (mutation.type === 'setUser') {
         this.user = state.user
+        console.log('user set', state.user)
       }
 
       if (mutation.type === 'changeView') {
@@ -153,7 +154,7 @@ export default {
         this.$store.commit('changeView', { view: 'MySkins' })
       }
     },
-    signOut() {
+    async signOut() {
       // auth.signOut().then(() => {
       //   localStorage.setItem('user', null)
       //   this.$store.commit('setUser', { user: null })
@@ -162,9 +163,18 @@ export default {
       //   // An error happened.
       //   alert(error)
       // })
-      localStorage.setItem('token', null)
-      this.$store.commit('setUser', { user: null })
-      this.user = null
+
+      const res = await axios.get('http://localhost:3000/logout')
+      this.user = res.data
+
+      if (res.status === 200) {
+        localStorage.setItem('token', null)
+        this.$store.commit('setUser', { user: null })
+        this.user = null
+        console.log('Logged out.')
+      } else {
+        console.log('Log out failed.')
+      }
     },
     selectLang(lang) {
       this.selectedLang = lang
@@ -180,7 +190,7 @@ export default {
       document.querySelectorAll("video, audio").forEach( elem => muteMe(elem) );
     },
     async fetchUser() {
-      const token = localStorage.getItem('token')
+      const token = JSON.parse(localStorage.getItem('token'))
 
       if (token) {
         axios.defaults.headers = {
