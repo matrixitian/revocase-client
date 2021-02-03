@@ -30,7 +30,7 @@
           <p class="amountOpened">Opened <span>{{ news[i] }}</span></p>
           <div class="viewContents"
           @click="changeView()">
-            <img src="@/assets/icons/contents.svg" alt="">
+            <span class="material-icons contentsIcon">toc</span>
             <p>View Contents</p>
           </div>
           <div class="openBtnCon" @click="buyCase(caseName)">
@@ -429,18 +429,18 @@ $purpleGradientEnd: #5a43ab;
     transition: .15s ease;
     transform: scale(1.05);
   }
-  img {
-    float: left;
-    padding: 0;
-    margin: 0;
-    margin-top: -4px;
-  }
 }
 
 .viewContents {
   height: 15px;
   font-size: 14px;
   padding: 4px 5px 4px 5px;
+  .contentsIcon {
+    float: left;
+    padding: 0;
+    margin: 0;
+    margin-top: -4px;
+  }
   p {
     margin-top: -2px;
   }
@@ -453,6 +453,9 @@ $purpleGradientEnd: #5a43ab;
   border-radius: 20px;
   max-width: 100px;
   img {
+    float: left;
+    padding: 0;
+    margin: 0;
     margin-top: -5px;
     height: 30px;
     width: 30px;
