@@ -38,11 +38,12 @@
         <!-- Request Trade -->
         <button class="requestTrade"
         v-if="skin.grade !== 'mil_spec'"
-        :class="{disabled: skin.requestedTrade}"
+        :class="[
+          {disabled: skin.requestedTrade},
+          {offerReceived: skin.tradeOfferSent}
+        ]"
         @click="requestTrade(skin._id, i)">
-          {{ skin.requestedTrade ? 
-          'Skin will be sent within 1 day' :
-           'Trade to account' }}
+          {{ getTradeOfferStatus(skin) }}
         </button>
 
       </li>
@@ -75,6 +76,15 @@ export default {
     }
   },
   methods: {
+    getTradeOfferStatus(skin) {
+      if (skin.tradeOfferSent) {
+        return 'Trade offer received'
+      } else if (skin.requestedTrade) {
+        return 'Skin will be sent within 1 day'
+      } else {
+        return 'Trade to account'
+      }
+    },
     async sellSkin(skin, i) {
       const res = await axios.post('http://localhost:3000/sell-skin', {
         skinID: skin._id
@@ -310,7 +320,17 @@ ul {
   background: linear-gradient(#d4d4d4,#b1b1b1) !important;
   cursor: default !important;
   &:hover {
-    background: linear-gradient(#787d85,#4a4d50) !important;
+    background: linear-gradient(#d4d4d4,#b1b1b1) !important;
+  }
+}
+
+.offerReceived {
+  margin-top: 40px !important;
+  color: rgba(0, 0, 0, 0.6) !important;
+  background: linear-gradient(#4fe05c,#0a9534) !important;
+  cursor: default !important;
+  &:hover {
+    background: linear-gradient(#4fe05c,#0a9534) !important;
   }
 }
 
