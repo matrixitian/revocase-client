@@ -2,6 +2,11 @@
   <div id="caseRollMain">
     
     <div id="Roller">
+
+      <div id="caret">
+        <img id="upperCaret" src="@/assets/icons/caret.svg" alt="">
+        <img id="downerCaret" src="@/assets/icons/caret.svg" alt="">
+      </div>
       <ul id="skinRoll">
         <transition-group name="slide-fade">
           <li v-for="(skin, i) in drops" :key="i"
@@ -436,10 +441,25 @@ export default {
   color: black;
 }
 
+#upperCaret {
+  @include centerX;
+  left: calc(50% - 35px);
+  transform: rotate(90deg);
+  height: 80px;
+  top: 15px;
+}
+#downerCaret {
+  @include centerX;
+  left: calc(50% - 35px);
+  top: 205px;
+  height: 80px;
+  transform: rotate(270deg);
+}
+
 #Roller {
   position: relative;
-  // background-color: orangered;
-  height: calc(100% - 300px);
+  // background-color: green;
+  height: 300px;
 }
 
 ul#skinRoll {
@@ -450,13 +470,12 @@ ul#skinRoll {
   border: 3px solid rgba(200, 200, 200, 0.1);
   background-color: rgba(0, 0, 0, 0.3);
   margin: auto;
-  min-height: 150px;
-  height: 150px;
+  height: 145px;
   overflow: hidden;
-  width: 1000px;
+  width: 1100px;
   li {
-    margin: 15px 5px 0 5px;
-    float: right;
+    margin: 5px 5px 20px 5px;
+    display: inline-block;
     position: relative;
     padding: 5px;
     border-radius: 10px;
