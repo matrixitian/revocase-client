@@ -482,7 +482,7 @@ export default {
 @import '@/assets/mixins/skinCondition';
 
 #caseRollMain {
-  height: 70vh;
+  height: 50vh;
   width: 100vw;
   color: black;
   background-color: yellow;
