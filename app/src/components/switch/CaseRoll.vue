@@ -402,14 +402,28 @@ export default {
 
     console.log(this.drops)
 
+    this.drops[37] = {
+      condition: "MW",
+      grade: "exceedingly_rare",
+      longhand: "usp-s_cortex",
+      name: "Cortex"
+    }
+
     //  Start
     let count = 40
     let interval = 25
+
+    const caseRollSound = require('@/assets/sounds/case_roll.mp3')
+    const audio = new Audio(caseRollSound)
+    audio.loop = false
 
     const iterator = () => {
       count -= 1
       interval += interval * 0.1
       this.drops.shift()
+
+      audio.play()
+
 
       // stop after 600ms
       if (interval > 600) count = 0
