@@ -11,20 +11,20 @@
               <span class="skinName">{{ skin.name }}</span>
             </p>
             <p class="condition" :class="skin.condition">
-              {{ skin.formatCondition}}
+              {{ skin.condition }}
             </p>
           </li>
         </transition-group>
       </ul>
     </div>
 
-    <div id="weaponList">
+    <!-- <div id="weaponList">
       <ul>
-        <li v-for="(skin, i) in overviewSkins" :key="i">
+        <li v-for="(skin, i) in skins" :key="i">
           {{ skin }}
         </li>
       </ul>
-    </div>
+    </div> -->
 
   </div>
 </template>
@@ -40,41 +40,22 @@ export default {
       wpnLinks: {},
       selectedCase: null,
       skins: [],
-      drops: [
-        {
-          name: 'Mecha Industries',
-          longhand: 'desert_eagle_mecha_industries',
-          grade: 'mil_spec',
-          condition: 'fn'
-        },
-        {
-          name: 'Mecha Industries',
-          longhand: 'desert_eagle_mecha_industries',
-          grade: 'mil_spec',
-          condition: 'fn'
-        },
-        {
-          name: 'Mecha Industries',
-          longhand: 'desert_eagle_mecha_industries',
-          grade: 'mil_spec',
-          condition: 'fn'
-        }
-      ]
+      drops: []
     }
   },
   methods: {
     getCondition() {
-      let skinCon = Math.random() * 100
-      skinCon = Math.round(skinCon * 100) / 100
+      let condition = Math.random() * 100
+      condition = Math.round(condition * 100) / 100
 
-      if (skinCon < 3) return 'fn'
-      else if (skinCon >= 3 && skinCon < 27) return 'mw'
-      else if (skinCon >= 27 && skinCon < 60) return 'ft'
-      else if (skinCon >= 60 && skinCon < 84) return 'ww'
-      else if (skinCon >= 84) return 'bs'
+      if (condition < 3) return 'fn'
+      else if (condition >= 3 && condition < 27) return 'mw'
+      else if (condition >= 27 && condition < 60) return 'ft'
+      else if (condition >= 60 && condition < 84) return 'ww'
+      else if (condition >= 84) return 'bs'
     },
-    formatCondition(skinCon) {
-      return getCondition(skinCon)
+    formatCondition(condition) {
+      return getCondition(condition)
     },
     getWpnImg(wpnLonghand) {
       const wpnID = this.wpnLinks[wpnLonghand]
@@ -350,53 +331,56 @@ export default {
         }
       }
 
-      let skinGrade
-      let skinCon
+      let grade
+      let condition
 
       // Get Skin Grade
-      skinGrade = Math.random() * 100
-      skinGrade = Math.round(skinGrade * 100) / 100
+      grade = Math.random() * 100
+      grade = Math.round(grade * 100) / 100
 
       const getGrade = () => {
-        if (skinGrade >= 0 && skinGrade < 0.35) return 'exceedingly_rare' 
-        else if (skinGrade >= 0.35 && skinGrade < 0.95) return 'covert' 
-        else if (skinGrade >= 0.95 && skinGrade < 4.15) return 'classified' 
-        else if (skinGrade >= 4.15 && skinGrade < 20.00) return 'restricted'
-        else if (skinGrade >= 20.00) return 'mil_spec'
+        if (grade >= 0 && grade < 0.35) return 'exceedingly_rare' 
+        else if (grade >= 0.35 && grade < 0.95) return 'covert' 
+        else if (grade >= 0.95 && grade < 4.15) return 'classified' 
+        else if (grade >= 4.15 && grade < 20.00) return 'restricted'
+        else if (grade >= 20.00) return 'mil_spec'
       }
 
-      skinGrade = getGrade()
+      grade = getGrade()
 
       // Get Skin condition
-      skinCon = Math.random() * 100
-      skinCon = Math.round(skinCon * 100) / 100
+      condition = Math.random() * 100
+      condition = Math.round(condition * 100) / 100
 
       const getCondition = () => {
-        if (skinCon < 3) return 'fn'
-        else if (skinCon >= 3 && skinCon < 27) return 'mw'
-        else if (skinCon >= 27 && skinCon < 60) return 'ft'
-        else if (skinCon >= 60 && skinCon < 84) return 'ww'
-        else if (skinCon >= 100) return 'bs'
+        if (condition < 3) return 'FN'
+        else if (condition >= 3 && condition < 27) return 'MW'
+        else if (condition >= 27 && condition < 60) return 'FT'
+        else if (condition >= 60 && condition < 84) return 'WW'
+        else if (condition >= 100) return 'BS'
       }
 
-      skinCon = getCondition()
+      condition = getCondition()
 
-      const arrLen = wpnCases[caseName][skinGrade].length
+      const arrLen = wpnCases[caseName][grade].length
       const skinIndex = Math.floor(Math.random() * (arrLen - 0) + 0)
 
-      const skin = wpnCases[caseName][skinGrade][skinIndex]
-      const formattedSkin = formattedSkinName[caseName][skinGrade][skinIndex]
+      const longhand = wpnCases[caseName][grade][skinIndex]
+      const name = formattedSkinName[caseName][grade][skinIndex]
 
-      return { formattedSkin, skin, skinGrade, skinCon }
+      return { name, longhand, grade, condition }
     },
     generateSkins() {
       let i
 
+      let generated = []
       for(i = 0; i < 50; i++) {
         const skin = this.getWeapon(this.selectedCase)
 
-        this.drops.push(skin)
+        generated.push(skin)
       }
+
+      this.drops = generated
     }
   },
   mounted() {
@@ -432,7 +416,7 @@ export default {
 
 #Roller {
   position: relative;
-  background-color: orangered;
+  // background-color: orangered;
   height: calc(100% - 300px);
 }
 
@@ -494,7 +478,7 @@ ul#skinRoll {
   bottom: 0;
   height: 300px;
   width: 90vw;
-  background-color: white;
+  // background-color: white;
 }
 
 </style>
