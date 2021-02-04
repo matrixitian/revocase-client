@@ -21,18 +21,26 @@
           </li>
         </transition-group>
       </ul>
-      <button id="open" @click="openCase()">
-        Open
+
+      <button id="open" @click="openCase()"
+      :class="{disabled: caseIsRolling}">
+        {{ caseIsRolling ? 'Opened' : 'Open' }}
       </button>
     </div>
 
-    <!-- <div id="weaponList">
+    <div id="weaponList">
       <ul>
-        <li v-for="(skin, i) in skins" :key="i">
-          {{ skin }}
-        </li>
+        <transition-group name="slide-fade">
+          <li v-for="(longhand, i) in overviewNamesRaw" :key="i"
+          :class="overviewGrades[i]">
+            <img :src="getWpnImg(longhand)" alt="">
+            <p class="skin">
+              <span class="skinName">{{ overviewNamesFormatted[i] }}</span>
+            </p>
+          </li>
+        </transition-group>
       </ul>
-    </div> -->
+    </div>
 
   </div>
 </template>
@@ -47,15 +55,25 @@ export default {
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
       wpnLinks: {},
       selectedCase: null,
-      skins: [],
-      drops: []
+      drops: [],
+      caseIsRolling: false,
+      rollingFinished: true,
+      overviewNamesFormatted: [],
+      overviewNamesRaw: [],
+      overviewGrades: []
     }
   },
   methods: {
     openCase() {
+      if (this.caseIsRolling) {
+        throw new Error()
+      }
+
+      this.caseIsRolling = true
+
       //  Start
       let count = 40
-      let interval = 25
+      let interval = 15
 
       const showDropSound = require('@/assets/sounds/show_drop.mp3')
       const caseRollSound = require('@/assets/sounds/case_roll.mp3')
@@ -72,16 +90,17 @@ export default {
 
         caseRollAudio.play()
 
-        if (count === 7) {
+        if (count === 2) {
           setTimeout(() => {
             showDropAudio.play()
           }, 1000)
         }
 
         // stop after 600ms
-        if (interval > 600) count = 0
-
-        console.log(count)
+        if (interval > 600) {
+          count = 0
+          this.rollingFinished = true
+        }
 
         if (count > 0) {
           setTimeout(iterator, interval)
@@ -400,8 +419,6 @@ export default {
       condition = Math.random() * 100
       condition = Math.floor(condition)
 
-      console.log(condition)
-
       const getCondition = () => {
         if (condition < 3) return 'FN'
         else if (condition >= 3 && condition < 27) return 'MW'
@@ -411,8 +428,6 @@ export default {
       }
 
       condition = getCondition()
-
-      console.log(condition)
 
       const arrLen = wpnCases[caseName][grade].length
       const skinIndex = Math.floor(Math.random() * (arrLen - 0) + 0)
@@ -437,15 +452,20 @@ export default {
   },
   mounted() {
     this.selectedCase = this.$store.getters.getSelectedCase
-
-    this.skins = require(`@/assets/gunData/caseGuns/${this.selectedCase}.json`)
     this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
+
+    // Overview skins
+    const gunData = require(`@/assets/gunData/caseGuns/${this.selectedCase}.json`)
+
+    this.overviewNamesFormatted = gunData.formatted
+    this.overviewNamesRaw = gunData.raw
+    this.overviewGrades = gunData.grade
 
     this.generateSkins()
 
     console.log(this.drops)
 
-    this.drops[37] = {
+    this.drops[42] = {
       condition: "MW",
       grade: "exceedingly_rare",
       longhand: "usp-s_cortex",
@@ -465,6 +485,31 @@ export default {
   height: 70vh;
   width: 100vw;
   color: black;
+  background-color: yellow;
+}
+
+#open {
+  margin-top: 280px;
+  border: 2px solid white;
+  background: linear-gradient(green, limegreen);
+  border-radius: 7px;
+  padding: 7px 30px 7px 30px;
+  color: white;
+  font-weight: bold;
+  font-size: 17px;
+  cursor: pointer;
+  &:hover {
+    transition: .1s ease;
+    transform: scale(1.02);
+  }
+}
+
+.disabled {
+  background: linear-gradient(rgb(128, 15, 0), rgb(204, 56, 43)) !important;
+  cursor: default !important;
+  &:hover {
+    transform: scale(1) !important;
+  }
 }
 
 #upperCaret {
@@ -490,7 +535,7 @@ export default {
 
 ul#skinRoll {
   @include centerXY;
-  margin-bottom: 50px;
+  // margin-bottom: 50px;
   border-radius: 10px;
   padding: 10px;
   border: 3px solid rgba(200, 200, 200, 0.1);
@@ -545,7 +590,19 @@ ul#skinRoll {
   bottom: 0;
   height: 300px;
   width: 90vw;
-  // background-color: white;
+  background-color: white;
+  ul {
+    background-color: green;
+    li {
+      margin: 10px;
+      float: left;
+      height: 120px;
+      width: 120px;
+      img {
+        height: 50px;
+      }
+    }
+  }
 }
 
 </style>
