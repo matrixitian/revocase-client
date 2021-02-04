@@ -405,12 +405,13 @@ export default {
 
     console.log(this.drops)
 
-    var count = 50
+    var count = 100
     var interval = 50
 
     const iterator = () => {
       count -= 1
-      interval += 25
+
+      interval += interval * 0.1
 
       this.drops.shift()
 
