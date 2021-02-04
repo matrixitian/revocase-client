@@ -142,7 +142,7 @@ export default {
     },
     openedAgo(timestamp) {
       return moment(timestamp).fromNow()
-    },
+    }
   },
   mounted() {
     this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)

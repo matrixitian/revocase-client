@@ -5,7 +5,7 @@ export default createStore({
     user: null,
     myCoins: 0,
     currentView: 'Cases',
-    selectedCase: null
+    selectedCase: 'clutch'
   },
   mutations: {
     updateMyCoins(state, payload) {

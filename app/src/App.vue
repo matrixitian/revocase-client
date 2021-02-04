@@ -4,7 +4,7 @@
     <Referral v-if="user && !haveReferral" 
     @referralEntered="hideReferralMenu()" />
 
-    <Chat v-if="user" />
+    <Chat v-if="user && dynamicComponent === 'Cases'" />
 
     <div id="Auth" v-if="!user && authChecked">
       <Auth />
@@ -100,7 +100,6 @@
 
 <script>
 import axios from 'axios'
-// import { auth } from '@/firebase/config.js'
 import { detectAnyAdblocker } from 'just-detect-adblock'
 import * as Parts from '@/components/switch'
 import Auth from '@/components/Auth'
@@ -117,7 +116,7 @@ export default {
       haveReferral: false,
       authChecked: false,
       user: null,
-      dynamicComponent: 'Cases',
+      dynamicComponent: 'CaseRoll',
       myCoins: 0,
       myReferralCode: 'HolidayGT6',
       selectedLang: 'english',
