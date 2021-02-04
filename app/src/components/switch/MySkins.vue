@@ -26,7 +26,9 @@
         :class="skin.condition">{{ formatCondition(skin.condition) }}</p>
 
         <!-- Sell Skin -->
-        <button class="sell" v-if="!skin.requestedTrade">
+        <button class="sell" v-if="!skin.requestedTrade"
+        :class="{adjustSellBtn: skin.grade === 'mil_spec'}"
+        @click="sellSkin(skin._id)">
           <p>Sell for 
             <span>{{ getSkinPrice(skin.caseName, skin.grade, skin.condition) }}</span>
           </p>
@@ -35,6 +37,7 @@
 
         <!-- Request Trade -->
         <button class="requestTrade"
+        v-if="skin.grade !== 'mil_spec'"
         :class="{disabled: skin.requestedTrade}"
         @click="requestTrade(skin._id, i)">
           {{ skin.requestedTrade ? 
@@ -72,11 +75,15 @@ export default {
     }
   },
   methods: {
+    sellSkin(skinID) {
+      const res = await axios.post('http://localhost:3000/sell-skin', {
+        skinID
+      })
+    },
     getSkinPrice(caseName, grade, condition) {
-      console.log(caseName)
       const price = this.skinPrices[caseName][grade][condition]
 
-      return `Sell for ${price}`
+      return price
     },
     formatSkinName(wpnLonghand) {
       return this.normalGunNames[wpnLonghand]
@@ -235,7 +242,7 @@ ul {
     }
 
     .requestTrade, .sell {
-      margin-top: 10px;
+      margin-top: 7px;
       font-weight: bold;
       width: 90%;
       padding: 5px 0 5px 0;
@@ -260,18 +267,31 @@ ul {
         background: -webkit-linear-gradient(#29cc31,#08a515 60%,#23c052);
       }
       p {
+        padding: 5px 0 8px 0 !important;
         font-weight: bold;
         font-size: 15px;
         background-color: transparent !important;
       }
+      span {
+        margin-top: -5px;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 7px;
+        border-radius: 5px;
+        margin-left: 5px;
+      }
       img {
         position: absolute;
         right: 20px;
-        top: -18px;
+        top: -17px;
         height: 30px;
       }
     }
   }
+}
+
+.adjustSellBtn {
+  margin-top: 35px !important;
 }
 
 .disabled {
