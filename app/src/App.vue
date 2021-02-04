@@ -91,10 +91,8 @@
 
     <div id="Bottomer">
       <div id="bottomAligner">
-        <keep-alive>
-          <component :is="dynamicComponent" :Case="caseClicked"
-          :user="user"></component>
-        </keep-alive>
+        <component :is="dynamicComponent" :Case="caseClicked"
+        :user="user"></component>
       </div>
     </div>
   </div>

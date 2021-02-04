@@ -34,9 +34,9 @@
 
 export default {
   name: 'CaseContents',
-  props: ['Case'],
   data() {
     return {
+      selectedCase: null,
       goToMarket: {},
       wpnLinks: {},
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
@@ -46,10 +46,12 @@ export default {
     }
   },
   async mounted() {
+    this.selectedCase = this.$store.getters.getSelectedCase
+    console.log(this.selectedCase)
     this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
+    this.guns = require(`@/assets/gunData/caseGuns/${this.selectedCase}.json`)
     this.inspectGunLinks = require(`@/assets/gunData/inspect_guns.json`)
     this.goToMarket = require(`@/assets/gunData/go_to_market.json`)
-    this.importGunData()
 
     // let formattedGuns = this.guns.formatted.map((gun) => {
     //   return `${gun} (Factory New)`
@@ -88,19 +90,6 @@ export default {
       const link = `steam://rungame/730/76561202255233023/+csgo_econ_action_preview%${gun_id}`
 
       window.open(link)
-    },
-    importGunData() {
-      switch (this.Case) {
-        case 'clutch':
-            this.guns = require(`@/assets/gunData/caseGuns/${this.Case}.json`)
-          break;
-        case 'chroma2':
-            this.guns = require(`@/assets/gunData/caseGuns/${this.Case}.json`)
-          break;
-      
-        default:
-          break;
-      }
     }
   }
 }

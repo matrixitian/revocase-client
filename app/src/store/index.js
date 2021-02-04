@@ -4,7 +4,8 @@ export default createStore({
   state: {
     user: null,
     myCoins: 0,
-    currentView: 'Cases'
+    currentView: 'Cases',
+    selectedCase: null
   },
   mutations: {
     updateMyCoins(state, payload) {
@@ -22,11 +23,17 @@ export default createStore({
     setUser(state, payload) {
       console.log('pay', payload)
       state.user = payload.user
+    },
+    selectCase(state, payload) {
+      state.selectedCase = payload.caseName
     }
   },
   getters: {
     getUser(state) {
       return state.user
+    },
+    getSelectedCase(state) {
+      return state.selectedCase
     }
   },
   actions: {

@@ -29,7 +29,7 @@
           <p class="caseTitle">{{ formattedCaseName(caseName) }}</p>
           <p class="amountOpened">Opened <span>{{ news[i] }}</span></p>
           <div class="viewContents"
-          @click="changeView()">
+          @click="changeView(caseName)">
             <span class="material-icons contentsIcon">toc</span>
             <p>View Contents</p>
           </div>
@@ -90,7 +90,8 @@ export default {
     })
   },
   methods: {
-    changeView() {
+    changeView(caseName) {
+      this.$store.commit('selectCase', { caseName })
       this.$store.commit('changeView', { view: 'CaseContents' })
     },
     async buyCase(caseName) {
