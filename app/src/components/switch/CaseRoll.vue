@@ -378,7 +378,7 @@ export default {
       let i
 
       let generated = []
-      for(i = 0; i < 50; i++) {
+      for(i = 0; i < 70; i++) {
         const skin = this.getWeapon(this.selectedCase)
 
         generated.push(skin)
@@ -395,38 +395,31 @@ export default {
 
     this.generateSkins()
 
-    // let scrollCycleTime = 100 // in ms
-    
-    // setInterval(() => {
-    //   this.drops.shift()
-    //   scrollCycleTime += 100
-    //   console.log(scrollCycleTime)
-    // }, scrollCycleTime)
-
     console.log(this.drops)
 
-    var count = 100
-    var interval = 50
+    //  Start
+    let count = 40
+    let interval = 25
 
     const iterator = () => {
       count -= 1
-
       interval += interval * 0.1
-
       this.drops.shift()
+
+      // stop after 600ms
+      if (interval > 600) count = 0
+
+      console.log(count)
 
       if (count > 0) {
         setTimeout(iterator, interval)
       }
     }
 
-    iterator()
-
-    // this.skins = skinData.map(skin => {
-    //   return {
-    //     name: 
-    //   }
-    // })
+    setTimeout(() => {
+      iterator()
+    }, 2000)
+    
   }
 }
 </script>
