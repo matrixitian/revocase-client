@@ -413,16 +413,26 @@ export default {
     let count = 40
     let interval = 25
 
+    const showDropSound = require('@/assets/sounds/show_drop.mp3')
     const caseRollSound = require('@/assets/sounds/case_roll.mp3')
-    const audio = new Audio(caseRollSound)
-    audio.loop = false
+    const caseRollAudio = new Audio(caseRollSound)
+    const showDropAudio = new Audio(showDropSound)
+
+    caseRollAudio.loop = false
+    showDropAudio.loop = false
 
     const iterator = () => {
       count -= 1
       interval += interval * 0.1
       this.drops.shift()
 
-      audio.play()
+      caseRollAudio.play()
+
+      if (count === 7) {
+        setTimeout(() => {
+          showDropAudio.play()
+        }, 1000)
+      }
 
 
       // stop after 600ms
