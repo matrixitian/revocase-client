@@ -350,17 +350,21 @@ export default {
 
       // Get Skin condition
       condition = Math.random() * 100
-      condition = Math.round(condition * 100) / 100
+      condition = Math.floor(condition)
+
+      console.log(condition)
 
       const getCondition = () => {
         if (condition < 3) return 'FN'
         else if (condition >= 3 && condition < 27) return 'MW'
         else if (condition >= 27 && condition < 60) return 'FT'
         else if (condition >= 60 && condition < 84) return 'WW'
-        else if (condition >= 100) return 'BS'
+        else if (condition >= 84) return 'BS'
       }
 
       condition = getCondition()
+
+      console.log(condition)
 
       const arrLen = wpnCases[caseName][grade].length
       const skinIndex = Math.floor(Math.random() * (arrLen - 0) + 0)
@@ -390,6 +394,11 @@ export default {
     this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
 
     this.generateSkins()
+
+    // setInterval(() => {
+    //   console.log('test')
+    //   this.drops.pop()
+    // }, 500)
 
     console.log(this.drops)
 
