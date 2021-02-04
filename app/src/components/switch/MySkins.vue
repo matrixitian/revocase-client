@@ -9,6 +9,8 @@
       </a>
     </div>
 
+    <p id="noSkinsFound" v-if="mySkins.length === 0">You don't have any skins, open some cases!</p>
+
     <ul>
       <li v-for="(skin, i) in mySkins" :key="i"
       :class="skin.grade">
@@ -17,7 +19,7 @@
         <p class="gunCondition"
         :class="skin.condition">{{ formatCondition(skin.condition) }}</p>
         <button class="sell" v-if="!skin.requestedTrade">
-        {{ `Sell skin ${skin.sellingPrice}` }}
+        {{ getSkinPrice(skin.caseName, skin.grade) }}
         </button>
         <button 
         class="requestTrade"
@@ -50,10 +52,17 @@ export default {
       CDNgunIDs: [],
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
       wpnLinks: {},
-      normalGunNames: {}
+      normalGunNames: {},
+      skinPrices: {}
     }
   },
   methods: {
+    getSkinPrice(caseName, grade) {
+      console.log(caseName)
+      const price = this.skinPrices[caseName][grade]
+
+      return `Sell for ${price} bullets`
+    },
     formatSkinName(wpnLonghand) {
       return this.normalGunNames[wpnLonghand]
     },
@@ -89,6 +98,7 @@ export default {
   mounted() {
     this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
     this.normalGunNames = require(`@/assets/gunData/guns_to_normal.json`)
+    this.skinPrices = require(`@/assets/gunData/skin_prices.json`)
 
     this.fetchSkins()
   }
@@ -100,6 +110,16 @@ export default {
 @import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/skinGrades';
 @import '@/assets/mixins/skinCondition';
+
+#noSkinsFound {
+  @include centerXY;
+  background: linear-gradient(rgb(230, 144, 112), orangered);
+  padding: 10px;
+  width: 350px;
+  border-radius: 10px;
+  font-weight: bold;
+  color: black;
+}
 
 div {
   height: 70vh;
