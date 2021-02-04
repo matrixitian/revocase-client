@@ -53,5 +53,39 @@
     ["hkp2000", "Urban+Hazard"],
     ["bizon", "Night+Riot"],
     ["xm1014", "Oxide+Blaze"]
+  ],
+  "fracture": [
+    ["deagle", "Printstream"],
+    ["ak47", "Legion+of+Anubis"],
+    ["m4a1", "Tooth+Fairy"],
+    ["glock", "Vogue"],
+    ["xm1014", "Entombed"],
+    ["mag7", "Monster+Call"],
+    ["mac10", "Allure"],
+    ["tec9", "Brother"],
+    ["mp5sd", "Kitbash"],
+    ["galilar", "Connexion"],
+    ["ssg08", "Mainframe+001"],
+    ["p250", "Cassette"],
+    ["bizon", "Runic"],
+    ["p90", "Freight"],
+    ["p2000", "Gnarled"],
+    ["negev", "Ultralight"],
+    ["sg556", "Ol'+Rusty"]
+  ],
+  "phoenix": [
+    ["awp", "Asiimov"],
+    ["aug", "Chameleon"],
+    ["ak47", "Redline"],
+    ["nova", "Antique"],
+    ["p90", "Trigon"],
+    ["usp_silencer", "Guardian"],
+    ["sg556", "Pulse"],
+    ["mac10", "Heat"],
+    ["famas", "Sergeant"],
+    ["tec9", "Sandstorm"],
+    ["mag7", "Heaven+Guard"],
+    ["negev", "Terrain"],
+    ["ump45", "Corporal"]
   ]
 }
