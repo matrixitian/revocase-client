@@ -34,6 +34,9 @@ export default createStore({
     },
     getSelectedCase(state) {
       return state.selectedCase
+    },
+    getCoins(state) {
+      return state.myCoins
     }
   },
   actions: {

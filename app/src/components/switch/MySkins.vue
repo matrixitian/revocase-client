@@ -28,7 +28,7 @@
         <!-- Sell Skin -->
         <button class="sell" v-if="!skin.requestedTrade"
         :class="{adjustSellBtn: skin.grade === 'mil_spec'}"
-        @click="sellSkin(skin._id)">
+        @click="sellSkin(skin, i)">
           <p>Sell for 
             <span>{{ getSkinPrice(skin.caseName, skin.grade, skin.condition) }}</span>
           </p>
@@ -75,10 +75,20 @@ export default {
     }
   },
   methods: {
-    sellSkin(skinID) {
+    async sellSkin(skin, i) {
       const res = await axios.post('http://localhost:3000/sell-skin', {
-        skinID
+        skinID: skin._id
       })
+
+      const price = this.getSkinPrice(skin.caseName, skin.grade, skin.condition)
+
+      if (res.status === 200) {
+        console.log("OK")
+        this.mySkins.splice(i, 1)
+        this.$store.commit('updateMyCoins', { type: 'add', amount: price })
+      } else {
+        console.log("ERR")
+      }
     },
     getSkinPrice(caseName, grade, condition) {
       const price = this.skinPrices[caseName][grade][condition]

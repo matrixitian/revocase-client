@@ -55,7 +55,6 @@ export default {
   data() {
     return {
       news: [0, 0, 0, 0, 0],
-      myCoins: 0,
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
       wpnLinks: {},
       caseCDNlink: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-",
@@ -78,17 +77,6 @@ export default {
       casePrices: [600, 750, 900, 1400, 1800]
     }
   },
-  created() {
-    this.$store.subscribe(async(mutation, state) => {
-      if (mutation.type === 'updateMyCoins') {
-        this.myCoins = state.myCoins
-      }
-
-      if (mutation.type === 'setUser') {
-        this.user = state.user
-      }
-    })
-  },
   methods: {
     changeView(caseName) {
       this.$store.commit('selectCase', { caseName })
@@ -98,7 +86,10 @@ export default {
       const caseIndex = this.cases.indexOf(caseName)
       const casePrice = this.casePrices[caseIndex]
 
-      if (this.myCoins < casePrice) {
+      this.user = this.$store.getters.getUser
+      const myCoins = this.$store.getters.getCoins
+
+      if (myCoins < casePrice) {
         throw new Error('Insufficient coins')
       }
 
