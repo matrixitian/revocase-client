@@ -395,12 +395,31 @@ export default {
 
     this.generateSkins()
 
+    // let scrollCycleTime = 100 // in ms
+    
     // setInterval(() => {
-    //   console.log('test')
-    //   this.drops.pop()
-    // }, 500)
+    //   this.drops.shift()
+    //   scrollCycleTime += 100
+    //   console.log(scrollCycleTime)
+    // }, scrollCycleTime)
 
     console.log(this.drops)
+
+    var count = 50
+    var interval = 50
+
+    const iterator = () => {
+      count -= 1
+      interval += 25
+
+      this.drops.shift()
+
+      if (count > 0) {
+        setTimeout(iterator, interval)
+      }
+    }
+
+    iterator()
 
     // this.skins = skinData.map(skin => {
     //   return {
