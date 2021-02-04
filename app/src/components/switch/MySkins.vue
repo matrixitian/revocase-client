@@ -14,19 +14,31 @@
     <ul>
       <li v-for="(skin, i) in mySkins" :key="i"
       :class="skin.grade">
+
+        <!-- Skin Img -->
         <img :src="getWpnImg(skin.skin)" alt="">
+
+        <!-- Skin Name -->
         <p>{{ formatSkinName(skin.skin) }}</p>
+
+        <!-- Skin Condition -->
         <p class="gunCondition"
         :class="skin.condition">{{ formatCondition(skin.condition) }}</p>
+
+        <!-- Sell Skin -->
         <button class="sell" v-if="!skin.requestedTrade">
-        {{ getSkinPrice(skin.caseName, skin.grade) }}
+        {{ getSkinPrice(skin.caseName, skin.grade, skin.condition) }}
         </button>
-        <button 
-        class="requestTrade"
+
+        <!-- Request Trade -->
+        <button class="requestTrade"
         :class="{disabled: skin.requestedTrade}"
         @click="requestTrade(skin._id, i)">
-          {{ skin.requestedTrade ? 'Skin will be sent within 1 day  ' : 'Trade to account' }}
+          {{ skin.requestedTrade ? 
+          'Skin will be sent within 1 day' :
+           'Trade to account' }}
         </button>
+
       </li>
     </ul>
 
@@ -57,9 +69,9 @@ export default {
     }
   },
   methods: {
-    getSkinPrice(caseName, grade) {
+    getSkinPrice(caseName, grade, condition) {
       console.log(caseName)
-      const price = this.skinPrices[caseName][grade]
+      const price = this.skinPrices[caseName][grade][condition]
 
       return `Sell for ${price} bullets`
     },
