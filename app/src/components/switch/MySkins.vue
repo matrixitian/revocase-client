@@ -27,7 +27,10 @@
 
         <!-- Sell Skin -->
         <button class="sell" v-if="!skin.requestedTrade">
-        {{ getSkinPrice(skin.caseName, skin.grade, skin.condition) }}
+          <p>Sell for 
+            <span>{{ getSkinPrice(skin.caseName, skin.grade, skin.condition) }}</span>
+          </p>
+          <img src="@/assets/icons/bullet.png" alt="">
         </button>
 
         <!-- Request Trade -->
@@ -73,7 +76,7 @@ export default {
       console.log(caseName)
       const price = this.skinPrices[caseName][grade][condition]
 
-      return `Sell for ${price} bullets`
+      return `Sell for ${price}`
     },
     formatSkinName(wpnLonghand) {
       return this.normalGunNames[wpnLonghand]
@@ -248,10 +251,24 @@ ul {
       }
     }
     .sell {
+      position: relative;
       background: linear-gradient(rgb(90, 235, 71), rgb(8, 165, 29)) ;
+      padding-top: 0 !important;
+      padding-bottom: 0 !important;
       &:hover {
         transition: .15s ease;
         background: -webkit-linear-gradient(#29cc31,#08a515 60%,#23c052);
+      }
+      p {
+        font-weight: bold;
+        font-size: 15px;
+        background-color: transparent !important;
+      }
+      img {
+        position: absolute;
+        right: 20px;
+        top: -18px;
+        height: 30px;
       }
     }
   }
