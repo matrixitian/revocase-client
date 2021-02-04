@@ -21,6 +21,9 @@
           </li>
         </transition-group>
       </ul>
+      <button id="open" @click="openCase()">
+        Open
+      </button>
     </div>
 
     <!-- <div id="weaponList">
@@ -49,6 +52,46 @@ export default {
     }
   },
   methods: {
+    openCase() {
+      //  Start
+      let count = 40
+      let interval = 25
+
+      const showDropSound = require('@/assets/sounds/show_drop.mp3')
+      const caseRollSound = require('@/assets/sounds/case_roll.mp3')
+      const caseRollAudio = new Audio(caseRollSound)
+      const showDropAudio = new Audio(showDropSound)
+
+      caseRollAudio.loop = false
+      showDropAudio.loop = false
+
+      const iterator = () => {
+        count -= 1
+        interval += interval * 0.1
+        this.drops.shift()
+
+        caseRollAudio.play()
+
+        if (count === 7) {
+          setTimeout(() => {
+            showDropAudio.play()
+          }, 1000)
+        }
+
+        // stop after 600ms
+        if (interval > 600) count = 0
+
+        console.log(count)
+
+        if (count > 0) {
+          setTimeout(iterator, interval)
+        }
+      }
+
+      setTimeout(() => {
+        iterator()
+      }, 500)
+    },
     getCondition() {
       let condition = Math.random() * 100
       condition = Math.round(condition * 100) / 100
@@ -408,47 +451,6 @@ export default {
       longhand: "usp-s_cortex",
       name: "Cortex"
     }
-
-    //  Start
-    let count = 40
-    let interval = 25
-
-    const showDropSound = require('@/assets/sounds/show_drop.mp3')
-    const caseRollSound = require('@/assets/sounds/case_roll.mp3')
-    const caseRollAudio = new Audio(caseRollSound)
-    const showDropAudio = new Audio(showDropSound)
-
-    caseRollAudio.loop = false
-    showDropAudio.loop = false
-
-    const iterator = () => {
-      count -= 1
-      interval += interval * 0.1
-      this.drops.shift()
-
-      caseRollAudio.play()
-
-      if (count === 7) {
-        setTimeout(() => {
-          showDropAudio.play()
-        }, 1000)
-      }
-
-
-      // stop after 600ms
-      if (interval > 600) count = 0
-
-      console.log(count)
-
-      if (count > 0) {
-        setTimeout(iterator, interval)
-      }
-    }
-
-    setTimeout(() => {
-      iterator()
-    }, 2000)
-    
   }
 }
 </script>
