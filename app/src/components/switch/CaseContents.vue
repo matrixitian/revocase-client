@@ -16,7 +16,7 @@
         </p>
 
         <!-- Go to Market -->
-        <button class="inspect goToMarket" @click="inspectGun(gun)">
+        <button class="inspect goToMarket" @click="openMarketLink(i)">
           Go to Market
         </button>
         <!-- Inspect Gun -->
@@ -37,6 +37,7 @@ export default {
   props: ['Case'],
   data() {
     return {
+      goToMarket: {},
       wpnLinks: {},
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
       guns: {}, // raw, formatted, grade
@@ -47,6 +48,7 @@ export default {
   async mounted() {
     this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
     this.inspectGunLinks = require(`@/assets/gunData/inspect_guns.json`)
+    this.goToMarket = require(`@/assets/gunData/go_to_market.json`)
     this.importGunData()
 
     // let formattedGuns = this.guns.formatted.map((gun) => {
@@ -61,6 +63,17 @@ export default {
     // this.wpnPrices = res.data.prices
   },
   methods: {
+    openMarketLink(i) {
+      const wpnName = this.goToMarket[this.Case][i - 1][0]
+      const skinName = this.goToMarket[this.Case][i - 1][1]
+
+      const steamLink = "https://steamcommunity.com/market/search?category_730_Weapon%5B%5D=tag_weapon_"
+      const categoryLink = "&category_730_ItemSet%5B0%5D=tag_set_community_19&amp;appid=730&amp;q="
+
+      const link = steamLink + wpnName + categoryLink + skinName
+
+      window.open(link)
+    },
     getWpnImg(wpnLonghand) {
       const wpnID = this.wpnLinks[wpnLonghand]
 
@@ -71,7 +84,6 @@ export default {
       }
     },
     inspectGun(gun) {
-      console.log(gun)
       const gun_id = this.inspectGunLinks[gun]
       const link = `steam://rungame/730/76561202255233023/+csgo_econ_action_preview%${gun_id}`
 
@@ -80,10 +92,10 @@ export default {
     importGunData() {
       switch (this.Case) {
         case 'clutch':
-            this.guns = require(`@/assets/gunData/${this.Case}.json`)
+            this.guns = require(`@/assets/gunData/caseGuns/${this.Case}.json`)
           break;
         case 'chroma2':
-            this.guns = require(`@/assets/gunData/${this.Case}.json`)
+            this.guns = require(`@/assets/gunData/caseGuns/${this.Case}.json`)
           break;
       
         default:
