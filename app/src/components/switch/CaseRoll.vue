@@ -146,8 +146,7 @@ export default {
             'ak-47_asiimov'
           ],
           exceedingly_rare: [
-            'Knife',
-            'Glove'
+            'rare_item'
           ]
         },
         phoenix: {
@@ -173,8 +172,7 @@ export default {
             'awp_asiimov'
           ],
           exceedingly_rare: [
-            'Knife',
-            'Glove'
+            'rare_item'
           ]
         },
         chroma2: {
@@ -202,8 +200,7 @@ export default {
             'm4a1-s_hyper_beast'
           ],
           exceedingly_rare: [
-            'Knife',
-            'Glove'
+            'rare_item'
           ]
         },
         fracture: {
@@ -233,8 +230,7 @@ export default {
             'desert_eagle_printstream'
           ],
           exceedingly_rare: [
-            'Knife',
-            'Glove'
+            'rare_item'
           ]
         },
         clutch: {
@@ -264,8 +260,7 @@ export default {
             'm4a4_neo-noir'
           ],
           exceedingly_rare: [
-            'Knife',
-            'Glove'
+            'rare_item'
           ]
         }
       }
@@ -298,8 +293,7 @@ export default {
             'Asiimov'
           ],
           exceedingly_rare: [
-            'Knife',
-            'Glove'
+            'Rare Item'
           ]
         },
         phoenix: {
@@ -325,8 +319,7 @@ export default {
             'Asiimov'
           ],
           exceedingly_rare: [
-            'Knife',
-            'Glove'
+            'Rare Item'
           ]
         },
         chroma2: {
@@ -354,8 +347,7 @@ export default {
             'Hyper Beast'
           ],
           exceedingly_rare: [
-            'Knife',
-            'Glove'
+            'Rare Item'
           ]
         },
         fracture: {
@@ -385,8 +377,7 @@ export default {
             'Printstream'
           ],
           exceedingly_rare: [
-            'Knife',
-            'Glove'
+            'Rare Item'
           ]
         },
         clutch: {
@@ -416,8 +407,7 @@ export default {
             'Neo-Noir'
           ],
           exceedingly_rare: [
-            'Knife',
-            'Glove'
+            'Rare Item'
           ]
         }
       }
@@ -502,11 +492,11 @@ export default {
 #caseRollMain {
   height: 70vh;
   width: 100vw;
-  color: black;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 #open {
-  margin-top: 280px;
+  margin-top: 425px;
   border: 2px solid white;
   background: linear-gradient(green, limegreen);
   border-radius: 7px;
@@ -534,12 +524,12 @@ export default {
   left: calc(50% - 35px);
   transform: rotate(90deg);
   height: 80px;
-  top: 15px;
+  top: 160px;
 }
 #downerCaret {
   @include centerX;
   left: calc(50% - 35px);
-  top: 205px;
+  top: 350px;
   height: 80px;
   transform: rotate(270deg);
 }
@@ -547,11 +537,12 @@ export default {
 #Roller {
   position: relative;
   // background-color: green;
-  height: 300px;
+  height: 100%;
 }
 
 ul#skinRoll {
-  @include centerXY;
+  @include centerX;
+  top: 30%;
   border-radius: 10px;
   padding: 10px;
   border: 3px solid rgba(200, 200, 200, 0.1);
