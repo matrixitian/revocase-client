@@ -243,6 +243,10 @@ export default {
         tradeURL: this.tradeURL
       })
 
+      if (res.status === 400) {
+        console.log(res.data)
+      }
+
       if (res.status === 201) {
         this.saveUserAndRedirect({ user: res.data.user, token: res.data.token })
       } else {
