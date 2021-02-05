@@ -6,7 +6,7 @@
     <p>Enter a referral from someone else to get 200 bullets!</p>
     <input type="text" placeholder="Friend's referral code"
     ref="enterReferral" v-model="referralCode">
-    <button id="apply" @click="applyReferral">
+    <button id="apply" @click="applyReferral()">
       Save
     </button>
     <button id="dontAskAgain" @click="closeReferralMenuForever">
@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   name: 'Referral',
   data() {
@@ -24,8 +26,29 @@ export default {
     }
   },
   methods: {
-    applyReferral() {
-      this.$emit('referralEntered')
+    test() {
+      console.log('ytest')
+    },
+    async applyReferral() {
+      console.log('hello')
+
+      const user = this.$store.getters.getUser
+      if (this.referralCode === user.username) {
+        throw new Error("You can't use your own referral!")
+      }
+
+      const res = await axios.post('http://localhost:3000/set-referral', {
+        referralCode: this.referralCode
+      })
+
+      console.log(res)
+
+      if (res.status === 200) {
+        this.$emit('referralEntered')
+        this.$store.commit('updateMyCoins', { type: 'add', amount: 200 })
+      } else {
+        throw new Error('Referral could not be saved.')
+      }
     },
     closeReferralMenu() {
       this.$emit('referralEntered')

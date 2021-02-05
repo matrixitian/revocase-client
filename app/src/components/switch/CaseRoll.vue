@@ -1,6 +1,14 @@
 <template>
   <div id="caseRollMain">
     
+    <!-- <div id="dropOverview" v-if="rollingFinished">
+      <img :src="getWpnImg(drops[42].longhand)" alt="">
+      <p>{{ drops[42].name }}</p>
+      <p class="condition" :class="drops[42].condition">
+        {{ drops[42].condition }}
+      </p>
+    </div> -->
+
     <div id="Roller">
 
       <div id="caret">
@@ -470,8 +478,6 @@ export default {
     this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
 
     this.generateSkins()
-
-    console.log(this.drops)
 
     console.log(this.$store.getters.getCurrentDrop)
 

@@ -29,15 +29,15 @@
         @focus="showForm = true"
         @keyup="hideShowInfo">
 
-        <!-- Confirm E-mail -->
+        <!-- Confirm Password -->
         <input
         v-if="signUpForm"
-        type="text" placeholder="Confirm email"
-        v-model="cemail"
+        type="password" placeholder="Confirm password"
+        v-model="cpassword"
         @keyup="hideShowInfo">
 
         <!-- Password -->
-        <input type="text"
+        <input type="password"
         :placeholder="passwordPlaceholder()"
         v-model="password"
         @keyup="updatePasswordMeter()">
@@ -55,7 +55,7 @@
         </a>
 
         <!-- Ad agreement -->
-        <div id="agreement"
+        <!-- <div id="agreement"
         v-if="signUpForm">
           <div>
             <p>I agree that I am over 18 
@@ -65,7 +65,7 @@
             <input type="checkbox"
             v-model="agreed">
           </div>
-        </div>
+        </div> -->
 
         <!-- Password Meter -->
         <div v-if="signUpForm && !showInfo" id="password_strength">
@@ -120,7 +120,7 @@ export default {
       passwordStrength: "Weak",
       uname: null,
       email: null,
-      cemail: null,
+      cpassword: null,
       password: null,
       tradeURL: null,
       pageText: null,
@@ -171,8 +171,8 @@ export default {
           }
 
           // Check E-mails match
-          if (this.email !== this.cemail) {
-            this.createErrorMessage("E-mails don't match!")
+          if (this.password !== this.cpassword) {
+            this.createErrorMessage("Passwords don't match!")
           }
 
           const format = /[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/
@@ -382,7 +382,7 @@ input {
 
 #password_strength {
   margin: auto;
-  margin-top: -30px;
+  margin-top: -10px;
   text-align: center;
   p {
     font-size: 14px !important;
@@ -430,7 +430,7 @@ p {
 
 form {
   @include centerXY;
-  height: 610px;
+  height: 540px;
   width: 350px;
   border-radius: 10px;
   background-color: white;

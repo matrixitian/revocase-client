@@ -118,7 +118,7 @@ export default {
       user: null,
       dynamicComponent: 'Cases',
       myCoins: 0,
-      myReferralCode: 'HolidayGT6',
+      myReferralCode: null,
       selectedLang: 'english',
       langListVisible: false,
       caseClicked: 'clutch',
@@ -168,15 +168,6 @@ export default {
       }
     },
     async signOut() {
-      // auth.signOut().then(() => {
-      //   localStorage.setItem('user', null)
-      //   this.$store.commit('setUser', { user: null })
-      //   this.user = null
-      // }).catch((error) => {
-      //   // An error happened.
-      //   alert(error)
-      // })
-
       const res = await axios.get('http://localhost:3000/logout')
       this.user = res.data
 
@@ -205,8 +196,8 @@ export default {
     },
     async fetchUser() {
       const token = localStorage.getItem('token')
-
-      if (token != 'null') {
+      console.log(token)
+      if (token !== 'null' && token !== null) {
         axios.defaults.headers = {
           'Content-Type': 'application/json',
           Authorization: token
@@ -215,6 +206,7 @@ export default {
         const res = await axios.get('http://localhost:3000/get-user')
         this.user = res.data
 
+        console.log('myusername', res.data)
         this.myReferralCode = res.data.username
 
         this.$store.commit('setUser',  { user: res.data })
@@ -227,18 +219,6 @@ export default {
     }
   },
   async mounted() {
-    // auth.onAuthStateChanged(user => {
-    //   if (user) {
-    //     this.user = user
-    //     this.authChecked = true
-
-    //     this.fetchCredits()
-    //   } else {
-    //     // No user is signed in.
-    //     this.user = null
-    //     this.authChecked = true
-    //   }
-    // })
     console.log(this.haveReferral)
 
     this.fetchUser()
