@@ -222,46 +222,20 @@ export default {
       }
     },
     async login() {
-      // auth.signInWithEmailAndPassword(this.email, this.password)
-      // .then((userCredential) => {
-      //   this.saveUserAndRedirect(userCredential)
-      // })
-      // .catch((error) => {
-      //   this.createErrorMessage(error.message)
-      // });
       const res = await axios.post('http://localhost:3000/login', {
         email: this.email,
         password: this.password
       })
 
-      console.log(res)
       if (res.status === 200) {
         console.log('Logged in.')
         this.$store.commit('updateMyCoins', { type: 'set', amount: res.data.user.credits })
         this.saveUserAndRedirect({ user: res.data.user, token: res.data.token })
       } else {
-        console.log(res)
+        throw new Error('Login failed!')
       }
     },
     async createAccount() {
-      // auth.createUserWithEmailAndPassword(
-      //   this.email, this.password)
-      // .then((userCredential) => {
-      //   const user = auth.currentUser;
-
-      //   user.updateProfile({
-      //     displayName: this.uname
-      //   }).then(() => {
-      //     axios.post('http://localhost:3000/create-user', 
-      //     { userUID: user.uid, tradeURL: this.tradeURL })
-          
-      //     this.saveUserAndRedirect(userCredential)
-      //   })
-      // })
-      // .catch((error) => {
-      //   this.createErrorMessage(error.message)
-      // })
-
       const res = await axios.post('http://localhost:3000/signup', {
         username: this.uname,
         email: this.email,
@@ -270,10 +244,9 @@ export default {
       })
 
       if (res.status === 201) {
-        console.log('201')
         this.saveUserAndRedirect({ user: res.data.user, token: res.data.token })
       } else {
-        console.log(res)
+        throw new Error('Registration failed!')
       }
     },
     toggleFormType() {

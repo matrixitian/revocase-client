@@ -132,7 +132,7 @@ export default {
     this.$store.subscribe(async(mutation, state) => {
       if (mutation.type === 'setUser') {
         this.user = state.user
-        console.log('user set', state.user)
+        this.myReferralCode = state.user.username
       }
 
       if (mutation.type === 'changeView') {
