@@ -116,7 +116,7 @@ export default {
       haveReferral: false,
       authChecked: false,
       user: null,
-      dynamicComponent: 'CaseRoll',
+      dynamicComponent: 'Cases',
       myCoins: 0,
       myReferralCode: 'HolidayGT6',
       selectedLang: 'english',

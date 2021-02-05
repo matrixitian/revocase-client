@@ -123,6 +123,7 @@ export default {
         })
 
         this.$store.commit('updateMyCoins', { type: 'subtract', amount: casePrice })
+        this.$store.commit('changeView', { view: 'CaseRoll' })
       }
 
       console.log(res.data)
