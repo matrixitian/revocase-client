@@ -652,6 +652,14 @@ li {
   list-style: none;
 }
 
+img, span {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+
 p {
   @include unselectable;
 }
