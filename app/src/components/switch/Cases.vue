@@ -27,7 +27,7 @@
         :class="`Pipe_${i}`">
           <img class="case" :src="getCaseImg(caseName)" alt="">
           <p class="caseTitle">{{ formattedCaseName(caseName) }}</p>
-          <p class="amountOpened">Opened <span>{{ news[i] }}</span></p>
+          <p class="amountOpened">Opened <span>{{ casesOpened[i] }}</span></p>
           <div class="viewContents"
           @click="changeView(caseName)">
             <span class="material-icons contentsIcon">toc</span>
@@ -47,14 +47,14 @@
 <script>
 import moment from 'moment'
 import axios from 'axios'
-import { auth, firestore } from '@/firebase/config.js'
+import { firestore } from '@/firebase/config.js'
 import translateTimestamp from '@/js/translateTimestamp.js'
 
 export default {
   name: 'Cases',
   data() {
     return {
-      news: [0, 0, 0, 0, 0],
+      casesOpened: [0, 0, 0, 0, 0],
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
       wpnLinks: {},
       caseCDNlink: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-",
@@ -113,11 +113,9 @@ export default {
           grade: res.data.skinGrade,
           condition: res.data.skinCon,
           timeOpened: Number(Date.now())
-        }).then((res) => {
-          console.log(res)
-           firestore.collection("casesOpened").doc('EYF66qQOWNDJ1PeSFHi0').update({
-            caseName: 1
-          })
+          }).then((res) => {
+            console.log(res)
+            this.updateCaseCount(caseName)
         }).catch((err) => {
           console.log(err)
         })
@@ -127,6 +125,41 @@ export default {
       }
 
       console.log(res.data)
+    },
+    updateCaseCount(caseName) {
+      const docRef = firestore.collection("casesOpened").doc('ZiXgrpmWCfUiEy6t3Hfw') 
+
+      console.log(caseName)
+
+      if (caseName === 'dangerZone') {
+         docRef.update({
+            dangerZone: this.casesOpened[0] + 1
+        })
+      }
+
+      else if (caseName === 'chroma2') {
+         docRef.update({
+            chroma2: this.casesOpened[1] + 1
+        })
+      }
+
+      else if (caseName === 'clutch') {
+        docRef.update({
+            clutch: this.casesOpened[2] + 1
+        })
+      }
+
+      else if (caseName === 'fracture') {
+        docRef.update({
+            fracture: this.casesOpened[3] + 1
+        })
+      }
+
+      else if (caseName === 'phoenix') {
+         docRef.update({
+            phoenix: this.casesOpened[4] + 1
+        })
+      }
     },
     formattedCaseName(caseName) {
       const index = this.cases.indexOf(caseName)
@@ -170,39 +203,16 @@ export default {
       this.gunsOpened = results
     })
 
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        this.user = user
+    const casesOpenedRef = firestore.collection('casesOpened')
 
-        const dropsRef = firestore.collection('drops')
-        .orderBy('timeOpened').limitToLast(8)
-
-        dropsRef.onSnapshot((snap) => {
-          let results = []
-          snap.docs.forEach(doc => {
-            // console.log(doc.data())
-            doc.data().timeOpened && results.push({ ...doc.data(), id: doc.id})
-          })
-
-          this.gunsOpened = results
-        })
-
-        const casesOpenedRef = firestore.collection('casesOpened')
-
-        casesOpenedRef.onSnapshot((snap) => {
-          snap.docs.forEach(doc => {
-            this.casesOpened = doc.data().cases
-          })
-        })
-
-        // Get Money, Skins
-        // const dbUser = await axios.post('http://localhost:3000/get-user-data')
-
-        // console.log(dbUser)
-      } else {
-        // No user is signed in.
-        // this.authChecked = true
-      }
+    casesOpenedRef.onSnapshot((snap) => {
+      snap.docs.forEach(doc => {
+        this.casesOpened[0] = doc.data().dangerZone
+        this.casesOpened[1] = doc.data().chroma2
+        this.casesOpened[2] = doc.data().clutch
+        this.casesOpened[3] = doc.data().fracture
+        this.casesOpened[4] = doc.data().phoenix
+      })
     })
   }
 }
