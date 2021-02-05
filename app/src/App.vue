@@ -36,10 +36,18 @@
             <p>Referral Code</p>
           </div>
           <input id="referralCode" type="text"
-          @click="selectCode()"
-          ref="referralCode"
-          :value="myReferralCode">
-          <img src="@/assets/icons/info.svg" alt="">
+            @click="selectCode()"
+            ref="referralCode"
+            @mouseenter="showReferralInfo = true"
+            @mouseleave="showReferralInfo = false"
+            :value="myReferralCode">
+          <img src="@/assets/icons/info.svg" alt=""
+            @mouseenter="showReferralInfo = true"
+            @mouseleave="showReferralInfo = false">
+          <div id="referralInfo" v-if="showReferralInfo">
+            <p>When someone registers and enters your referral, 
+            you wil get 25 coins for each case they open!</p>
+          </div>
         </div>
       </div>
 
@@ -129,6 +137,7 @@ export default {
       socket: io('localhost:3000'),
       userCount: 0,
       haveReferral: false,
+      showReferralInfo: false,
       authChecked: false,
       user: null,
       dynamicComponent: 'Cases',
@@ -366,6 +375,7 @@ $purpleGradientEnd: #5a43ab;
     }
   }
   img {
+    z-index: 100;
     position: absolute;
     height: 25px;
     top: 10px;
@@ -376,6 +386,22 @@ $purpleGradientEnd: #5a43ab;
     &:hover {
       transition: .2s ease;
       transform: scale(1.1);
+    }
+  }
+  #referralInfo {
+    z-index: 20;
+    position: absolute;
+    top: 10px;
+    left: 400px;
+    width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 0 4px 6px rgba(0, 0, 0, 0.2);
+    p {
+      padding: 5px;
+      font-weight: bold;
+      font-size: 15px;
     }
   }
 }
