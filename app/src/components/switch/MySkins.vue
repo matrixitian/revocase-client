@@ -1,5 +1,14 @@
 <template>
   <div>
+
+    <div id="Loading" v-if="loading">
+      <div class="snippet" data-title=".dot-flashing">
+        <div class="stage">
+          <div class="dot-flashing"></div>
+        </div>
+      </div>
+    </div>
+
     <div id="Inputs">
       <input placeholder="New Trade URL" type="text"
       v-model="tradeURL"
@@ -12,9 +21,8 @@
     </div>
 
     <p id="noSkinsFound" v-if="!loading && mySkins.length === 0">You don't have any skins, open some cases!</p>
-    <p v-if="loading">Loading...</p>
 
-    <ul>
+    <ul v-if="!loading">
       <li v-for="(skin, i) in mySkins" :key="i"
       :class="skin.grade">
 
@@ -358,6 +366,63 @@ ul {
   &:hover {
     background: linear-gradient(#4fe05c,#0a9534) !important;
   }
+}
+
+.dot-flashing {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: white;
+  color: white;
+  animation: dotFlashing 1s infinite linear alternate;
+  animation-delay: .5s;
+}
+
+.dot-flashing::before, .dot-flashing::after {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  top: 0;
+}
+
+.dot-flashing::before {
+  left: -15px;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: white;
+  color: white;
+  animation: dotFlashing 1s infinite alternate;
+  animation-delay: 0s;
+}
+
+.dot-flashing::after {
+  left: 15px;
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background-color: white;
+  color: white;
+  animation: dotFlashing 1s infinite alternate;
+  animation-delay: 1s;
+}
+
+@keyframes dotFlashing {
+  0% {
+    background-color: white;
+  }
+  50%,
+  100% {
+    background-color: #1B2435;
+  }
+}
+
+#Loading {
+  @include centerXY;
+  width: 0;
+  height: 0;
+  transform: scale(2.2);
 }
 
 </style>

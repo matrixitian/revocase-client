@@ -4,7 +4,7 @@
     <Referral v-if="user && !haveReferral" 
     @referralEntered="hideReferralMenu()" />
 
-    <Chat v-if="user && dynamicComponent === 'Cases'" />
+    <!-- <Chat v-if="user && dynamicComponent === 'Cases'" /> -->
 
     <div id="Auth" v-if="!user && authChecked">
       <Auth />

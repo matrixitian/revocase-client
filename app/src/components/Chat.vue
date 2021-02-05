@@ -12,7 +12,7 @@
       <ul ref="chatHistory">
         <li v-for="(msg, i) in chat" :key="i">
           <div class="unameCon"
-          :class="{sentByYou: msg.uname === user.displayName}">
+          :class="{sentByYou: msg.uname === user.username}">
             <p class="uname">{{ msg.uname }}</p>
             <p class="time">{{ getTime(msg.createdAt) }}</p>
           </div>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { auth, firestore } from '@/firebase/config.js'
+import { firestore } from '@/firebase/config.js'
 import translateTimestamp from '@/js/translateTimestamp.js'
 
 export default {
@@ -62,7 +62,7 @@ export default {
     sendMsg() {
       if (this.newMsg) {
         firestore.collection("chat").add({
-          uname: this.user.displayName,
+          uname: this.user.username,
           msg: this.newMsg,
           createdAt: Date.now()
         }).then((res) => {
@@ -77,26 +77,18 @@ export default {
     }
   },
   mounted() {
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        this.user = user
+    this.user = this.$store.getters.getUser
 
-        const colRef = firestore.collection('chat')
-        .orderBy('createdAt').limit(10)
+    const colRef = firestore.collection('chat')
+    .orderBy('createdAt').limit(10)
 
-        colRef.onSnapshot((snap) => {
-          let results = []
-          snap.docs.forEach(doc => {
-            doc.data().createdAt && results.push({ ...doc.data(), id: doc.id})
-          })
+    colRef.onSnapshot((snap) => {
+      let results = []
+      snap.docs.forEach(doc => {
+        doc.data().createdAt && results.push({ ...doc.data(), id: doc.id})
+      })
 
-          this.chat = results
-        })
-      } else {
-        // No user is signed in.
-        this.user = null
-        this.authChecked = true
-      }
+      this.chat = results
     })
   }
 }
