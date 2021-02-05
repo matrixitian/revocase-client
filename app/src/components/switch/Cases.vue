@@ -96,6 +96,15 @@ export default {
       const res = await axios.post('http://localhost:3000/buy-case', 
       { caseName })
 
+      this.$store.commit('setCurrentDrop', { 
+        drop: {
+          name: res.data.skin,
+          longhand: res.data.skinLonghand,
+          grade: res.data.skinGrade,
+          condition: res.data.skinCon.toUpperCase()
+        }
+       })
+
       if (res.status === 200) {
         firestore.collection("drops").add({
           uname: this.user.username,

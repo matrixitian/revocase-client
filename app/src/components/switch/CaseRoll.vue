@@ -473,12 +473,9 @@ export default {
 
     console.log(this.drops)
 
-    this.drops[42] = {
-      condition: "MW",
-      grade: "exceedingly_rare",
-      longhand: "usp-s_cortex",
-      name: "Cortex"
-    }
+    console.log(this.$store.getters.getCurrentDrop)
+
+    this.drops[42] = this.$store.getters.getCurrentDrop
   }
 }
 </script>

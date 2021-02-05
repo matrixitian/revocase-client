@@ -5,9 +5,17 @@ export default createStore({
     user: null,
     myCoins: 0,
     currentView: 'Cases',
-    selectedCase: 'clutch'
+    selectedCase: 'clutch',
+    currentDrop: {condition: "MW",
+    grade: "exceedingly_rare",
+    longhand: "usp-s_cortex",
+    name: "Cortex"
+  }
   },
   mutations: {
+    setCurrentDrop(state, payload) {
+      state.currentDrop = payload.drop
+    },
     updateMyCoins(state, payload) {
       if (payload.type === 'set') {
         state.myCoins = payload.amount
@@ -29,6 +37,9 @@ export default createStore({
     }
   },
   getters: {
+    getCurrentDrop(state) {
+      return state.currentDrop
+    },
     getUser(state) {
       return state.user
     },
