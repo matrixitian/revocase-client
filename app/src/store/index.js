@@ -6,11 +6,12 @@ export default createStore({
     myCoins: 0,
     currentView: 'Cases',
     selectedCase: 'clutch',
-    currentDrop: {condition: "MW",
-    grade: "exceedingly_rare",
-    longhand: "usp-s_cortex",
-    name: "Cortex"
-  }
+    currentDrop: {
+      condition: "MW",
+      grade: "exceedingly_rare",
+      longhand: "usp-s_cortex",
+      name: "Cortex"
+    }
   },
   mutations: {
     setCurrentDrop(state, payload) {

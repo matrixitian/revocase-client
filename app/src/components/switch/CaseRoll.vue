@@ -46,6 +46,7 @@ export default {
   name: "CaseRoll",
   data() {
     return {
+      dropAt: 60,
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
       wpnLinks: {},
       selectedCase: null,
@@ -64,8 +65,8 @@ export default {
       this.caseIsRolling = true
 
       //  Start
-      let count = 40
-      let interval = 15
+      let count = 60
+      let interval = 5
 
       const showDropSound = require('@/assets/sounds/show_drop.mp3')
       const caseRollSound = require('@/assets/sounds/case_roll.mp3')
@@ -81,11 +82,10 @@ export default {
         this.drops.shift()
 
         caseRollAudio.play()
-
-        if (count === 2) {
+        if (count === 9) {
           setTimeout(() => {
             showDropAudio.play()
-          }, 1000)
+          }, 500)
         }
 
         // stop after 600ms
@@ -173,7 +173,7 @@ export default {
           classified: [
             'p90_trigon',
             'nova_antique',
-            'dak-47_redline',
+            'ak-47_redline',
           ],
           covert: [
             'aug_chameleon',
@@ -481,7 +481,7 @@ export default {
 
     console.log(this.$store.getters.getCurrentDrop)
 
-    this.drops[42] = this.$store.getters.getCurrentDrop
+    this.drops[54] = this.$store.getters.getCurrentDrop
   }
 }
 </script>

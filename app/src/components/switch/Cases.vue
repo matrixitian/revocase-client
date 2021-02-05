@@ -120,6 +120,7 @@ export default {
           console.log(err)
         })
 
+        this.$store.commit('selectCase', { caseName })
         this.$store.commit('updateMyCoins', { type: 'subtract', amount: casePrice })
         this.$store.commit('changeView', { view: 'CaseRoll' })
       }
