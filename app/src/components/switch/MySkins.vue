@@ -1,15 +1,18 @@
 <template>
   <div>
     <div id="Inputs">
-      <input placeholder="Trade URL" type="text"
-      v-model="tradeURL">
+      <input placeholder="New Trade URL" type="text"
+      v-model="tradeURL"
+      @focus="tradeURL = null"
+      @blur="updateTradeURL()">
       <a href="https://steamcommunity.com/my/tradeoffers/privacy#trade_offer_access_url"
       target="_blank">
         <img src="@/assets/icons/info.svg" alt="">
       </a>
     </div>
 
-    <p id="noSkinsFound" v-if="mySkins.length === 0">You don't have any skins, open some cases!</p>
+    <p id="noSkinsFound" v-if="!loading && mySkins.length === 0">You don't have any skins, open some cases!</p>
+    <p v-if="loading">Loading...</p>
 
     <ul>
       <li v-for="(skin, i) in mySkins" :key="i"
@@ -62,9 +65,10 @@ import getCondition from '@/js/translateGunCondition.js'
 
 export default {
   name: "MySkins",
-  props: ['user'],
   data() {
     return {
+      user: null,
+      loading: true,
       tradeURL: null,
       mySkins: [],
       gunCDNimgLink: 'https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_',
@@ -83,6 +87,22 @@ export default {
         return 'Skin will be sent within 1 day'
       } else {
         return 'Trade to account'
+      }
+    },
+    async updateTradeURL() {
+      if (!this.tradeURL) {
+        throw new Error()
+      }
+
+      const res = await axios.post('http://localhost:3000/update-trade-url', {
+        tradeURL: this.tradeURL
+      })
+
+      if (res.status === 200) {
+        this.user.tradeURL = this.tradeURL
+
+        this.$store.commit('setUser', { user: this.user })
+        console.log('ok')
       }
     },
     async sellSkin(skin, i) {
@@ -122,6 +142,8 @@ export default {
 
       console.log(res.data)
 
+      this.loading = false
+
       this.mySkins = res.data
     },
     getWpnImg(wpnLonghand) {
@@ -143,6 +165,10 @@ export default {
     this.skinPrices = require(`@/assets/gunData/skin_prices.json`)
 
     this.fetchSkins()
+
+    this.user = this.$store.getters.getUser
+
+    this.tradeURL = this.user.tradeURL
   }
 }
 </script>

@@ -45,17 +45,23 @@
       <div id="Middle">
         <div id="centerLogo">
           <div id="centerUp">
-            <img id="Logo" src="@/assets/logo.svg" alt="RevoSkins.Eu Logo">
+            <img id="Logo" src="@/assets/logo-min.png" alt="RevoSkins.Eu Logo">
             <p id="logoText">Revo Skins</p>
           </div>
           <div id="centerDown">
-            <p id="logoInfo">Earn points by watching ads in background while in-game!</p>
           </div>
         </div>
       </div>
       <div id="Right">
 
         <div id="Buttons">
+          <a href="https://discord.gg/bDXXJcU95J" target="_blank">
+            <div id="support">
+              <img src="@/assets/icons/discord_logo.svg" alt="">
+              <p>Support</p>
+            </div>
+          </a>
+
           <transition name="slide-fade">
             <div id="logout" v-if="user"
             @click="signOut()">
@@ -330,12 +336,13 @@ $purpleGradientEnd: #5a43ab;
   #playAds {
     z-index: 0 !important;
   }
-  #playAds, #playTutorial, #logout {
+  #playAds, #playTutorial, #logout, #support {
     position: relative;
     width: 180px;
     height: 40px;
     background-color: red;
     border-radius: 20px;
+    color: whitesmoke;
     cursor: pointer;
     &:hover {
       transition: .1s ease;
@@ -362,6 +369,10 @@ $purpleGradientEnd: #5a43ab;
     z-index: 200 !important;
     margin-top: 10px;
     background-color: rgb(0, 162, 255);
+  }
+  #support {
+    margin-bottom: 10px;
+    background-color: rgb(5, 96, 216);
   }
 }
 
@@ -400,8 +411,7 @@ body {
     #Logo {
       @include centerY;
       left: 110px;
-      height: 100px;
-      width: 100px;
+      height: 130px;
     }
     #logoText {
       @include centerY;
