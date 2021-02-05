@@ -46,6 +46,7 @@ export default {
       if (res.status === 200) {
         this.$emit('referralEntered')
         this.$store.commit('updateMyCoins', { type: 'add', amount: 200 })
+        localStorage.setItem('referralHidden', true)
       } else {
         throw new Error('Referral could not be saved.')
       }
