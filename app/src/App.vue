@@ -10,7 +10,7 @@
       <Auth />
     </div>
 
-    <div id="Topper" v-if="dynamicComponent !== 'CaseRoll'">
+    <div id="Topper">
       <div id="Left">
         <div id="myCoins">
           <p>My Bullets: <span id="myCoinsAmount">{{ myCoins }}</span></p>

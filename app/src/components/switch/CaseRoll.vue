@@ -28,20 +28,6 @@
       </button>
     </div>
 
-    <div id="weaponList">
-      <ul>
-        <transition-group name="slide-fade">
-          <li v-for="(longhand, i) in overviewNamesRaw" :key="i"
-          :class="overviewGrades[i]">
-            <img :src="getWpnImg(longhand)" alt="">
-            <p class="skin">
-              <span class="skinName">{{ overviewNamesFormatted[i] }}</span>
-            </p>
-          </li>
-        </transition-group>
-      </ul>
-    </div>
-
   </div>
 </template>
 
@@ -55,12 +41,10 @@ export default {
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
       wpnLinks: {},
       selectedCase: null,
+      skins: [],
       drops: [],
       caseIsRolling: false,
-      rollingFinished: true,
-      overviewNamesFormatted: [],
-      overviewNamesRaw: [],
-      overviewGrades: []
+      rollingFinished: true
     }
   },
   methods: {
@@ -160,6 +144,10 @@ export default {
           covert: [
             'awp_neo-noir',
             'ak-47_asiimov'
+          ],
+          exceedingly_rare: [
+            'Knife',
+            'Glove'
           ]
         },
         phoenix: {
@@ -183,6 +171,10 @@ export default {
           covert: [
             'aug_chameleon',
             'awp_asiimov'
+          ],
+          exceedingly_rare: [
+            'Knife',
+            'Glove'
           ]
         },
         chroma2: {
@@ -208,6 +200,10 @@ export default {
           covert: [
             'mac-10_neon_rider',
             'm4a1-s_hyper_beast'
+          ],
+          exceedingly_rare: [
+            'Knife',
+            'Glove'
           ]
         },
         fracture: {
@@ -235,6 +231,10 @@ export default {
           covert: [
             'ak-47_legion_of_anubis',
             'desert_eagle_printstream'
+          ],
+          exceedingly_rare: [
+            'Knife',
+            'Glove'
           ]
         },
         clutch: {
@@ -262,6 +262,10 @@ export default {
           covert: [
             'mp7_bloodsport',
             'm4a4_neo-noir'
+          ],
+          exceedingly_rare: [
+            'Knife',
+            'Glove'
           ]
         }
       }
@@ -292,6 +296,10 @@ export default {
           covert: [
             'Neo-Noir',
             'Asiimov'
+          ],
+          exceedingly_rare: [
+            'Knife',
+            'Glove'
           ]
         },
         phoenix: {
@@ -315,6 +323,10 @@ export default {
           covert: [
             'Chameleon',
             'Asiimov'
+          ],
+          exceedingly_rare: [
+            'Knife',
+            'Glove'
           ]
         },
         chroma2: {
@@ -340,6 +352,10 @@ export default {
           covert: [
             'Neon Rider',
             'Hyper Beast'
+          ],
+          exceedingly_rare: [
+            'Knife',
+            'Glove'
           ]
         },
         fracture: {
@@ -367,6 +383,10 @@ export default {
           covert: [
             'Legion of Anubis',
             'Printstream'
+          ],
+          exceedingly_rare: [
+            'Knife',
+            'Glove'
           ]
         },
         clutch: {
@@ -394,6 +414,10 @@ export default {
           covert: [
             'Bloodsport',
             'Neo-Noir'
+          ],
+          exceedingly_rare: [
+            'Knife',
+            'Glove'
           ]
         }
       }
@@ -452,14 +476,8 @@ export default {
   },
   mounted() {
     this.selectedCase = this.$store.getters.getSelectedCase
+
     this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
-
-    // Overview skins
-    const gunData = require(`@/assets/gunData/caseGuns/${this.selectedCase}.json`)
-
-    this.overviewNamesFormatted = gunData.formatted
-    this.overviewNamesRaw = gunData.raw
-    this.overviewGrades = gunData.grade
 
     this.generateSkins()
 
@@ -482,10 +500,9 @@ export default {
 @import '@/assets/mixins/skinCondition';
 
 #caseRollMain {
-  height: 50vh;
+  height: 70vh;
   width: 100vw;
   color: black;
-  background-color: yellow;
 }
 
 #open {
@@ -535,7 +552,6 @@ export default {
 
 ul#skinRoll {
   @include centerXY;
-  // margin-bottom: 50px;
   border-radius: 10px;
   padding: 10px;
   border: 3px solid rgba(200, 200, 200, 0.1);
@@ -581,26 +597,6 @@ ul#skinRoll {
     img {
       height: 80px;
       margin-bottom: -15px;
-    }
-  }
-}
-
-#weaponList {
-  @include centerX;
-  bottom: 0;
-  height: 300px;
-  width: 90vw;
-  background-color: white;
-  ul {
-    background-color: green;
-    li {
-      margin: 10px;
-      float: left;
-      height: 120px;
-      width: 120px;
-      img {
-        height: 50px;
-      }
     }
   }
 }
