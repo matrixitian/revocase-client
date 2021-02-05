@@ -247,7 +247,7 @@ export default {
     // User count
     this.socket.on('get user count', function(data) {
       this.userCount = data.userCount
-      console.log(this.userCount)
+      console.log('user count', this.userCount)
     })
   }
 }
