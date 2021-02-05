@@ -31,6 +31,10 @@
 
         </div>
 
+        <div>
+            <p>Users online: <span>{{ userCount }}</span></p>
+        </div>
+
         <div id="Referral" v-if="user">
           <div>
             <p>Referral Code</p>
@@ -245,8 +249,9 @@ export default {
     this.socket.emit('enter server', 'main')
 
     // User count
-    this.socket.on('get user count', function(data) {
+    this.socket.on('get user count', (data) => {
       this.userCount = data.userCount
+      this.$forceUpdate()
       console.log('user count', this.userCount)
     })
   }
