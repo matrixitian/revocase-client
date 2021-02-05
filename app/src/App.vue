@@ -31,10 +31,6 @@
 
         </div>
 
-        <div>
-            <p>Users online: <span>{{ userCount }}</span></p>
-        </div>
-
         <div id="Referral" v-if="user">
           <div>
             <p>Referral Code</p>
@@ -46,6 +42,12 @@
           <img src="@/assets/icons/info.svg" alt="">
         </div>
       </div>
+
+      <div id="usersOnline">
+        <p>Users online: <span>{{ userCount }}</span></p>
+        <div id="onlineDot" class="blink"></div>
+      </div>
+
       <div id="Middle">
         <div id="centerLogo">
           <div id="centerUp">
@@ -260,6 +262,7 @@ export default {
 
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import '@/assets/mixins/blink';
 @import '@/assets/mixins/centerX';
 @import '@/assets/mixins/centerY';
 @import '@/assets/mixins/centerXY';
@@ -283,6 +286,42 @@ $purpleGradientEnd: #5a43ab;
 .slide-fade-enter-from, .slide-fade-leave-to {
   transform: translateX(10px);
   opacity: 0;
+}
+
+#usersOnline {
+  z-index: 1000;
+  position: absolute;
+  top: 200px;
+  width: 220px;
+  height: 40px;
+  background-color: rgb(15, 172, 15);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  display: flex;
+  p {
+    margin: auto;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: inline-block;
+    align-self: flex-end;
+    color: black;
+    span {
+      color: white;
+      border-radius: 5px;
+      padding: 3px 5px 3px 5px;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+  #onlineDot {
+    float: right;
+    margin-top: 12px;
+    margin-right: 10px;
+    height: 15px;
+    width: 15px;
+    background-color: lime;
+    border: 1px solid black;
+    border-radius: 100%;
+  }
 }
 
 #Referral {

@@ -219,6 +219,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import '@/assets/mixins/blink';
 @import '@/assets/mixins/centerX';
 @import '@/assets/mixins/centerY';
 @import '@/assets/mixins/centerXY';
@@ -284,16 +285,6 @@ $purpleGradientEnd: #5a43ab;
 .Pipe_0 {
   background-color: $purpleGradientEnd;
   background-image: linear-gradient($purpleGradientStart, $purpleGradientEnd);
-}
-
-.blink {
-  animation: blinker 1s linear infinite;
-}
-
-@keyframes blinker {
-  50% {
-    opacity: 0;
-  }
 }
 
 #Upper {
