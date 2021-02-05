@@ -34,13 +34,13 @@
         v-if="signUpForm"
         type="password" placeholder="Confirm password"
         v-model="cpassword"
-        @keyup="hideShowInfo">
+        @keyup="updatePasswordMeter()">
 
         <!-- Password -->
         <input type="password"
         :placeholder="passwordPlaceholder()"
         v-model="password"
-        @keyup="updatePasswordMeter()">
+        @keyup="hideShowInfo">
 
         <!-- Trade URL -->
         <input type="text" v-if="signUpForm"
@@ -118,11 +118,11 @@ export default {
       agreed: true,
       alreadySignedUp: null,
       passwordStrength: "Weak",
-      uname: null,
-      email: null,
-      cpassword: null,
-      password: null,
-      tradeURL: null,
+      uname: 'test504',
+      email: 'test503@gmail.com',
+      cpassword: '!!Winter99!!',
+      password: '!!Winter99!!',
+      tradeURL: 'https://steamcommunity.com/tradeoffer/new/?partner=202962406&token=-5LNXytR',
       pageText: null,
       signUpFormText: null,
       loginFormText: null,
@@ -243,8 +243,8 @@ export default {
         tradeURL: this.tradeURL
       })
 
-      if (res.status === 400) {
-        console.log(res.data)
+      if (res.status === 200) {
+        this.createErrorMessage(res.data)
       }
 
       if (res.status === 201) {

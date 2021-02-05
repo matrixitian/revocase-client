@@ -105,6 +105,7 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
 import axios from 'axios'
 import { detectAnyAdblocker } from 'just-detect-adblock'
 import * as Parts from '@/components/switch'
@@ -119,6 +120,8 @@ export default {
   },
   data() {
     return {
+      socket: io('localhost:3000'),
+      userCount: 0,
       haveReferral: false,
       authChecked: false,
       user: null,
@@ -237,6 +240,14 @@ export default {
       if (detected) {
         // alert('Please turn off your Ad Blocker!')
       }
+    })
+
+    this.socket.emit('enter server', 'main')
+
+    // User count
+    this.socket.on('get user count', function(data) {
+      this.userCount = data.userCount
+      console.log(this.userCount)
     })
   }
 }
