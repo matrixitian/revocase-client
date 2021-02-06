@@ -59,6 +59,9 @@ export default {
   methods: {
     openCase() {
       if (this.caseIsRolling) {
+        this.$store.commit('setError', {
+          errMsg: "Case has already been opened!"
+        })
         throw new Error()
       }
 

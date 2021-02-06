@@ -34,6 +34,9 @@ export default {
 
       const user = this.$store.getters.getUser
       if (this.referralCode === user.username) {
+        this.$store.commit('setError', {
+          errMsg: "You can't use your own referral!"
+        })
         throw new Error("You can't use your own referral!")
       }
 
@@ -48,6 +51,9 @@ export default {
         this.$store.commit('updateMyCoins', { type: 'add', amount: 200 })
         localStorage.setItem('referralHidden', true)
       } else {
+        this.$store.commit('setError', {
+          errMsg: "Referral could not be saved. Please try again!"
+        })
         throw new Error('Referral could not be saved.')
       }
     },

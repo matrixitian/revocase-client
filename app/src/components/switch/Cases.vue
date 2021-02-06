@@ -90,6 +90,9 @@ export default {
       const myCoins = this.$store.getters.getCoins
 
       if (myCoins < casePrice) {
+        this.$store.commit('setError', {
+          errMsg: "You don't have enough coins!"
+        })
         throw new Error('Insufficient coins')
       }
 

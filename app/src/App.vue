@@ -6,6 +6,8 @@
 
     <!-- <Chat v-if="user && dynamicComponent === 'Cases'" /> -->
 
+    <ErrorHandler />
+
     <div id="Auth" v-if="!user && authChecked">
       <Auth />
     </div>
@@ -124,13 +126,13 @@ import axios from 'axios'
 import { detectAnyAdblocker } from 'just-detect-adblock'
 import * as Parts from '@/components/switch'
 import Auth from '@/components/Auth'
-import Chat from '@/components/Chat'
 import Referral from '@/components/Referral'
+import ErrorHandler from '@/components/ErrorHandler'
 
 export default {
   name: 'App',
   components: {
-    ...Parts, Auth, Chat, Referral
+    ...Parts, Auth, Referral, ErrorHandler
   },
   data() {
     return {

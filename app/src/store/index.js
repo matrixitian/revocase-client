@@ -11,7 +11,8 @@ export default createStore({
       grade: "exceedingly_rare",
       longhand: "usp-s_cortex",
       name: "Cortex"
-    }
+    },
+    errMsg: null
   },
   mutations: {
     setCurrentDrop(state, payload) {
@@ -35,6 +36,18 @@ export default createStore({
     },
     selectCase(state, payload) {
       state.selectedCase = payload.caseName
+    },
+    setError(state, payload) {
+      state.errMsg = payload.errMsg
+
+      if (state.errMsg) {
+        setTimeout(() => {
+          this.commit('setError', { errMsg: null })
+        }, 5000)
+      }
+    },
+    clearError(state, payload) {
+      state.errMsg = payload.errMsg
     }
   },
   getters: {

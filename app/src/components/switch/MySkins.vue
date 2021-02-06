@@ -99,6 +99,9 @@ export default {
     },
     async updateTradeURL() {
       if (!this.tradeURL) {
+        this.$store.commit('setError', {
+          errMsg: "TradeURL cannot be empty!"
+        })
         throw new Error()
       }
 
