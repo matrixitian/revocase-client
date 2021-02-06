@@ -47,7 +47,6 @@ export default {
   },
   async mounted() {
     this.selectedCase = this.$store.getters.getSelectedCase
-    console.log(this.selectedCase)
     this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
     this.guns = require(`@/assets/gunData/caseGuns/${this.selectedCase}.json`)
     this.inspectGunLinks = require(`@/assets/gunData/inspect_guns.json`)

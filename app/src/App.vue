@@ -203,9 +203,8 @@ export default {
         this.$store.commit('setUser', { user: null })
         this.user = null
         this.myCoins = 0
-        console.log('Logged out.')
       } else {
-        console.log('Log out failed.')
+        this.$store.commit('setError', { errMsg: 'Log out failed, please try again later.' })
       }
     },
     selectLang(lang) {
@@ -223,7 +222,6 @@ export default {
     },
     async fetchUser() {
       const token = localStorage.getItem('token')
-      console.log(token)
       if (token !== 'null' && token !== null) {
         axios.defaults.headers = {
           'Content-Type': 'application/json',
@@ -233,21 +231,17 @@ export default {
         const res = await axios.get('http://localhost:3000/get-user')
         this.user = res.data
 
-        console.log('myusername', res.data)
         this.myReferralCode = res.data.username
 
         this.$store.commit('setUser',  { user: res.data })
         this.fetchCredits()
         this.authChecked = true
       } else {
-        console.log('No user is signed in.')
         this.authChecked = true
       }
     }
   },
   async mounted() {
-    console.log(this.haveReferral)
-
     this.fetchUser()
 
     if (localStorage.getItem('referralHidden')) {
@@ -256,7 +250,7 @@ export default {
     
     detectAnyAdblocker().then((detected) => {
       if (detected) {
-        // alert('Please turn off your Ad Blocker!')
+        alert('Please turn off your Ad Blocker or you will not be able to get bullets!')
       }
     })
 
@@ -266,7 +260,6 @@ export default {
     this.socket.on('get user count', (data) => {
       this.userCount = data.userCount
       this.$forceUpdate()
-      console.log('user count', this.userCount)
     })
   }
 }
@@ -519,7 +512,7 @@ body {
     #Logo {
       @include centerY;
       left: 110px;
-      height: 130px;
+      height: 100px;
     }
     #logoText {
       @include centerY;

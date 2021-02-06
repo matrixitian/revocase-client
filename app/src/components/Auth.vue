@@ -117,11 +117,11 @@ export default {
       agreed: true,
       alreadySignedUp: null,
       passwordStrength: "Weak",
-      uname: 'test504',
-      email: 'test503@gmail.com',
-      cpassword: '!!Winter99!!',
-      password: '!!Winter99!!',
-      tradeURL: 'https://steamcommunity.com/tradeoffer/new/?partner=202962406&token=-5LNXytR',
+      uname: null,
+      email: null,
+      cpassword: null,
+      password: null,
+      tradeURL: null,
       pageText: null,
       signUpFormText: null,
       loginFormText: null,
@@ -227,11 +227,10 @@ export default {
       })
 
       if (res.status === 200) {
-        console.log('Logged in.')
         this.$store.commit('updateMyCoins', { type: 'set', amount: res.data.user.credits })
         this.saveUserAndRedirect({ user: res.data.user, token: res.data.token })
       } else {
-        throw new Error('Login failed!')
+        this.$store.commit('setError', { errMsg: 'Login failed. Refresh the site and try again!' })
       }
     },
     async createAccount() {
@@ -249,7 +248,7 @@ export default {
       if (res.status === 201) {
         this.saveUserAndRedirect({ user: res.data.user, token: res.data.token })
       } else {
-        throw new Error('Registration failed!')
+        this.$store.commit('setError', { errMsg: 'Registration failed. Refresh the site and try again!' })
       }
     },
     toggleFormType() {

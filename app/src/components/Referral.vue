@@ -26,25 +26,17 @@ export default {
     }
   },
   methods: {
-    test() {
-      console.log('ytest')
-    },
     async applyReferral() {
-      console.log('hello')
-
       const user = this.$store.getters.getUser
       if (this.referralCode === user.username) {
         this.$store.commit('setError', {
           errMsg: "You can't use your own referral!"
         })
-        throw new Error("You can't use your own referral!")
       }
 
       const res = await axios.post('http://localhost:3000/set-referral', {
         referralCode: this.referralCode
       })
-
-      console.log(res)
 
       if (res.status === 200) {
         this.$emit('referralEntered')
@@ -54,7 +46,6 @@ export default {
         this.$store.commit('setError', {
           errMsg: "Referral could not be saved. Please try again!"
         })
-        throw new Error('Referral could not be saved.')
       }
     },
     closeReferralMenu() {

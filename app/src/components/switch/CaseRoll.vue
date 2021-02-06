@@ -491,8 +491,6 @@ export default {
 
     this.generateSkins()
 
-    console.log(this.$store.getters.getCurrentDrop)
-
     this.drops[54] = this.$store.getters.getCurrentDrop
   }
 }

@@ -58,38 +58,10 @@ export default {
     },
     getTime(timestamp) {
       return translateTimestamp(timestamp)
-    },
-    sendMsg() {
-      if (this.newMsg) {
-        firestore.collection("chat").add({
-          uname: this.user.username,
-          msg: this.newMsg,
-          createdAt: Date.now()
-        }).then((res) => {
-          console.log(res)
-        }).catch((err) => {
-          console.log(err)
-        })
-      }
-
-      this.newMsg = null
-      this.scrollChat()
     }
   },
   mounted() {
     this.user = this.$store.getters.getUser
-
-    const colRef = firestore.collection('chat')
-    .orderBy('createdAt').limit(10)
-
-    colRef.onSnapshot((snap) => {
-      let results = []
-      snap.docs.forEach(doc => {
-        doc.data().createdAt && results.push({ ...doc.data(), id: doc.id})
-      })
-
-      this.chat = results
-    })
   }
 }
 </script>

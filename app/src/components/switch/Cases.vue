@@ -110,8 +110,6 @@ export default {
        })
 
       if (res.status === 200) {
-        console.log(res)
-
         this.$store.commit('selectCase', { caseName })
         this.$store.commit('updateMyCoins', { type: 'subtract', amount: casePrice })
         this.$store.commit('changeView', { view: 'CaseRoll' })
@@ -152,7 +150,6 @@ export default {
     dropsRef.onSnapshot((snap) => {
       let results = []
       snap.docs.forEach(doc => {
-        // console.log(doc.data())
         doc.data().timeOpened && results.push({ ...doc.data(), id: doc.id})
       })
 

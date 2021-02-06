@@ -113,7 +113,6 @@ export default {
         this.user.tradeURL = this.tradeURL
 
         this.$store.commit('setUser', { user: this.user })
-        console.log('ok')
       }
     },
     async sellSkin(skin, i) {
@@ -124,11 +123,10 @@ export default {
       const price = this.getSkinPrice(skin.caseName, skin.grade, skin.condition)
 
       if (res.status === 200) {
-        console.log("OK")
         this.mySkins.splice(i, 1)
         this.$store.commit('updateMyCoins', { type: 'add', amount: price })
       } else {
-        console.log("ERR")
+        this.$store.commit('setError', { errMsg: 'Selling skin failed. Please refresh site and try again!' })
       }
     },
     getSkinPrice(caseName, grade, condition) {
@@ -142,16 +140,12 @@ export default {
     async requestTrade(skinID, i) {
       const res = await axios.post('http://localhost:3000/request-trade', { skinID })
 
-      console.log(res)
-
       if (res.status === 200) {
         this.mySkins[i].requestedTrade = true
       }
     },
     async fetchSkins() {
       const res = await axios.get('http://localhost:3000/get-user-skins')
-
-      console.log(res.data)
 
       this.loading = false
 

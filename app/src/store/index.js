@@ -31,7 +31,6 @@ export default createStore({
       state.currentView = payload.view
     },
     setUser(state, payload) {
-      console.log('pay', payload)
       state.user = payload.user
     },
     selectCase(state, payload) {
