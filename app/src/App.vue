@@ -291,6 +291,17 @@ $blueGradientEnd: #018498;
 $purpleGradientStart: #7967bb;
 $purpleGradientEnd: #5a43ab;
 
+@keyframes float {
+	0% {
+		transform: translatey(0px);}
+	50% {
+		transform: translatey(-12px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
+}
+
 .slide-fade-enter-active {
   transition: all .3s ease;
 }
@@ -483,6 +494,19 @@ body {
   overflow: hidden;
 }
 
+@keyframes textAnimate {
+  from {
+    filter: hue-rotate(0deg);
+    background-position-x: 0%;
+    
+  }
+  to {
+    filter: hue-rotate(360deg);
+    background-position-x: 600vw;
+    
+  }
+}
+
 #centerLogo {
   @include centerXY;
   width: 600px;
@@ -502,6 +526,14 @@ body {
       right: 110px;
       font-weight: bold;
       font-size: 47px;
+      white-space: nowrap;
+      background: linear-gradient( 92deg, #95d7e3, #eb76ff );
+      background: -webkit-linear-gradient( 92deg, #95d7e3, #eb76ff );
+      background-size:600vw 600vw;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: textAnimate 5s linear infinite alternate;
     }
   }
 }
@@ -578,6 +610,7 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
     display: inline;
     float: left;
     display: table;
+    animation: float 3s ease-in-out infinite;
   }
   #Right {
     position: relative;
