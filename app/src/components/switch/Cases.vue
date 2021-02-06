@@ -117,41 +117,6 @@ export default {
         this.$store.commit('changeView', { view: 'CaseRoll' })
       }
     },
-    updateCaseCount(caseName) {
-      const docRef = firestore.collection("casesOpened").doc('ZiXgrpmWCfUiEy6t3Hfw') 
-
-      console.log(caseName)
-
-      if (caseName === 'dangerZone') {
-         docRef.update({
-            dangerZone: this.casesOpened[0] + 1
-        })
-      }
-
-      else if (caseName === 'chroma2') {
-         docRef.update({
-            chroma2: this.casesOpened[1] + 1
-        })
-      }
-
-      else if (caseName === 'clutch') {
-        docRef.update({
-            clutch: this.casesOpened[2] + 1
-        })
-      }
-
-      else if (caseName === 'fracture') {
-        docRef.update({
-            fracture: this.casesOpened[3] + 1
-        })
-      }
-
-      else if (caseName === 'phoenix') {
-         docRef.update({
-            phoenix: this.casesOpened[4] + 1
-        })
-      }
-    },
     formattedCaseName(caseName) {
       const index = this.cases.indexOf(caseName)
 
