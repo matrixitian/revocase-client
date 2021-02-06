@@ -136,6 +136,7 @@ export default {
   },
   data() {
     return {
+      weeklyUserEarnings: 5.76,
       socket: io('localhost:3000'),
       userCount: 0,
       haveReferral: false,

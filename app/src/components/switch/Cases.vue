@@ -110,26 +110,12 @@ export default {
        })
 
       if (res.status === 200) {
-        firestore.collection("drops").add({
-          uname: this.user.username,
-          skin: res.data.skin,
-          skin_longhand: res.data.skinLonghand,
-          grade: res.data.skinGrade,
-          condition: res.data.skinCon,
-          timeOpened: Number(Date.now())
-          }).then((res) => {
-            console.log(res)
-            this.updateCaseCount(caseName)
-        }).catch((err) => {
-          console.log(err)
-        })
+        console.log(res)
 
         this.$store.commit('selectCase', { caseName })
         this.$store.commit('updateMyCoins', { type: 'subtract', amount: casePrice })
         this.$store.commit('changeView', { view: 'CaseRoll' })
       }
-
-      console.log(res.data)
     },
     updateCaseCount(caseName) {
       const docRef = firestore.collection("casesOpened").doc('ZiXgrpmWCfUiEy6t3Hfw') 
@@ -353,13 +339,14 @@ $purpleGradientEnd: #5a43ab;
         position: absolute;
         top: -17px;
         right: -2px;
-        background-color:rgb(5, 218, 51);
+        background: linear-gradient(orangered, orange);
+        border: 1px solid white;
         padding: 3px 10px 3px 10px;
         width: auto;
         margin: auto;
-        font-size: 10px;
+        font-size: 11px;
         font-weight: bold;
-        color: white;
+        color: rgb(0, 0, 0);
         border-radius: 6px;
       }
       .time {
