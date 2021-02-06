@@ -86,10 +86,10 @@
             </div>
           </transition>
 
-          <div id="playAds">
+          <!-- <div id="playAds">
             <img src="@/assets/icons/start.svg" alt="">
             <p>Start Ads</p>
-          </div>
+          </div> -->
 
           <div id="playTutorial">
             <img src="@/assets/icons/play.svg" alt="">

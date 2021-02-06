@@ -109,7 +109,6 @@
 
 <script>
 import axios from 'axios'
-// import { auth } from '@/firebase/config.js'
 const passwordStrength = require('check-password-strength')
 
 export default {
