@@ -257,7 +257,7 @@ $purpleGradientEnd: #5a43ab;
     min-height: 150px;
     height: 150px;
     overflow: hidden;
-    width: 1140px;
+    width: 1155px;
     li {
       margin: 15px 5px 0 5px;
       float: right;
@@ -266,7 +266,7 @@ $purpleGradientEnd: #5a43ab;
       border-radius: 10px;
       width: 120px;
       height: 120px;
-      border: 1px solid white;
+      border: 2px solid white;
       p {
         margin-top: 5px;
       }
