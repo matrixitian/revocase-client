@@ -53,7 +53,7 @@ export default {
           formatted: ['Rare', 'Covert', 'Classified', 'Restricted', 'Mil-Spec',],
           raw: ['exceedingly_rare', 'covert', 'classified', 'restricted', 'mil_spec']
         },
-        odds: [0.1, 0.4, 3, 11.5, 85]
+        odds: [0.1, 0.4, 3.0, 15.0, 81.5]
       },
       dropAt: 60,
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
