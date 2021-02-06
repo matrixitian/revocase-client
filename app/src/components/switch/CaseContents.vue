@@ -39,7 +39,7 @@ export default {
       selectedCase: null,
       goToMarket: {},
       wpnLinks: {},
-      wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
+      wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
       guns: {}, // raw, formatted, grade
       wpnPrices: [],
       inspectGunLinks: {}

@@ -79,9 +79,8 @@ export default {
       loading: true,
       tradeURL: null,
       mySkins: [],
-      gunCDNimgLink: 'https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_',
       CDNgunIDs: [],
-      wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
+      wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
       wpnLinks: {},
       normalGunNames: {},
       skinPrices: {}
