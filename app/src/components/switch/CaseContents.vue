@@ -42,7 +42,14 @@ export default {
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
       guns: {}, // raw, formatted, grade
       wpnPrices: [],
-      inspectGunLinks: {}
+      inspectGunLinks: {},
+      linkCategory: {
+        dangerZone: 21,
+        chroma2: 7,
+        clutch: 19,
+        fracture: 26,
+        phoenix: 2
+      }
     }
   },
   async mounted() {
@@ -65,13 +72,16 @@ export default {
   },
   methods: {
     openMarketLink(i) {
-      const wpnName = this.goToMarket[this.Case][i - 1][0]
-      const skinName = this.goToMarket[this.Case][i - 1][1]
+      const selectedCase = this.$store.getters.getSelectedCase
+      const categoryNum = this.linkCategory[selectedCase]
 
-      const steamLink = "https://steamcommunity.com/market/search?category_730_Weapon%5B%5D=tag_weapon_"
-      const categoryLink = "&category_730_ItemSet%5B0%5D=tag_set_community_19&amp;appid=730&amp;q="
+      const wpnName = this.goToMarket[selectedCase][i - 1][0]
+      const skinName = this.goToMarket[selectedCase][i - 1][1]
 
-      const link = steamLink + wpnName + categoryLink + skinName
+      const marketLink = "https://steamcommunity.com/market/search?category_730_Weapon%5B%5D=tag_weapon_"
+      const categoryLink = `&category_730_ItemSet%5B0%5D=tag_set_community_${categoryNum}&appid=730&amp;q=`
+
+      const link = marketLink + wpnName + categoryLink + skinName
 
       window.open(link)
     },
