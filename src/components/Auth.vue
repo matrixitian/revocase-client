@@ -221,6 +221,10 @@ export default {
       }
     },
     async login() {
+      if (!navigator.onLine) {
+        return this.createErrorMessage('You are offline!')
+      }
+
       const res = await axios.post('http://localhost:3000/login', {
         email: this.email,
         password: this.password
@@ -230,10 +234,14 @@ export default {
         this.$store.commit('updateMyCoins', { type: 'set', amount: res.data.user.credits })
         this.saveUserAndRedirect({ user: res.data.user, token: res.data.token })
       } else {
-        this.$store.commit('setError', { errMsg: 'Login failed. Refresh the site and try again!' })
+        this.createErrorMessage(res.data.message)
       }
     },
     async createAccount() {
+      if (!navigator.onLine) {
+        return this.createErrorMessage('You are offline!')
+      }
+      
       const res = await axios.post('http://localhost:3000/signup', {
         username: this.uname,
         email: this.email,
