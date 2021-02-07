@@ -160,6 +160,10 @@ export default {
       if (mutation.type === 'setUser') {
         this.user = state.user
         this.myReferralCode = state.user.username
+        
+        if (this.user.referredTo) {
+          this.haveReferral = true
+        }
       }
 
       if (mutation.type === 'changeView') {

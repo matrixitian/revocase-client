@@ -3,7 +3,7 @@
     <span class="material-icons" @click="closeReferralMenu">
       close
     </span>
-    <p>Enter a referral from someone else to get 200 bullets!</p>
+    <p>Enter a referral from someone else to get 100 bullets!</p>
     <input type="text" placeholder="Friend's referral code"
     ref="enterReferral" v-model="referralCode">
     <button id="apply" @click="applyReferral()">
