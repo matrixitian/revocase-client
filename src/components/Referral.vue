@@ -34,7 +34,7 @@ export default {
         })
       }
 
-      const res = await axios.post('http://localhost:3000/set-referral', {
+      const res = await axios.post('revo-case.com/set-referral', {
         referralCode: this.referralCode
       })
 

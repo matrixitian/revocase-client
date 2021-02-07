@@ -74,7 +74,7 @@ export default {
       formattedCaseNames: [
         'Danger Zone', 'Chroma 2', 'Clutch', 'Fracture', 'Phoenix'
       ],
-      casePrices: [400, 500, 600, 800, 1000]
+      casePrices: [449, 599, 699, 799, 999]
     }
   },
   methods: {
@@ -96,7 +96,7 @@ export default {
         throw new Error('Insufficient coins')
       }
 
-      const res = await axios.post('http://localhost:3000/buy-case', 
+      const res = await axios.post('revo-case.com/buy-case', 
       { caseName })
 
       this.$store.commit('setCurrentDrop', { 

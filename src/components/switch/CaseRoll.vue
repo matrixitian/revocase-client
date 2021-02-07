@@ -313,7 +313,7 @@ export default {
             'Guardian',
           ],
           classified: [
-            'Guardian',
+            'Trigon',
             'Antique',
             'Redline',
           ],
