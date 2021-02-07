@@ -15,7 +15,7 @@
 
         <p>{{ signUpForm ? "Create a new account" : "Login to your account" }}</p>
 
-        <p v-show="signUpForm">Revo Skins: Earn cases and open them easily!</p>
+        <p v-show="signUpForm">Revo Cases: Earn cases and open them easily!</p>
 
         <!-- Username -->
         <input v-show="signUpForm" type="text"
