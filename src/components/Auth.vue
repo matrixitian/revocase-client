@@ -33,13 +33,13 @@
         <input
         v-if="signUpForm"
         type="password" placeholder="Confirm password"
-        v-model="cpassword"
+        v-model="password"
         @keyup="updatePasswordMeter()">
 
         <!-- Password -->
         <input type="password"
         :placeholder="passwordPlaceholder()"
-        v-model="password"
+        v-model="cpassword"
         @keyup="hideShowInfo">
 
         <!-- Trade URL -->
@@ -141,6 +141,7 @@ export default {
       // removes info message on keyup too
       this.showInfo = false
       if (this.password) {
+        console.log(this.password)
         this.passwordStrength = passwordStrength(this.password).value
       } else {
         this.passwordStrength = "Weak"
@@ -225,7 +226,7 @@ export default {
         return this.createErrorMessage('You are offline!')
       }
 
-      const res = await axios.post('http://localhost:3000/login', {
+      const res = await axios.post('https://revo-cases.herokuapp.com/login', {
         email: this.email,
         password: this.password
       })
@@ -242,7 +243,7 @@ export default {
         return this.createErrorMessage('You are offline!')
       }
       
-      const res = await axios.post('http://localhost:3000/signup', {
+      const res = await axios.post('https://revo-cases.herokuapp.com/signup', {
         username: this.uname,
         email: this.email,
         password: this.password,

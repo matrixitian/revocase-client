@@ -96,7 +96,7 @@ export default {
         throw new Error('Insufficient coins')
       }
 
-      const res = await axios.post('http://localhost:3000/buy-case', 
+      const res = await axios.post('https://revo-cases.herokuapp.com/buy-case', 
       { caseName })
 
       this.$store.commit('setCurrentDrop', { 

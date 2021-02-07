@@ -1,7 +1,8 @@
 <template>
   <div>
     <ul v-if="wpnPrices">
-      <li v-for="(gun, i) in guns.formatted" :key="i">
+      <li v-for="(gun, i) in guns.formatted" :key="i"
+      :class="{fullRare: guns.grade[i] === 'exceedingly_rare'}">
 
         <!-- Skin Image -->
         <img :src="getWpnImg(guns.raw[i])" alt="">
@@ -10,17 +11,19 @@
           {{ gun }}
         </p>
         <!-- Lowest Price -->
-        <p class="price">
+        <p class="price" v-if="guns.grade[i] !== 'exceedingly_rare'">
           Lowest price (FN): 
           <span>{{ '$0.00' }}</span>
         </p>
 
         <!-- Go to Market -->
-        <button class="inspect goToMarket" @click="openMarketLink(i)">
+        <button class="inspect goToMarket" @click="openMarketLink(i)"
+        v-if="guns.grade[i] !== 'exceedingly_rare'">
           Go to Market
         </button>
         <!-- Inspect Gun -->
-        <button class="inspect" @click="inspectGun(guns.raw[i])">
+        <button class="inspect" @click="inspectGun(guns.raw[i])"
+        v-if="guns.grade[i] !== 'exceedingly_rare'">
           Inspect in-game (FN)
         </button>
 
@@ -65,7 +68,7 @@ export default {
 
     // formattedGuns.shift()
 
-    // const res = await axios.post('http://localhost:3000/get-wpn-prices',
+    // const res = await axios.post('https://revo-cases.herokuapp.com/get-wpn-prices',
     // { wpns: formattedGuns })
   
     // this.wpnPrices = res.data.prices
@@ -171,6 +174,18 @@ ul {
         background: -webkit-linear-gradient(#337bce,#0b5aa8);
       }
     }
+  }
+}
+
+.fullRare {
+  border: 2px solid white !important;
+  background: linear-gradient(rgb(255, 218, 8), rgb(246, 181, 0)) !important;
+  img {
+    height: 170px;
+  }
+  p {
+    border-top: 4px dashed rgba(0, 0, 0, 0.2);
+    border-bottom: 4px dashed rgba(0, 0, 0, 0.2);
   }
 }
 
