@@ -56,7 +56,7 @@ export default {
         odds: [0.1, 0.4, 3.0, 15.0, 81.5]
       },
       dropAt: 60,
-      wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/",
+      wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
       wpnLinks: {},
       selectedCase: null,
       skins: [],
