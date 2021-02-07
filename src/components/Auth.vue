@@ -51,7 +51,7 @@
         <a href="https://steamcommunity.com/my/tradeoffers/privacy#trade_offer_access_url"
           target="_blank"
           id="tradeInfo">
-          <img src="@/assets/icons/info.svg" alt="">
+          <span>GET URL</span>
         </a>
 
         <!-- Ad agreement -->
@@ -304,17 +304,19 @@ export default {
   position: absolute;
   top: 342px;
   right: 50px;
-  img {
-    height: 25px;
-    border-radius: 100%;
-    border: 1px solid black;
-    background-color: rgb(65, 65, 65);
-    border-radius: 100%;
+  text-decoration: none;
+  span {
+    text-decoration: none;
+    color: white;
+    padding: 5px;
+    font-size: 12px;
+    background-color: rgb(22, 158, 22);
+    border-radius: 5px;
     box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     &:hover {
-      transition: .2s ease;
-      transform: scale(1.1);
+      transition: .15s ease;
+      background-color: rgb(31, 192, 31);
     }
   }
 }
