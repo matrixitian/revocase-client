@@ -10,7 +10,7 @@
         <transition-group name="slide-fade">
           <li v-for="(gun, i) in gunsOpened" :key="i"
           :class="gun.grade">
-            <img :src="getWpnImg(gun.skin_longhand)" alt="">
+            <img :src="getWpnImg(gun.longhand)" alt="">
             <p class="skin"><span class="skinName">{{ gun.skin }}</span></p>
             <p class="condition"
             :class="gun.condition">{{ gun.condition.toUpperCase() }}</p>
