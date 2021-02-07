@@ -4,8 +4,6 @@
     <Referral v-if="user && !haveReferral" 
     @referralEntered="hideReferralMenu()" />
 
-    <!-- <Chat v-if="user && dynamicComponent === 'Cases'" /> -->
-
     <ErrorHandler />
 
     <div id="Auth" v-if="!user && authChecked">
@@ -101,13 +99,13 @@
         :src="require(`@/assets/flags/${selectedLang}.svg`)" 
         alt=""
         @mouseenter="langListVisible = true">
-        <ul id="Languages" v-show="langListVisible"
+        <!-- <ul id="Languages" v-show="langListVisible"
         @mouseleave="langListVisible = false">
           <li v-for="lang in langs" :key="lang">
             <img :src="require(`@/assets/flags/${lang}.svg`)"
             @click="selectLang(lang)">
           </li>
-        </ul>
+        </ul> -->
       </div>
     </div>
 
@@ -136,7 +134,7 @@ export default {
   },
   data() {
     return {
-      socket: io('https://revo-cases.herokuapp.com'),
+      socket: io('localhost:3000'),
       userCount: 0,
       haveReferral: false,
       showReferralInfo: false,
@@ -184,7 +182,7 @@ export default {
       document.execCommand("copy")
     },
     async fetchCredits() {
-      const user = await axios.get('https://revo-cases.herokuapp.com/get-user-credits')
+      const user = await axios.get('http://localhost:3000/get-user-credits')
 
       this.myCoins = user.data.credits
 
@@ -198,7 +196,7 @@ export default {
       }
     },
     async signOut() {
-      const res = await axios.get('https://revo-cases.herokuapp.com/logout')
+      const res = await axios.get('http://localhost:3000/logout')
       this.user = res.data
 
       if (res.status === 200) {
@@ -231,7 +229,7 @@ export default {
           Authorization: token
         }
 
-        const res = await axios.get('https://revo-cases.herokuapp.com/get-user')
+        const res = await axios.get('http://localhost:3000/get-user')
         this.user = res.data
 
         this.myReferralCode = res.data.username
