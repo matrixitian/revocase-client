@@ -1,15 +1,5 @@
 <template>
   <div id="caseRollMain">
-    
-    <div id="Odds">
-      <p>Drop Chances (%)</p>
-      <ul>
-        <li v-for="(gradeName, i) in odds.gradeNames.formatted" :key="i">
-          <p><span :class="odds.gradeNames.raw[i]">{{ gradeName }}</span> 
-          <span>{{ odds.odds[i] }} %</span></p>
-        </li>
-      </ul>
-    </div>
 
     <div id="Roller">
 
@@ -48,13 +38,6 @@ export default {
   name: "CaseRoll",
   data() {
     return {
-      odds: {
-        gradeNames: {
-          formatted: ['Rare', 'Covert', 'Classified', 'Restricted', 'Mil-Spec',],
-          raw: ['exceedingly_rare', 'covert', 'classified', 'restricted', 'mil_spec']
-        },
-        odds: [0.1, 0.4, 3.0, 15.0, 81.5]
-      },
       dropAt: 60,
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
       wpnLinks: {},
@@ -501,49 +484,6 @@ export default {
 @import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/skinGrades';
 @import '@/assets/mixins/skinCondition';
-
-#Odds {
-  position: absolute;
-  right: 20px;
-  bottom: 10px;
-  height: 220px;
-  width: 200px;
-  background: linear-gradient(to right, #00b09b, #96c93d);
-  border-radius: 5px;
-  border: 2px solid white;
-  p:nth-child(1) {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    height: 20px;
-    background-color: rgb(7, 136, 56);
-    font-weight: bold;
-    padding: 5px 0 5px 0;
-  }
-  ul {
-    width: 90%;
-    height: 90%;
-    margin: auto;
-    margin-top: 5%;
-    li {
-      position: relative;
-      height: 30px;
-      width: 90%;
-      margin: 5px;
-      p {
-        position: absolute;
-        left: 0;
-        background-color: transparent !important;
-        color: white;
-        span {
-          margin-left: 8px;
-          padding: 6px;
-          border-radius: 5px;
-          box-shadow: 0 0 3px 6px rgba(0, 0, 0, 0.1);
-        }
-      }
-    }
-  }
-}
 
 #caseRollMain {
   height: 70vh;
