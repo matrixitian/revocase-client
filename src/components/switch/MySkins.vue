@@ -104,7 +104,7 @@ export default {
         throw new Error()
       }
 
-      const res = await axios.post('revo-case.com/update-trade-url', {
+      const res = await axios.post('https://revo-cases.herokuapp.com/update-trade-url', {
         tradeURL: this.tradeURL
       })
 
@@ -115,7 +115,7 @@ export default {
       }
     },
     async sellSkin(skin, i) {
-      const res = await axios.post('revo-case.com/sell-skin', {
+      const res = await axios.post('https://revo-cases.herokuapp.com/sell-skin', {
         skinID: skin._id
       })
 
@@ -137,14 +137,14 @@ export default {
       return this.normalGunNames[wpnLonghand]
     },
     async requestTrade(skinID, i) {
-      const res = await axios.post('revo-case.com/request-trade', { skinID })
+      const res = await axios.post('https://revo-cases.herokuapp.com/request-trade', { skinID })
 
       if (res.status === 200) {
         this.mySkins[i].requestedTrade = true
       }
     },
     async fetchSkins() {
-      const res = await axios.get('revo-case.com/get-user-skins')
+      const res = await axios.get('https://revo-cases.herokuapp.com/get-user-skins')
 
       this.loading = false
 

@@ -226,7 +226,7 @@ export default {
         return this.createErrorMessage('You are offline!')
       }
 
-      const res = await axios.post('revo-case.com/login', {
+      const res = await axios.post('https://revo-cases.herokuapp.com/login', {
         email: this.email,
         password: this.password
       })
@@ -243,7 +243,7 @@ export default {
         return this.createErrorMessage('You are offline!')
       }
       
-      const res = await axios.post('revo-case.com/signup', {
+      const res = await axios.post('https://revo-cases.herokuapp.com/signup', {
         username: this.uname,
         email: this.email,
         password: this.password,

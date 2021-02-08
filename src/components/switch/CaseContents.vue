@@ -68,7 +68,7 @@ export default {
 
     // formattedGuns.shift()
 
-    // const res = await axios.post('revo-case.com/get-wpn-prices',
+    // const res = await axios.post('https://revo-cases.herokuapp.com/get-wpn-prices',
     // { wpns: formattedGuns })
   
     // this.wpnPrices = res.data.prices
