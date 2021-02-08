@@ -9,22 +9,12 @@
       </div>
     </div>
 
-    <div id="Inputs">
-      <input placeholder="New Trade URL" type="text"
-      v-model="tradeURL"
-      @focus="tradeURL = null"
-      @blur="updateTradeURL()">
-      <a href="https://steamcommunity.com/my/tradeoffers/privacy#trade_offer_access_url"
-      target="_blank">
-        <img src="@/assets/icons/info.svg" alt="">
-      </a>
-    </div>
-
     <p id="noSkinsFound" v-if="!loading && mySkins.length === 0">You don't have any skins, open some cases!</p>
 
     <ul v-if="!loading">
       <li v-for="(skin, i) in mySkins" :key="i"
-      :class="skin.grade">
+      :class="skin.grade"
+      v-show="checkSkinAvailable(skin)">
 
         <!-- Skin Img -->
         <img :src="getWpnImg(skin.skin)" alt="">
@@ -40,21 +30,15 @@
         <button class="sell" v-if="!skin.requestedTrade"
         :class="{adjustSellBtn: skin.grade === 'mil_spec'}"
         @click="sellSkin(skin, i)">
-          <p>Sell for 
+          <p>
             <span>{{ getSkinPrice(skin.caseName, skin.grade, skin.condition) }}</span>
           </p>
           <img src="@/assets/icons/bullet.png" alt="">
         </button>
 
-        <!-- Request Trade -->
-        <button class="requestTrade"
-        v-if="skin.grade !== 'mil_spec'"
-        :class="[
-          {disabled: skin.requestedTrade},
-          {offerReceived: skin.tradeOfferSent}
-        ]"
-        @click="requestTrade(skin._id, i)">
-          {{ getTradeOfferStatus(skin) }}
+        <!-- Select for Trade-Up -->
+        <button class="requestTrade" @click="selectForTradeUp(skin._id, i)">
+          Select
         </button>
 
       </li>
@@ -72,7 +56,7 @@ import axios from 'axios'
 import getCondition from '@/js/translateGunCondition.js'
 
 export default {
-  name: "MySkins",
+  name: "TradeUp",
   data() {
     return {
       user: null,
@@ -87,46 +71,10 @@ export default {
     }
   },
   methods: {
-    getTradeOfferStatus(skin) {
-      if (skin.tradeOfferSent) {
-        return 'Trade offer received'
-      } else if (skin.requestedTrade) {
-        return 'Skin will be sent within 1 day'
-      } else {
-        return 'Trade to account'
-      }
-    },
-    async updateTradeURL() {
-      if (!this.tradeURL) {
-        this.$store.commit('setError', {
-          errMsg: "TradeURL cannot be empty!"
-        })
-        throw new Error()
-      }
+    checkSkinAvailable(skin) {
+      if (skin.tradeOfferSent || skin.requestedTrade) return false
 
-      const res = await axios.post('http://localhost:3000/update-trade-url', {
-        tradeURL: this.tradeURL
-      })
-
-      if (res.status === 200) {
-        this.user.tradeURL = this.tradeURL
-
-        this.$store.commit('setUser', { user: this.user })
-      }
-    },
-    async sellSkin(skin, i) {
-      const res = await axios.post('http://localhost:3000/sell-skin', {
-        skinID: skin._id
-      })
-
-      const price = this.getSkinPrice(skin.caseName, skin.grade, skin.condition)
-
-      if (res.status === 200) {
-        this.mySkins.splice(i, 1)
-        this.$store.commit('updateMyCoins', { type: 'add', amount: price })
-      } else {
-        this.$store.commit('setError', { errMsg: 'Selling skin failed. Please refresh site and try again!' })
-      }
+      return true
     },
     getSkinPrice(caseName, grade, condition) {
       const price = this.skinPrices[caseName][grade][condition]
@@ -136,11 +84,9 @@ export default {
     formatSkinName(wpnLonghand) {
       return this.normalGunNames[wpnLonghand]
     },
-    async requestTrade(skinID, i) {
-      const res = await axios.post('http://localhost:3000/request-trade', { skinID })
-
-      if (res.status === 200) {
-        this.mySkins[i].requestedTrade = true
+    getTradeOfferStatus(skin) {
+      if (skin.tradeOfferSent || skin.requestedTrade) {
+        return 'Trade offer requested'
       }
     },
     async fetchSkins() {
@@ -171,8 +117,6 @@ export default {
     this.fetchSkins()
 
     this.user = this.$store.getters.getUser
-
-    this.tradeURL = this.user.tradeURL
   }
 }
 </script>

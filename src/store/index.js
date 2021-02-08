@@ -6,12 +6,7 @@ export default createStore({
     myCoins: 0,
     currentView: 'Cases',
     selectedCase: 'clutch',
-    currentDrop: {
-      condition: "MW",
-      grade: "exceedingly_rare",
-      longhand: "usp-s_cortex",
-      name: "Cortex"
-    },
+    currentDrop: {},
     errMsg: null
   },
   mutations: {
