@@ -226,7 +226,7 @@ export default {
         return this.createErrorMessage('You are offline!')
       }
 
-      const res = await axios.post('http://localhost:3000/login', {
+      const res = await axios.post('https://revo-cases.com/login', {
         email: this.email,
         password: this.password
       })
@@ -243,7 +243,7 @@ export default {
         return this.createErrorMessage('You are offline!')
       }
       
-      const res = await axios.post('http://localhost:3000/signup', {
+      const res = await axios.post('https://revo-cases.com/signup', {
         username: this.uname,
         email: this.email,
         password: this.password,
