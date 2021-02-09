@@ -245,7 +245,7 @@ export default {
         return this.createErrorMessage('You are offline!')
       }
       
-      const res = await axios.post(`${config.server}`/signup`, {
+      const res = await axios.post(`${config.server}/signup`, {
         username: this.uname,
         email: this.email,
         password: this.password,

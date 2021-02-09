@@ -184,31 +184,50 @@ export default {
   },
   methods: {
     getPoint() {
-      let i = 0
-      let adsReady = true
+      let adBlockActive
 
-      if (i > 25) {
-        i = 0
-        adsReady = false
-
-        setTimeout(() => {
-          this.adsReady = true
-        }, 60000)
-      }
-
-      setInterval(() => {
-        if (adsReady) {
-          window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
-          this.myCoins++
-          i++
-
-          const res = await Axios.post('/give-user-point')
-
-          if (res.status !== 200) {
-            this.$store.commit('setError', { errMsg: 'Point could not be given. Please refresh page.' })
-          }
+      detectAnyAdblocker().then((detected) => {
+        if (detected) {
+          this.$store.commit('setError', { errMsg: 'Please turn off your Ad Blocker or you will not be able to get bullets!' })
+          adBlockActive = true
+        } else {
+          adBlockActive = false
         }
-      }, 20000)
+      })
+
+      if (!adBlockActive) {
+        let i = 0
+        let adsReady = true
+
+        if (i > 25) {
+          i = 0
+          adsReady = false
+
+          setTimeout(() => {
+            this.adsReady = true
+          }, 60000)
+        }
+
+        const sendGive = async() => {
+          // const res = await Axios.post('/give-user-point')
+
+          // if (res.status !== 200) {
+          //   this.$store.commit('setError', { errMsg: 'Point could not be given. Please refresh page.' })
+          // }
+
+          console.log('sent')
+        }
+
+        setInterval(() => {
+          if (adsReady) {
+            window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
+            this.myCoins++
+            i++
+
+            sendGive()
+          }
+        }, 20000)
+      }
     },
     hideReferralMenu() {
       this.haveReferral = true
@@ -285,12 +304,6 @@ export default {
     if (localStorage.getItem('referralHidden')) {
       this.haveReferral = true
     }
-    
-    detectAnyAdblocker().then((detected) => {
-      if (detected) {
-        alert('Please turn off your Ad Blocker or you will not be able to get bullets!')
-      }
-    })
 
     this.socket.emit('enter server', 'main')
 
