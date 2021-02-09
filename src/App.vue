@@ -89,10 +89,10 @@
             </div>
           </transition>
 
-          <!-- <div id="playAds">
+          <div id="playAds" @click="getPoint()">
             <img src="@/assets/icons/start.svg" alt="">
             <p>Start Ads</p>
-          </div> -->
+          </div>
 
           <div id="playTutorial">
             <img src="@/assets/icons/play.svg" alt="">
@@ -113,6 +113,8 @@
         </ul> -->
       </div>
     </div>
+
+    <div class="AdBanner" id="container-16243ca699c6fdde1e4ea9825898d832"></div>
 
     <div id="Bottomer">
       <div id="bottomAligner">
@@ -178,6 +180,10 @@ export default {
     })
   },
   methods: {
+    getPoint() {
+      this.myCoins++
+      window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0')
+    },
     hideReferralMenu() {
       this.haveReferral = true
     },
@@ -278,6 +284,18 @@ export default {
 @import '@/assets/mixins/centerY';
 @import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/unselectable';
+
+.AdBanner {
+  z-index: 1500;
+  position: absolute;
+  overflow-y: auto;
+  bottom: 0;
+  left: 0; 
+  height: 70vh;
+  width: 300px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-right: 3px solid white;
+}
 
 $grayBackground: #1b2435;
 $redGradientStart: #ea5a8d;

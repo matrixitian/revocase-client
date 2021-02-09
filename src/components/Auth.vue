@@ -51,7 +51,7 @@
         <a href="https://steamcommunity.com/my/tradeoffers/privacy#trade_offer_access_url"
           target="_blank"
           id="tradeInfo">
-          <span>GET URL</span>
+          <span v-if="signUpForm">GET URL</span>
         </a>
 
         <!-- Ad agreement -->
