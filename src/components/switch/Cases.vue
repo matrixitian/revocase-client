@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import config from '@/assets/config/config'
 import moment from 'moment'
 import axios from 'axios'
 import { firestore } from '@/firebase/config.js'
@@ -96,7 +97,7 @@ export default {
         throw new Error('Insufficient coins')
       }
 
-      const res = await axios.post('http://localhost:3000/buy-case', 
+      const res = await axios.post(`${config.server}/buy-case`, 
       { caseName })
 
       this.$store.commit('setCurrentDrop', { 

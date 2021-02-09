@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import config from '@/assets/config/config'
 import axios from 'axios'
 
 export default {
@@ -34,7 +35,7 @@ export default {
         })
       }
 
-      const res = await axios.post('http://localhost:3000/set-referral', {
+      const res = await axios.post(`${config.server}/set-referral`, {
         referralCode: this.referralCode
       })
 

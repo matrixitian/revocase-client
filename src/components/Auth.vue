@@ -107,6 +107,7 @@
 </template>
 
 <script>
+import config from '@/assets/config/config'
 import axios from 'axios'
 const passwordStrength = require('check-password-strength')
 
@@ -227,7 +228,7 @@ export default {
 
       console.log(this.email, this.password)
 
-      const res = await axios.post('http://localhost:3000/login', {
+      const res = await axios.post(`${config.server}/login`, {
         email: this.email,
         password: this.password
       })
@@ -244,7 +245,7 @@ export default {
         return this.createErrorMessage('You are offline!')
       }
       
-      const res = await axios.post('http://localhost:3000/signup', {
+      const res = await axios.post(`${config.server}`/signup`, {
         username: this.uname,
         email: this.email,
         password: this.password,

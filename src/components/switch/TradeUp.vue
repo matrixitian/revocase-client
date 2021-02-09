@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import config from '@/assets/config/config'
 import axios from 'axios'
 import getCondition from '@/js/translateGunCondition.js'
 
@@ -90,7 +91,7 @@ export default {
       }
     },
     async fetchSkins() {
-      const res = await axios.get('http://localhost:3000/get-user-skins')
+      const res = await axios.get(`${config.server}/get-user-skins`)
 
       this.loading = false
 

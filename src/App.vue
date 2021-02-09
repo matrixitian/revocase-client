@@ -89,9 +89,10 @@
             </div>
           </transition>
 
-          <div id="playAds" @click="getPoint()">
+          <div id="playAds" @click="getPoint()"
+          :class="{ adsRunning: adsRunning }">
             <img src="@/assets/icons/start.svg" alt="">
-            <p>Start Ads</p>
+            <p>{{ adsRunning? 'Stop Ads' : 'Start Ads' }}</p>
           </div>
 
           <div id="playTutorial">
@@ -126,6 +127,7 @@
 </template>
 
 <script>
+import config from '@/assets/config/config'
 import io from 'socket.io-client'
 import axios from 'axios'
 import { detectAnyAdblocker } from 'just-detect-adblock'
@@ -141,8 +143,9 @@ export default {
   },
   data() {
     return {
-      socket: io('http://localhost:3000/'),
+      socket: io(config.server),
       userCount: 0,
+      adsRunning: false,
       haveReferral: false,
       showReferralInfo: false,
       authChecked: false,
@@ -181,8 +184,31 @@ export default {
   },
   methods: {
     getPoint() {
-      this.myCoins++
-      window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0')
+      let i = 0
+      let adsReady = true
+
+      if (i > 25) {
+        i = 0
+        adsReady = false
+
+        setTimeout(() => {
+          this.adsReady = true
+        }, 60000)
+      }
+
+      setInterval(() => {
+        if (adsReady) {
+          window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
+          this.myCoins++
+          i++
+
+          const res = await Axios.post('/give-user-point')
+
+          if (res.status !== 200) {
+            this.$store.commit('setError', { errMsg: 'Point could not be given. Please refresh page.' })
+          }
+        }
+      }, 20000)
     },
     hideReferralMenu() {
       this.haveReferral = true
@@ -193,7 +219,7 @@ export default {
       document.execCommand("copy")
     },
     async fetchCredits() {
-      const user = await axios.get('http://localhost:3000/get-user-credits')
+      const user = await axios.get(`${config.server}/get-user-credits`)
 
       this.myCoins = user.data.credits
 
@@ -207,7 +233,7 @@ export default {
       }
     },
     async signOut() {
-      const res = await axios.get('http://localhost:3000/logout')
+      const res = await axios.get(`${config.server}/logout`)
       this.user = res.data
 
       if (res.status === 200) {
@@ -240,7 +266,7 @@ export default {
           Authorization: token
         }
 
-        const res = await axios.get('http://localhost:3000/get-user')
+        const res = await axios.get(`${config.server}/get-user`)
         this.user = res.data
 
         this.myReferralCode = res.data.username
@@ -452,7 +478,7 @@ $purpleGradientEnd: #5a43ab;
     position: relative;
     width: 180px;
     height: 40px;
-    background-color: red;
+    background-color: rgb(30, 175, 42);
     border-radius: 20px;
     color: whitesmoke;
     cursor: pointer;
@@ -475,7 +501,7 @@ $purpleGradientEnd: #5a43ab;
   }
   #logout {
     margin-bottom: 10px;
-    background-color: rgb(30, 175, 42);
+    background-color: rgb(96, 45, 190);
   }
   #playTutorial {
     z-index: 200 !important;
@@ -727,6 +753,12 @@ p {
   width: 130px !important;
 }
 
+.adsRunning {
+  background-color: red !important;
+}
+
+
+// Scrollbar Style
 ::-webkit-scrollbar-track
 {
   box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
