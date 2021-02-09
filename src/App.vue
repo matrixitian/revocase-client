@@ -184,50 +184,50 @@ export default {
   },
   methods: {
     getPoint() {
-      let adBlockActive
+      let i = 0
+      let adsReady = true
 
-      detectAnyAdblocker().then((detected) => {
-        if (detected) {
-          this.$store.commit('setError', { errMsg: 'Please turn off your Ad Blocker or you will not be able to get bullets!' })
-          adBlockActive = true
-        } else {
-          adBlockActive = false
-        }
-      })
+      if (i > 25) {
+        i = 0
+        adsReady = false
 
-      if (!adBlockActive) {
-        let i = 0
-        let adsReady = true
-
-        if (i > 25) {
-          i = 0
-          adsReady = false
-
-          setTimeout(() => {
-            this.adsReady = true
-          }, 60000)
-        }
-
-        const sendGive = async() => {
-          // const res = await Axios.post('/give-user-point')
-
-          // if (res.status !== 200) {
-          //   this.$store.commit('setError', { errMsg: 'Point could not be given. Please refresh page.' })
-          // }
-
-          console.log('sent')
-        }
-
-        setInterval(() => {
-          if (adsReady) {
-            window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
-            this.myCoins++
-            i++
-
-            sendGive()
-          }
-        }, 20000)
+        setTimeout(() => {
+          this.adsReady = true
+        }, 60000)
       }
+
+      const sendGive = async() => {
+        // const res = await Axios.post('/give-user-point')
+
+        // if (res.status !== 200) {
+        //   this.$store.commit('setError', { errMsg: 'Point could not be given. Please refresh page.' })
+        // }
+
+        console.log('sent')
+      }
+
+      setInterval(() => {
+        let adBlockActive
+
+        detectAnyAdblocker().then((detected) => {
+          if (detected) {
+            this.$store.commit('setError', { errMsg: 'Please turn off your Ad Blocker or you will not be able to get bullets!' })
+            adBlockActive = true
+          } else {
+            adBlockActive = false
+          }
+        })
+
+        if (adsReady && !adBlockActive) {
+          window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
+          window.open('//whugesto.net/afu.php?zoneid=3927908')
+          this.myCoins++
+          i++
+
+          sendGive()
+        }
+      }, 20000)
+      
     },
     hideReferralMenu() {
       this.haveReferral = true
