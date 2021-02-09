@@ -115,7 +115,13 @@
       </div>
     </div>
 
-    <div class="AdBanner" id="container-16243ca699c6fdde1e4ea9825898d832"></div>
+    <span id="hideAdBannerBtn" class="material-icons-round"
+    v-if="this.adBannerHidden === false"
+    @click="this.adBannerHidden = true">
+      disabled_by_default
+    </span>
+    <div class="AdBanner" id="container-16243ca699c6fdde1e4ea9825898d832"
+    :class="{ adBannerHidden: adBannerHidden }"></div>
 
     <div id="Bottomer">
       <div id="bottomAligner">
@@ -144,6 +150,7 @@ export default {
   data() {
     return {
       socket: io(config.server),
+      adBannerHidden: false,
       userCount: 0,
       adsRunning: false,
       haveReferral: false,
@@ -332,8 +339,30 @@ export default {
   left: 0; 
   height: 70vh;
   width: 300px;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: #1B2435;
   border-right: 3px solid white;
+}
+
+#hideAdBannerBtn {
+  z-index: 5000;
+  position: absolute;
+  top: calc(30vh + 20px); left: 250px;
+  background-color: rgb(134, 22, 22);
+  color: red;
+  border: 2px solid red;
+  border-radius: 10px;
+  transform: scale(2);
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  &:hover {
+    transition: .15s ease;
+    transform: scale(2.05);
+  }
+}
+
+.adBannerHidden {
+  width: 0 !important;
+  height: 0 !important;
 }
 
 $grayBackground: #1b2435;
