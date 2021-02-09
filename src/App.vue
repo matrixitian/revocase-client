@@ -232,8 +232,21 @@ export default {
         })
 
         if (this.adsRunning && adsReady && !adBlockActive) {
-          window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
-          window.open('//whugesto.net/afu.php?zoneid=3927908')
+          // Adsterra
+          setTimeout(() => {
+            window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
+          }, 6000)
+
+          setTimeout(() => {
+            // PropellerAds
+            window.open('//stawhoph.com/afu.php?zoneid=3928400', '_blank')
+          }, 12000)
+
+          setTimeout(() => {
+            // AdCash
+            window.open('https://www.greatdexchange.com/jump/next.php?r=4138191', '_blank')
+          }, 18000)
+
           this.myCoins++
           i++
 
@@ -341,7 +354,7 @@ export default {
   position: absolute;
   overflow-y: auto;
   bottom: 0;
-  left: 0; 
+  right: 0;
   height: 70vh;
   width: 300px;
   background-color: #1B2435;
@@ -351,7 +364,7 @@ export default {
 #hideAdBannerBtn {
   z-index: 5000;
   position: absolute;
-  top: calc(30vh + 20px); left: 250px;
+  top: calc(30vh + 20px); right: 250px;
   background-color: rgb(134, 22, 22);
   color: red;
   border: 2px solid red;
