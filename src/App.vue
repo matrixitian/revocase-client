@@ -151,6 +151,7 @@ export default {
     return {
       socket: io(config.server),
       adBannerHidden: false,
+      currentIntervalID: null,
       userCount: 0,
       adsRunning: false,
       haveReferral: false,
@@ -191,6 +192,11 @@ export default {
   },
   methods: {
     getPoint() {
+      if (this.currentIntervalID) {
+        clearInterval(this.currentIntervalID)
+      }
+
+      this.adsRunning = !this.adsRunning
       let i = 0
       let adsReady = true
 
@@ -200,20 +206,20 @@ export default {
 
         setTimeout(() => {
           this.adsReady = true
-        }, 60000)
+        }, 45000)
       }
 
       const sendGive = async() => {
-        // const res = await Axios.post('/give-user-point')
+        const res = await axios.post(`${config.server}/give-user-point`)
 
-        // if (res.status !== 200) {
-        //   this.$store.commit('setError', { errMsg: 'Point could not be given. Please refresh page.' })
-        // }
+        if (res.status !== 200) {
+          this.$store.commit('setError', { errMsg: 'Point could not be given. Please refresh page.' })
+        }
 
         console.log('sent')
       }
 
-      setInterval(() => {
+      this.currentIntervalID = setInterval(() => {
         let adBlockActive
 
         detectAnyAdblocker().then((detected) => {
@@ -225,7 +231,7 @@ export default {
           }
         })
 
-        if (adsReady && !adBlockActive) {
+        if (this.adsRunning && adsReady && !adBlockActive) {
           window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
           window.open('//whugesto.net/afu.php?zoneid=3927908')
           this.myCoins++
@@ -234,7 +240,6 @@ export default {
           sendGive()
         }
       }, 20000)
-      
     },
     hideReferralMenu() {
       this.haveReferral = true
