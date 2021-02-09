@@ -234,17 +234,23 @@ export default {
         if (this.adsRunning && adsReady && !adBlockActive) {
           // Adsterra
           setTimeout(() => {
-            window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
+            if (this.adsRunning && adsReady && !adBlockActive) {
+              window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
+            }
           }, 6000)
 
           setTimeout(() => {
             // PropellerAds
-            window.open('//stawhoph.com/afu.php?zoneid=3928400', '_blank')
+            if (this.adsRunning && adsReady && !adBlockActive) {
+              window.open('//stawhoph.com/afu.php?zoneid=3928400', '_blank')
+            }
           }, 12000)
 
           setTimeout(() => {
             // AdCash
-            window.open('https://www.greatdexchange.com/jump/next.php?r=4138191', '_blank')
+            if (this.adsRunning && adsReady && !adBlockActive) {
+              window.open('https://www.greatdexchange.com/jump/next.php?r=4138191', '_blank')
+            }
           }, 18000)
 
           this.myCoins++
