@@ -29,16 +29,15 @@
         @focus="showForm = true"
         @keyup="hideShowInfo">
 
-        <!-- Confirm Password -->
+        <!-- Password -->
         <input
-        v-if="signUpForm"
-        type="password" placeholder="Confirm password"
+        type="password" :placeholder="passwordPlaceholder()"
         v-model="password"
         @keyup="updatePasswordMeter()">
 
-        <!-- Password -->
-        <input type="password"
-        :placeholder="passwordPlaceholder()"
+        <!-- Confirm Password -->
+        <input type="password" placeholder="Confirm password"
+        v-if="signUpForm"
         v-model="cpassword"
         @keyup="hideShowInfo">
 
@@ -226,7 +225,9 @@ export default {
         return this.createErrorMessage('You are offline!')
       }
 
-      const res = await axios.post('https://revo-cases.com/login', {
+      console.log(this.email, this.password)
+
+      const res = await axios.post('http://localhost:3000/login', {
         email: this.email,
         password: this.password
       })
@@ -243,7 +244,7 @@ export default {
         return this.createErrorMessage('You are offline!')
       }
       
-      const res = await axios.post('https://revo-cases.com/signup', {
+      const res = await axios.post('http://localhost:3000/signup', {
         username: this.uname,
         email: this.email,
         password: this.password,

@@ -90,7 +90,7 @@ export default {
       }
     },
     async fetchSkins() {
-      const res = await axios.get('https://revo-cases.com/get-user-skins')
+      const res = await axios.get('http://localhost:3000/get-user-skins')
 
       this.loading = false
 
