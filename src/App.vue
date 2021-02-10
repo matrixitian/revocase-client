@@ -287,7 +287,7 @@ export default {
       this.user = res.data
 
       if (res.status === 200) {
-        localStorage.setItem('token', null)
+        localStorage.setItem('token', '')
         this.$store.commit('setUser', { user: null })
         this.user = null
         this.myCoins = 0
@@ -310,7 +310,8 @@ export default {
     },
     async fetchUser() {
       const token = localStorage.getItem('token')
-      if (token !== 'null' && !token) {
+      console.log('token')
+      if (token) {
         axios.defaults.headers = {
           'Content-Type': 'application/json',
           Authorization: token

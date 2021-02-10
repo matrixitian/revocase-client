@@ -13,7 +13,7 @@
 
     <div id="mySkins">
       <ul v-if="!loading">
-        <li v-for="(skin, i) in mySkins" :key="i"
+        <li v-for="(skin, i) in filteredSkins" :key="i"
         :class="skin.grade"
         v-show="checkSkinAvailable(skin)">
 
@@ -38,7 +38,7 @@
           </button>
 
           <!-- Select for Trade-Up -->
-          <button class="requestTrade" @click="selectForTradeUp(skin._id, i)">
+          <button class="requestTrade" @click="selectForTradeUp(skin, i)">
             Select
           </button>
 
@@ -49,7 +49,7 @@
     <div id="tradeUp">
       <p>10 skins needed for trade up to higher quality!</p>
       <ul v-if="!loading">
-        <li v-for="(skin, i) in mySkins" :key="i"
+        <li v-for="(skin, i) in tradeUpSkins" :key="i"
         :class="skin.grade"
         v-show="checkSkinAvailable(skin)">
 
@@ -101,12 +101,26 @@ export default {
       loading: true,
       mySkins: [],
       filteredSkins: [],
-      skinInTradeUp: [],
+      tradeUpSkins: [],
+      tradeUpGrade: null,
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
       wpnLinks: {}
     }
   },
   methods: {
+    selectForTradeUp(skin, i) {
+      if (this.tradeUpSkins.length === 0) {
+        this.tradeUpGrade = skin.grade
+      }
+
+      this.filteredSkins = this.filteredSkins.filter((skin) => {
+        return skin.grade === this.tradeUpGrade
+      })
+
+      this.filteredSkins.splice(i, 1)
+
+      this.tradeUpSkins.unshift(skin)
+    },
     checkSkinAvailable(skin) {
       if (skin.tradeOfferSent || skin.requestedTrade) return false
 
@@ -131,6 +145,7 @@ export default {
       this.loading = false
 
       this.mySkins = res.data
+      this.filteredSkins = res.data
     },
     getWpnImg(wpnLonghand) {
       const wpnID = this.wpnLinks[wpnLonghand]
