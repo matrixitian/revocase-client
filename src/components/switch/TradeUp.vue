@@ -11,39 +11,40 @@
 
     <p id="noSkinsFound" v-if="!loading && mySkins.length === 0">You don't have any skins, open some cases!</p>
 
-    <div></div>
-    <ul v-if="!loading">
-      <li v-for="(skin, i) in mySkins" :key="i"
-      :class="skin.grade"
-      v-show="checkSkinAvailable(skin)">
+    <div id="mySkins">
+      <ul v-if="!loading">
+        <li v-for="(skin, i) in mySkins" :key="i"
+        :class="skin.grade"
+        v-show="checkSkinAvailable(skin)">
 
-        <!-- Skin Img -->
-        <img :src="getWpnImg(skin.skin)" alt="">
+          <!-- Skin Img -->
+          <img :src="getWpnImg(skin.skin)" alt="">
 
-        <!-- Skin Name -->
-        <p>{{ formatSkinName(skin.skin) }}</p>
+          <!-- Skin Name -->
+          <p>{{ formatSkinName(skin.skin) }}</p>
 
-        <!-- Skin Condition -->
-        <p class="gunCondition"
-        :class="skin.condition">{{ formatCondition(skin.condition) }}</p>
+          <!-- Skin Condition -->
+          <p class="gunCondition"
+          :class="skin.condition">{{ formatCondition(skin.condition) }}</p>
 
-        <!-- Sell Skin -->
-        <button class="sell">
-          <p>
-            <span>
-              {{ getSkinPrice(skin.caseName, skin.grade, skin.condition) }}
-            </span>
-          </p>
-          <img src="@/assets/icons/bullet.png" alt="">
-        </button>
+          <!-- Sell Skin -->
+          <button class="sell">
+            <p>
+              <span>
+                {{ getSkinPrice(skin.caseName, skin.grade, skin.condition) }}
+              </span>
+            </p>
+            <img src="@/assets/icons/bullet.png" alt="">
+          </button>
 
-        <!-- Select for Trade-Up -->
-        <button class="requestTrade" @click="selectForTradeUp(skin._id, i)">
-          Select
-        </button>
+          <!-- Select for Trade-Up -->
+          <button class="requestTrade" @click="selectForTradeUp(skin._id, i)">
+            Select
+          </button>
 
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
 
     <div id="tradeDurationInfo">
       <p>It can take up to <span>24 hours</span> until your Steam account receives the trade offer!</p>
@@ -142,6 +143,13 @@ export default {
 div {
   height: 70vh;
   width: 100vw;
+}
+
+#mySkins {
+  position: relative;
+  height: 70vh;
+  width: 50vw;
+  border-right: 4px dashed rgba(255, 255, 255, 0.2);
 }
 
 #Inputs {
