@@ -11,6 +11,7 @@
 
     <p id="noSkinsFound" v-if="!loading && mySkins.length === 0">You don't have any skins, open some cases!</p>
 
+    <div></div>
     <ul v-if="!loading">
       <li v-for="(skin, i) in mySkins" :key="i"
       :class="skin.grade"
@@ -27,11 +28,11 @@
         :class="skin.condition">{{ formatCondition(skin.condition) }}</p>
 
         <!-- Sell Skin -->
-        <button class="sell" v-if="!skin.requestedTrade"
-        :class="{adjustSellBtn: skin.grade === 'mil_spec'}"
-        @click="sellSkin(skin, i)">
+        <button class="sell">
           <p>
-            <span>{{ getSkinPrice(skin.caseName, skin.grade, skin.condition) }}</span>
+            <span>
+              {{ getSkinPrice(skin.caseName, skin.grade, skin.condition) }}
+            </span>
           </p>
           <img src="@/assets/icons/bullet.png" alt="">
         </button>
@@ -179,21 +180,6 @@ div {
     }
 }
 
-#tradeDurationInfo {
-  position: absolute;
-  bottom: 0;
-  height: auto;
-  width: 100%;
-  background-color: rgba(0, 0, 0, 0.45);
-  padding: 10px;
-  p {
-    color: orangered;
-    span {
-      color: whitesmoke;
-    }
-  }
-}
-
 ul {
   @include centerXY;
   // border: 1px solid white;
@@ -201,19 +187,20 @@ ul {
   height: 80%;
   overflow-y: auto;
   li {
+    position: relative;
     float: left;
-    margin: 15px;
-    height: 290px;
-    width: 250px;
+    margin: 8px;
+    height: 200px;
+    width: 200px;
     border: 2px solid rgba(255, 255, 255, 0.2);
     background-color: rgba(255, 255, 255, 0.05);
     border-radius: 10px;
     img {
-      margin-top: 20px;
-      height: 120px;
+      margin-top: 5px;
+      height: 80px;
     }
     p {
-      font-weight: normal;
+      font-weight: bold;
       background-color: rgba(0, 0, 0, 0.45);
       padding: 4px;
       margin: auto;
@@ -221,6 +208,7 @@ ul {
       margin-top: 5px;
       border-radius: 5px;
       padding: 5px;
+      font-size: 12px;
       span {
         font-weight: bold;
         color: rgb(43, 142, 255);
@@ -253,59 +241,41 @@ ul {
       }
     }
     .sell {
-      position: relative;
-      background: linear-gradient(rgb(90, 235, 71), rgb(8, 165, 29)) ;
+      margin-top: 5px !important;
+      width: 70px !important; 
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: linear-gradient(rgb(90, 235, 71), rgb(8, 165, 29));
       padding-top: 0 !important;
       padding-bottom: 0 !important;
+      cursor: default;
       &:hover {
-        transition: .15s ease;
-        background: -webkit-linear-gradient(#29cc31,#08a515 60%,#23c052);
+        background: linear-gradient(rgb(90, 235, 71), rgb(8, 165, 29));
       }
       p {
-        padding: 5px 0 8px 0 !important;
+        padding: 2px 0 4px 0 !important;
         font-weight: bold;
         font-size: 15px;
         background-color: transparent !important;
       }
       span {
-        margin-top: -5px;
+        margin-bottom: 2px;
         color: white;
         background-color: rgba(0, 0, 0, 0.2);
         padding: 7px;
         border-radius: 5px;
-        margin-left: 5px;
+        margin-left: -30px;
+        font-size: 12px;
+        font-weight: bold;
       }
       img {
         position: absolute;
-        right: 20px;
-        top: -17px;
-        height: 30px;
+        right: 5px;
+        top: 0px;
+        height: 20px;
       }
     }
-  }
-}
-
-.adjustSellBtn {
-  margin-top: 35px !important;
-}
-
-.disabled {
-  margin-top: 40px !important;
-  color: rgba(0, 0, 0, 0.6) !important;
-  background: linear-gradient(#d4d4d4,#b1b1b1) !important;
-  cursor: default !important;
-  &:hover {
-    background: linear-gradient(#d4d4d4,#b1b1b1) !important;
-  }
-}
-
-.offerReceived {
-  margin-top: 40px !important;
-  color: rgba(0, 0, 0, 0.6) !important;
-  background: linear-gradient(#4fe05c,#0a9534) !important;
-  cursor: default !important;
-  &:hover {
-    background: linear-gradient(#4fe05c,#0a9534) !important;
   }
 }
 
