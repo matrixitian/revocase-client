@@ -46,9 +46,7 @@
       </ul>
     </div>
 
-    <div id="tradeDurationInfo">
-      <p>It can take up to <span>24 hours</span> until your Steam account receives the trade offer!</p>
-    </div>
+    <div id="tradeUp"></div>
 
   </div>
 </template>
@@ -145,11 +143,19 @@ div {
   width: 100vw;
 }
 
+#tradeUp {
+  position: relative;
+  height: 70vh;
+  width: 49vw;
+  float: right;
+}
+
 #mySkins {
   position: relative;
   height: 70vh;
   width: 50vw;
   border-right: 4px dashed rgba(255, 255, 255, 0.2);
+  float: left;
 }
 
 #Inputs {
@@ -190,7 +196,6 @@ div {
 
 ul {
   @include centerXY;
-  // border: 1px solid white;
   width: 90%;
   height: 80%;
   overflow-y: auto;
