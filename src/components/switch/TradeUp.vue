@@ -260,7 +260,7 @@ div {
 .deselect {
   background: linear-gradient(red, rgb(189, 0, 0)) !important;
   &:hover {
-    background: linear-gradient(rgb(212, 112, 112), rgb(163, 48, 48)) !important;
+    background: linear-gradient(rgb(221, 100, 100), rgb(163, 48, 48)) !important;
   }
 }
 
