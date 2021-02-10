@@ -75,7 +75,7 @@
 
           <!-- Select for Trade-Up -->
           <button class="requestTrade deselect"
-          @click="selectForTradeUp(skin._id, i)">
+          @click="deselectSkin(skin, i)">
             Deselect
           </button>
 
@@ -108,16 +108,27 @@ export default {
     }
   },
   methods: {
+    proceedWithTradeUp() {},
+    clearTradeUp() {},
+    deselectSkin(skin, i) {
+      this.tradeUpSkins.splice(i, 1)
+
+      this.filteredSkins.unshift(skin)
+
+      if (this.tradeUpSkins.length === 0) {
+        this.filteredSkins = this.mySkins
+      }
+    },
     selectForTradeUp(skin, i) {
       if (this.tradeUpSkins.length === 0) {
         this.tradeUpGrade = skin.grade
       }
 
+      this.filteredSkins.splice(i, 1)
+
       this.filteredSkins = this.filteredSkins.filter((skin) => {
         return skin.grade === this.tradeUpGrade
       })
-
-      this.filteredSkins.splice(i, 1)
 
       this.tradeUpSkins.unshift(skin)
     },
