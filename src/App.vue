@@ -310,7 +310,7 @@ export default {
     },
     async fetchUser() {
       const token = localStorage.getItem('token')
-      if (token !== 'null' && token !== null) {
+      if (token !== 'null' && !token) {
         axios.defaults.headers = {
           'Content-Type': 'application/json',
           Authorization: token
@@ -343,6 +343,10 @@ export default {
       this.userCount = data.userCount
       this.$forceUpdate()
     })
+
+    setTimeout(() => {
+      this.adBannerHidden = true
+    }, 10000)
   }
 }
 </script>
@@ -363,7 +367,7 @@ export default {
   right: 0;
   height: 70vh;
   width: 300px;
-  background-color: #1B2435;
+  background-color: #43516b;
   border-right: 3px solid white;
 }
 
