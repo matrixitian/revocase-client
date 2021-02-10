@@ -129,6 +129,8 @@
         :user="user"></component>
       </div>
     </div>
+
+    <button id="propellerAds" @click="openPropellerAd()">Propeller Ads</button>
   </div>
 </template>
 
@@ -191,6 +193,10 @@ export default {
     })
   },
   methods: {
+    openPropellerAd() {
+// AdCash
+  window.open('https://www.greatdexchange.com/jump/next.php?r=4138191')
+    },
     getPoint() {
       if (this.currentIntervalID) {
         clearInterval(this.currentIntervalID)
@@ -345,9 +351,9 @@ export default {
       this.$forceUpdate()
     })
 
-    setTimeout(() => {
-      this.adBannerHidden = true
-    }, 10000)
+    // setTimeout(() => {
+    //   this.adBannerHidden = true
+    // }, 10000)
   }
 }
 </script>
@@ -359,6 +365,12 @@ export default {
 @import '@/assets/mixins/centerY';
 @import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/unselectable';
+
+#propellerAds {
+  position: absolute;
+  top: 0;
+  left: 50%;
+}
 
 .AdBanner {
   z-index: 1500;

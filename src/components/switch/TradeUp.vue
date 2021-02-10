@@ -38,7 +38,8 @@
           </button>
 
           <!-- Select for Trade-Up -->
-          <button class="requestTrade" @click="selectForTradeUp(skin, i)">
+          <button class="requestTrade" 
+          @click="selectForTradeUp(skin, i)">
             Select
           </button>
 
@@ -47,7 +48,9 @@
     </div>
 
     <div id="tradeUp">
-      <p>10 skins needed for trade up to higher quality!</p>
+
+      <p id="tradeUpInfo">10 skins needed for trade up to higher quality!</p>
+
       <ul v-if="!loading">
         <li v-for="(skin, i) in tradeUpSkins" :key="i"
         :class="skin.grade"
@@ -82,7 +85,10 @@
         </li>
       </ul>
 
-      <button id="proceedBtn">Proceed</button>
+      <button id="proceedBtn"
+      :class="{ proceedOK: tradeUpSkins.length === 10 }">
+        Proceed
+      </button>
     </div>
 
   </div>
@@ -120,6 +126,11 @@ export default {
       }
     },
     selectForTradeUp(skin, i) {
+      if (this.tradeUpSkins.length === 10) {
+        this.$store.commit('setError', { errMsg: 'You already have 10 skins in the trade up.' })
+        throw new Error()
+     }
+
       if (this.tradeUpSkins.length === 0) {
         this.tradeUpGrade = skin.grade
       }
@@ -209,6 +220,41 @@ div {
   height: 70vh;
   width: 49vw;
   float: right;
+
+  #tradeUpInfo {
+    background: linear-gradient(rgb(11, 87, 185), rgb(10, 116, 216));
+    padding: 3px;
+    border-radius: 10px;
+    width: 400px;
+    border: 2px dashed rgba(255, 255, 255, 0.4);
+    margin: auto;
+    margin-top: 10px;
+  }
+
+  #proceedBtn {
+    @include centerX;
+    bottom: 25px;
+    right: 20px;
+    font-weight: bold;
+    width: 150px;
+    font-size: 17px;
+    padding: 5px 0 5px 0;
+    border: none;
+    border-radius: 5px;
+    color: whitesmoke;
+    background: linear-gradient(rgb(228, 44, 44),rgb(165, 44, 7));
+    box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
+    cursor: default;
+  }
+
+  .proceedOK {
+    background: linear-gradient(rgb(43, 207, 98),rgb(0, 177, 59)) !important;
+    cursor: pointer !important;
+    &:hover {
+      transition: .15s ease;
+      background: linear-gradient(rgb(96, 224, 139), rgb(23, 228, 92)) !important;
+    }
+  }
 }
 
 .deselect {
@@ -262,7 +308,7 @@ div {
 ul {
   @include centerXY;
   width: 90%;
-  height: 80%;
+  height: 75%;
   overflow-y: auto;
   li {
     position: relative;
