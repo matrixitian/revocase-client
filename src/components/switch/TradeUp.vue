@@ -53,8 +53,7 @@
 
       <ul v-if="!loading">
         <li v-for="(skin, i) in tradeUpSkins" :key="i"
-        :class="skin.grade"
-        v-show="checkSkinAvailable(skin)">
+        :class="skin.grade">
 
           <!-- Skin Img -->
           <img :src="getWpnImg(skin.skin)" alt="">
@@ -85,10 +84,17 @@
         </li>
       </ul>
 
-      <button id="proceedBtn"
-      :class="{ proceedOK: tradeUpSkins.length === 10 }">
-        Proceed
-      </button>
+      <div id="tradeButtons">
+        <button id="clearBtn"
+          @click="clearTradeUp()">
+          Clear
+        </button>
+        <button id="proceedBtn"
+          :class="{ proceedOK: tradeUpSkins.length === 10 }"
+          @click="doTradeUp()">
+          Proceed
+        </button>
+      </div>
     </div>
 
   </div>
@@ -114,8 +120,23 @@ export default {
     }
   },
   methods: {
-    proceedWithTradeUp() {},
-    clearTradeUp() {},
+    async doTradeUp() {
+      const skinIDs = this.tradeUpSkins.map(skin => {
+        return skin._id
+      })
+
+      const res = await axios.post(`${config.server}/trade-up`, {
+        skinIDs
+      })
+
+      const receivedSkin = res.data
+
+      console.log(receivedSkin)
+    },
+    clearTradeUp() {
+      this.tradeUpSkins = []
+      this.filteredSkins = this.mySkins
+    },
     deselectSkin(skin, i) {
       this.tradeUpSkins.splice(i, 1)
 
@@ -144,7 +165,7 @@ export default {
       this.tradeUpSkins.unshift(skin)
     },
     checkSkinAvailable(skin) {
-      if (skin.tradeOfferSent || skin.requestedTrade) return false
+      if (skin.tradeOfferSent || skin.requestedTrade || skin.grade === 'covert') return false
 
       return true
     },
@@ -231,30 +252,45 @@ div {
     margin-top: 10px;
   }
 
-  #proceedBtn {
+  #tradeButtons {
     @include centerX;
     bottom: 25px;
     right: 20px;
-    font-weight: bold;
-    width: 150px;
-    font-size: 17px;
-    padding: 5px 0 5px 0;
-    border: none;
-    border-radius: 5px;
-    color: whitesmoke;
-    background: linear-gradient(rgb(228, 44, 44),rgb(165, 44, 7));
-    box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
-    cursor: default;
-  }
+    height: auto;
+    width: 400px;
+    #proceedBtn, #clearBtn {
+      margin: 5px;
+      font-weight: bold;
+      width: 150px;
+      font-size: 17px;
+      padding: 5px 0 5px 0;
+      border: none;
+      border-radius: 5px;
+      color: whitesmoke;
+      background: linear-gradient(rgb(228, 44, 44),rgb(165, 44, 7));
+      box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
+      cursor: default;
+    }
+    
+    #clearBtn {
+      background: linear-gradient(rgb(170, 44, 228), rgb(86, 8, 149));
+      cursor: pointer;
+      &:hover {
+        transition: .15s ease;
+        background: linear-gradient(rgb(173, 74, 219), rgb(114, 12, 197)) !important;
+      }
+    }
 
-  .proceedOK {
-    background: linear-gradient(rgb(43, 207, 98),rgb(0, 177, 59)) !important;
-    cursor: pointer !important;
-    &:hover {
-      transition: .15s ease;
-      background: linear-gradient(rgb(96, 224, 139), rgb(23, 228, 92)) !important;
+    .proceedOK {
+      background: linear-gradient(rgb(43, 207, 98),rgb(0, 177, 59)) !important;
+      cursor: pointer !important;
+      &:hover {
+        transition: .15s ease;
+        background: linear-gradient(rgb(96, 224, 139), rgb(23, 228, 92)) !important;
+      }
     }
   }
+
 }
 
 .deselect {
