@@ -46,7 +46,44 @@
       </ul>
     </div>
 
-    <div id="tradeUp"></div>
+    <div id="tradeUp">
+      <p>10 skins needed for trade up to higher quality!</p>
+      <ul v-if="!loading">
+        <li v-for="(skin, i) in mySkins" :key="i"
+        :class="skin.grade"
+        v-show="checkSkinAvailable(skin)">
+
+          <!-- Skin Img -->
+          <img :src="getWpnImg(skin.skin)" alt="">
+
+          <!-- Skin Name -->
+          <p>{{ formatSkinName(skin.skin) }}</p>
+
+          <!-- Skin Condition -->
+          <p class="gunCondition"
+          :class="skin.condition">{{ formatCondition(skin.condition) }}</p>
+
+          <!-- Sell Skin -->
+          <button class="sell">
+            <p>
+              <span>
+                {{ getSkinPrice(skin.caseName, skin.grade, skin.condition) }}
+              </span>
+            </p>
+            <img src="@/assets/icons/bullet.png" alt="">
+          </button>
+
+          <!-- Select for Trade-Up -->
+          <button class="requestTrade deselect"
+          @click="selectForTradeUp(skin._id, i)">
+            Deselect
+          </button>
+
+        </li>
+      </ul>
+
+      <button id="proceedBtn">Proceed</button>
+    </div>
 
   </div>
 </template>
@@ -62,13 +99,11 @@ export default {
     return {
       user: null,
       loading: true,
-      tradeURL: null,
       mySkins: [],
-      CDNgunIDs: [],
+      filteredSkins: [],
+      skinInTradeUp: [],
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
-      wpnLinks: {},
-      normalGunNames: {},
-      skinPrices: {}
+      wpnLinks: {}
     }
   },
   methods: {
@@ -148,6 +183,10 @@ div {
   height: 70vh;
   width: 49vw;
   float: right;
+}
+
+.deselect {
+  background: linear-gradient(red, rgb(189, 0, 0)) !important;
 }
 
 #mySkins {
