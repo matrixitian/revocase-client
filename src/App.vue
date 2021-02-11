@@ -121,11 +121,11 @@
       </div>
     </div>
 
-    <span id="hideAdBannerBtn" class="material-icons-round"
+    <!-- <span id="hideAdBannerBtn" class="material-icons-round"
     v-if="this.adBannerHidden === false"
     @click="this.adBannerHidden = true">
       disabled_by_default
-    </span>
+    </span> -->
     <!-- <div class="AdBanner" id="container-16243ca699c6fdde1e4ea9825898d832"
     :class="{ adBannerHidden: adBannerHidden }"></div> -->
 
@@ -214,8 +214,6 @@ export default {
         if (res.status !== 200) {
           this.$store.commit('setError', { errMsg: 'Point could not be given. Please refresh page.' })
         }
-
-        console.log('sent')
       }
 
       if (this.adCount < 50) {
@@ -232,11 +230,11 @@ export default {
         })
 
         if (this.adsRunning && !adBlockActive && this.adCount < 50) {
-            // window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
-            // window.open('//stawhoph.com/afu.php?zoneid=3928400', '_blank')
-            // window.open('https://www.greatdexchange.com/jump/next.php?r=4138191', '_blank')
+            window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
+            window.open('//stawhoph.com/afu.php?zoneid=3928400', '_blank')
+            window.open('https://www.greatdexchange.com/jump/next.php?r=4138191', '_blank')
+            window.open('https://apprefaculty.pro/d.m/F/z-dpGaNLv/ZKG/Ux/ee/me9EuuZEU/lqkpPTTtQCxmNHj/YaxfNMjPkDteNJDIES2/N/jnE/3yMrAg', '_blank')
 
-            this.myCoins++
             this.adCount++
             localStorage.setItem('adCount', this.adCount)
 
