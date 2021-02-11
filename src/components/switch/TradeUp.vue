@@ -49,6 +49,10 @@
 
     <div id="tradeUp">
 
+      <div id="showReceivedSkin">
+       
+      </div>
+
       <p id="tradeUpInfo">10 skins needed for trade up to higher quality!</p>
 
       <ul v-if="!loading">
@@ -395,12 +399,12 @@ ul {
       border: none;
       border-radius: 5px;
       color: whitesmoke;
-      background: linear-gradient(rgb(228, 154, 44),rgb(231, 65, 15));
+      background: linear-gradient(rgb(68, 233, 90),rgb(6, 155, 39));
       box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
       cursor: pointer;
       &:hover {
         transition: .15s ease;
-        background: -webkit-linear-gradient(#e48a37,#aa4a0a 60%,#e06823);
+        background: linear-gradient(rgb(101, 226, 117), rgb(11, 173, 46));
       }
     }
     .sell {

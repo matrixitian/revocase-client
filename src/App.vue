@@ -90,9 +90,15 @@
           </transition>
 
           <div id="playAds" @click="getPoint()"
-          :class="{ adsRunning: adsRunning }">
+          :class="[
+          { adsRunning: adsRunning },
+          { disablePlayAds: adCount === 50 },
+          ]">
             <img src="@/assets/icons/start.svg" alt="">
-            <p>{{ adsRunning? 'Stop Ads' : 'Start Ads' }}</p>
+            <p>{{
+              adCount === 50 ? 'Done' :
+              `${adCount}/50 Ads`
+            }}</p>
           </div>
 
           <div id="playTutorial">
@@ -120,8 +126,8 @@
     @click="this.adBannerHidden = true">
       disabled_by_default
     </span>
-    <div class="AdBanner" id="container-16243ca699c6fdde1e4ea9825898d832"
-    :class="{ adBannerHidden: adBannerHidden }"></div>
+    <!-- <div class="AdBanner" id="container-16243ca699c6fdde1e4ea9825898d832"
+    :class="{ adBannerHidden: adBannerHidden }"></div> -->
 
     <div id="Bottomer">
       <div id="bottomAligner">
@@ -130,13 +136,13 @@
       </div>
     </div>
 
-    <button id="propellerAds" @click="openPropellerAd()">Propeller Ads</button>
   </div>
 </template>
 
 <script>
 import config from '@/assets/config/config'
 import io from 'socket.io-client'
+import Cookies from 'js-cookie'
 import axios from 'axios'
 import { detectAnyAdblocker } from 'just-detect-adblock'
 import * as Parts from '@/components/switch'
@@ -155,6 +161,8 @@ export default {
       adBannerHidden: false,
       currentIntervalID: null,
       userCount: 0,
+      adCount: 0,
+      lastDateAdsViewed: null,
       adsRunning: false,
       haveReferral: false,
       showReferralInfo: false,
@@ -193,30 +201,15 @@ export default {
     })
   },
   methods: {
-    openPropellerAd() {
-// AdCash
-  window.open('https://www.greatdexchange.com/jump/next.php?r=4138191')
-    },
     getPoint() {
       if (this.currentIntervalID) {
         clearInterval(this.currentIntervalID)
       }
 
       this.adsRunning = !this.adsRunning
-      let i = 0
-      let adsReady = true
 
-      if (i > 25) {
-        i = 0
-        adsReady = false
-
-        setTimeout(() => {
-          this.adsReady = true
-        }, 45000)
-      }
-
-      const sendGive = async() => {
-        const res = await axios.post(`${config.server}/give-user-point`)
+      const finishDailyAds = async() => {
+        const res = await axios.post(`${config.server}/finish-daily-ads`)
 
         if (res.status !== 200) {
           this.$store.commit('setError', { errMsg: 'Point could not be given. Please refresh page.' })
@@ -225,7 +218,8 @@ export default {
         console.log('sent')
       }
 
-      this.currentIntervalID = setInterval(() => {
+      if (this.adCount < 50) {
+        this.currentIntervalID = setInterval(() => {
         let adBlockActive
 
         detectAnyAdblocker().then((detected) => {
@@ -237,34 +231,28 @@ export default {
           }
         })
 
-        if (this.adsRunning && adsReady && !adBlockActive) {
-          // Adsterra
-          setTimeout(() => {
-            if (this.adsRunning && adsReady && !adBlockActive) {
-              window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
+        if (this.adsRunning && !adBlockActive && this.adCount < 50) {
+            // window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
+            // window.open('//stawhoph.com/afu.php?zoneid=3928400', '_blank')
+            // window.open('https://www.greatdexchange.com/jump/next.php?r=4138191', '_blank')
+
+            this.myCoins++
+            this.adCount++
+            localStorage.setItem('adCount', this.adCount)
+
+            if (this.adCount === 50) {
+              Cookies.set('ads_viewed_today', true, { expires: 1 })
+              localStorage.setItem('adCount', 50)
+              finishDailyAds()
+
+              this.adsRunning = false
             }
-          }, 6000)
+          }
+        }, 500)
 
-          setTimeout(() => {
-            // PropellerAds
-            if (this.adsRunning && adsReady && !adBlockActive) {
-              window.open('//stawhoph.com/afu.php?zoneid=3928400', '_blank')
-            }
-          }, 12000)
-
-          setTimeout(() => {
-            // AdCash
-            if (this.adsRunning && adsReady && !adBlockActive) {
-              window.open('https://www.greatdexchange.com/jump/next.php?r=4138191', '_blank')
-            }
-          }, 18000)
-
-          this.myCoins++
-          i++
-
-          sendGive()
-        }
-      }, 20000)
+      } else {
+        this.$store.commit('setError', { errMsg: `You need to wait until ${new Date} to do that` })
+      }
     },
     hideReferralMenu() {
       this.haveReferral = true
@@ -337,6 +325,18 @@ export default {
     }
   },
   async mounted() {
+    // Get adCount
+    if (localStorage.getItem('adCount')) {
+      this.adCount = Number(localStorage.getItem('adCount'))
+      console.log(this.adCount)
+    }
+
+    const lastViewedADayAgo = Cookies.get('ads_viewed_today')
+
+    if (!lastViewedADayAgo) {
+      this.adCount = 0
+    }
+    
     this.fetchUser()
 
     if (localStorage.getItem('referralHidden')) {
@@ -838,6 +838,14 @@ p {
 
 .adsRunning {
   background-color: red !important;
+}
+
+.disablePlayAds {
+  background-color: gray !important;
+  cursor: default !important;
+  &:hover {
+    transform: none !important;
+  }
 }
 
 
