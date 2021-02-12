@@ -1,21 +1,28 @@
 <template>
   <div id="Main">
 
-    <Referral v-if="user && !haveReferral" 
-    @referralEntered="hideReferralMenu()" />
-
     <ErrorHandler />
 
-    <div id="Auth" v-if="!user && authChecked">
-      <Auth />
-    </div>
+    <div id="Auth" v-if="!user && authChecked"><Auth /></div>
 
     <div id="Topper">
+
+      <!-- Users online -->
+      <div id="usersOnline">
+        <p>Users online: <span>{{ userCount }}</span></p>
+        <div id="onlineDot" class="blink"></div>
+      </div>
+
+<!-- Left -->
       <div id="Left">
+
+        <!-- My coins -->
         <div id="myCoins">
           <p>My Bullets: <span id="myCoinsAmount">{{ myCoins }}</span></p>
           <img src="@/assets/icons/bullet.png" alt="">
         </div>
+
+        <!-- My Skins Btn -->
         <div id="mySkins" @click="switchDynamicComponent()"
         :class="{goBackBtn : dynamicComponent !== 'Cases'}">
 
@@ -31,38 +38,43 @@
 
         </div>
 
+        <!-- My Referral -->
         <div id="Referral" v-if="user">
+
           <div>
             <p>Referral Code</p>
           </div>
+
+          <!-- Referral Code -->
           <input id="referralCode" type="text"
-            @click="selectCode()"
-            ref="referralCode"
+            :value="myReferralCode"
+            @click="copyReferralCode()"
             @mouseenter="showReferralInfo = true"
             @mouseleave="showReferralInfo = false"
-            :value="myReferralCode">
-          <img src="@/assets/icons/info.svg" alt=""
+            ref="referralCode">
+
+          <!-- Show Referral Icon -->
+          <img src="@/assets/icons/info.svg"
             @mouseenter="showReferralInfo = true"
             @mouseleave="showReferralInfo = false">
+
           <div id="referralInfo" v-if="showReferralInfo">
-            <p>When someone registers and enters your referral, 
-            you wil get 25 coins for each case they open!</p>
+            <p>
+              You will get 1RP for giveaways when a user 
+              registered with your referral opens a case!
+            </p>
           </div>
+
         </div>
       </div>
 
-      <div id="usersOnline">
-        <p>Users online: <span>{{ userCount }}</span></p>
-        <div id="onlineDot" class="blink"></div>
-      </div>
-
+<!-- Middle -->
       <div id="Middle">
+
         <div id="centerLogo">
           <div id="centerUp">
             <img id="Logo" src="@/assets/logo-min.png" alt="RevoSkins.Eu Logo">
             <p id="logoText">Revo Cases</p>
-          </div>
-          <div id="centerDown">
           </div>
         </div>
 
@@ -70,10 +82,15 @@
           @click="this.$store.commit('changeView', { view: 'TradeUp' })">
           Trade Ups
         </button>
+
       </div>
+
+<!-- Right -->
       <div id="Right">
 
         <div id="Buttons">
+
+          <!-- Support Btn -->
           <a href="https://discord.gg/bDXXJcU95J" target="_blank">
             <div id="support">
               <img src="@/assets/icons/discord_logo.svg" alt="">
@@ -81,30 +98,32 @@
             </div>
           </a>
 
+          <!-- Logout Btn -->
           <transition name="slide-fade">
-            <div id="logout" v-if="user"
-            @click="signOut()">
+            <div id="logout" v-if="user" @click="signOut()">
               <span class="material-icons">logout</span>
               <p>Logout</p>
             </div>
           </transition>
 
+          <!-- Play Ads Btn -->
           <div id="playAds" @click="getPoint()"
-          :class="[
-          { adsRunning: adsRunning },
-          { disablePlayAds: adCount === 50 },
-          ]">
+          :class="[{ adsRunning: adsRunning },{ disablePlayAds: adCount === 50 },]">
             <img src="@/assets/icons/start.svg" alt="">
-            <p>{{
-              adCount === 50 ? 'Done' :
-              `${adCount}/50 Ads`
-            }}</p>
+            <p>
+              {{
+                adCount === 50 ? 'Done' :
+                `${adCount}/50 Ads`
+              }}
+            </p>
           </div>
 
+          <!-- Tutorial Btn -->
           <div id="playTutorial">
             <img src="@/assets/icons/play.svg" alt="">
             <p>Tutorial</p>
           </div>
+
         </div>
 
         <img id="selectedLang" 
@@ -121,19 +140,13 @@
       </div>
     </div>
 
-    <!-- <span id="hideAdBannerBtn" class="material-icons-round"
-    v-if="this.adBannerHidden === false"
-    @click="this.adBannerHidden = true">
-      disabled_by_default
-    </span> -->
-    <!-- <div class="AdBanner" id="container-16243ca699c6fdde1e4ea9825898d832"
-    :class="{ adBannerHidden: adBannerHidden }"></div> -->
-
+<!-- Bottom -->
     <div id="Bottomer">
+
       <div id="bottomAligner">
-        <component :is="dynamicComponent" :Case="caseClicked"
-        :user="user"></component>
+        <component :is="dynamicComponent" :Case="caseClicked" :user="user"></component>
       </div>
+      
     </div>
 
   </div>
@@ -141,39 +154,39 @@
 
 <script>
 import config from '@/assets/config/config'
+import { detectAnyAdblocker } from 'just-detect-adblock'
+import axios from 'axios'
 import io from 'socket.io-client'
 import Cookies from 'js-cookie'
-import axios from 'axios'
-import { detectAnyAdblocker } from 'just-detect-adblock'
 import * as Parts from '@/components/switch'
 import Auth from '@/components/Auth'
-import Referral from '@/components/Referral'
 import ErrorHandler from '@/components/ErrorHandler'
 
 export default {
   name: 'App',
   components: {
-    ...Parts, Auth, Referral, ErrorHandler
+    ...Parts, Auth, ErrorHandler
   },
   data() {
     return {
       socket: io(config.server),
-      adBannerHidden: false,
-      currentIntervalID: null,
-      userCount: 0,
-      adCount: 0,
-      lastDateAdsViewed: null,
-      adsRunning: false,
-      haveReferral: false,
-      showReferralInfo: false,
-      authChecked: false,
+      // User data
       user: null,
-      dynamicComponent: 'Cases',
       myCoins: 0,
+      // Functional
+      adCount: 0,
+      userCount: 0,
+      lastDateAdsViewed: null,
       myReferralCode: null,
+      showReferralInfo: false,
+      adsRunning: false,
+      currentIntervalID: null,
+      authChecked: false,
+      caseClicked: 'clutch',
+      dynamicComponent: 'Cases',
+      // Language
       selectedLang: 'english',
       langListVisible: false,
-      caseClicked: 'clutch',
       langs: [
         'croatian', 'english', 'french', 'german', 'italian',
         'polish', 'portuguese', 'russian', 'serbian', 'spanish', 'turkish'
@@ -184,11 +197,7 @@ export default {
     this.$store.subscribe(async(mutation, state) => {
       if (mutation.type === 'setUser') {
         this.user = state.user
-        this.myReferralCode = state.user.username
-        
-        if (this.user.referredTo) {
-          this.haveReferral = true
-        }
+        this.myReferralCode = `https://revo-cases.com/referral/${state.user.username}`
       }
 
       if (mutation.type === 'changeView') {
@@ -200,7 +209,69 @@ export default {
       }
     })
   },
+  async mounted() {
+    // Get adCount (count of viewed ads on #playAds button)
+    if (localStorage.getItem('adCount')) {
+      this.adCount = Number(localStorage.getItem('adCount'))
+    }
+
+    const lastViewedADayAgo = Cookies.get('ads_viewed_today')
+
+    if (!lastViewedADayAgo) {
+      this.adCount = 0
+    }
+    
+    // Check user session
+    this.fetchUser()
+
+    // User count
+    this.socket.on('get user count', (data) => {
+      this.userCount = data.userCount
+      this.$forceUpdate()
+    })
+  },
   methods: {
+    async fetchUser() {
+      const token = localStorage.getItem('token')
+
+      if (token) {
+        axios.defaults.headers = {
+          'Content-Type': 'application/json',
+          Authorization: token
+        }
+
+        const res = await axios.get(`${config.server}/get-user`)
+        this.user = res.data
+
+        this.myReferralCode = `https://revo-cases.com/referral/${res.data.username}`
+
+        this.$store.commit('setUser',  { user: res.data })
+        this.fetchCredits()
+        this.authChecked = true
+      } else {
+        this.authChecked = true
+      }
+    },
+    async fetchCredits() {
+      const user = await axios.get(`${config.server}/get-user-credits`)
+
+      this.myCoins = user.data.credits
+
+      this.$store.commit('updateMyCoins', { type: 'set', amount: this.myCoins })
+    },
+    async signOut() {
+      const res = await axios.get(`${config.server}/logout`)
+      this.user = res.data
+
+      if (res.status === 200) {
+        localStorage.setItem('token', '')
+        this.$store.commit('setUser', { user: null })
+        this.user = null
+        this.myCoins = 0
+      } else {
+        this.$store.commit('setError', { errMsg: 'Log out failed, please try again later.' })
+      }
+    },
     getPoint() {
       if (this.currentIntervalID) {
         clearInterval(this.currentIntervalID)
@@ -246,26 +317,20 @@ export default {
               this.adsRunning = false
             }
           }
-        }, 500)
+        }, 10000)
 
       } else {
         this.$store.commit('setError', { errMsg: `You need to wait until ${new Date} to do that` })
       }
     },
-    hideReferralMenu() {
-      this.haveReferral = true
-    },
-    selectCode() {
+    copyReferralCode() {
       this.$refs.referralCode.select()
 
       document.execCommand("copy")
     },
-    async fetchCredits() {
-      const user = await axios.get(`${config.server}/get-user-credits`)
-
-      this.myCoins = user.data.credits
-
-      this.$store.commit('updateMyCoins', { type: 'set', amount: this.myCoins })
+    selectLang(lang) {
+      this.selectedLang = lang
+      this.langListVisible = false
     },
     switchDynamicComponent() {
       if (this.dynamicComponent !== 'Cases') {
@@ -273,85 +338,7 @@ export default {
       } else {
         this.$store.commit('changeView', { view: 'MySkins' })
       }
-    },
-    async signOut() {
-      const res = await axios.get(`${config.server}/logout`)
-      this.user = res.data
-
-      if (res.status === 200) {
-        localStorage.setItem('token', '')
-        this.$store.commit('setUser', { user: null })
-        this.user = null
-        this.myCoins = 0
-      } else {
-        this.$store.commit('setError', { errMsg: 'Log out failed, please try again later.' })
-      }
-    },
-    selectLang(lang) {
-      this.selectedLang = lang
-      this.langListVisible = false
-    },
-    muteTab() {
-      // Mute a singular HTML5 element
-      function muteMe(elem) {
-          elem.muted = true;
-          elem.pause();
-      }
-
-      document.querySelectorAll("video, audio").forEach( elem => muteMe(elem) );
-    },
-    async fetchUser() {
-      const token = localStorage.getItem('token')
-      console.log('token')
-      if (token) {
-        axios.defaults.headers = {
-          'Content-Type': 'application/json',
-          Authorization: token
-        }
-
-        const res = await axios.get(`${config.server}/get-user`)
-        this.user = res.data
-
-        this.myReferralCode = res.data.username
-
-        this.$store.commit('setUser',  { user: res.data })
-        this.fetchCredits()
-        this.authChecked = true
-      } else {
-        this.authChecked = true
-      }
     }
-  },
-  async mounted() {
-    // Get adCount
-    if (localStorage.getItem('adCount')) {
-      this.adCount = Number(localStorage.getItem('adCount'))
-      console.log(this.adCount)
-    }
-
-    const lastViewedADayAgo = Cookies.get('ads_viewed_today')
-
-    if (!lastViewedADayAgo) {
-      this.adCount = 0
-    }
-    
-    this.fetchUser()
-
-    if (localStorage.getItem('referralHidden')) {
-      this.haveReferral = true
-    }
-
-    this.socket.emit('enter server', 'main')
-
-    // User count
-    this.socket.on('get user count', (data) => {
-      this.userCount = data.userCount
-      this.$forceUpdate()
-    })
-
-    // setTimeout(() => {
-    //   this.adBannerHidden = true
-    // }, 10000)
   }
 }
 </script>
@@ -362,59 +349,8 @@ export default {
 @import '@/assets/mixins/centerX';
 @import '@/assets/mixins/centerY';
 @import '@/assets/mixins/centerXY';
+@import '@/assets/mixins/vueSlideFade';
 @import '@/assets/mixins/unselectable';
-
-#propellerAds {
-  position: absolute;
-  top: 0;
-  left: 50%;
-}
-
-.AdBanner {
-  z-index: 1500;
-  position: absolute;
-  overflow-y: auto;
-  bottom: 0;
-  right: 0;
-  height: 70vh;
-  width: 300px;
-  background-color: #43516b;
-  border-right: 3px solid white;
-}
-
-#hideAdBannerBtn {
-  z-index: 5000;
-  position: absolute;
-  top: calc(30vh + 20px); right: 250px;
-  background-color: rgb(134, 22, 22);
-  color: red;
-  border: 2px solid red;
-  border-radius: 10px;
-  transform: scale(2);
-  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-  &:hover {
-    transition: .15s ease;
-    transform: scale(2.05);
-  }
-}
-
-.adBannerHidden {
-  width: 0 !important;
-  height: 0 !important;
-}
-
-$grayBackground: #1b2435;
-$redGradientStart: #ea5a8d;
-$redGradientEnd: #e32565;
-$yellowGradientStart: #ff7b36;
-$yellowGradientEnd: #ffcc01;
-$greenGradientStart: #884bd6;
-$greenGradientEnd: #a81b8a;
-$blueGradientStart: #4ba8b7;
-$blueGradientEnd: #018498;
-$purpleGradientStart: #7967bb;
-$purpleGradientEnd: #5a43ab;
 
 @keyframes float {
 	0% {
@@ -425,14 +361,6 @@ $purpleGradientEnd: #5a43ab;
 	100% {
 		transform: translatey(0px);
 	}
-}
-
-.slide-fade-enter-active {
-  transition: all .3s ease;
-}
-.slide-fade-enter-from, .slide-fade-leave-to {
-  transform: translateX(10px);
-  opacity: 0;
 }
 
 #usersOnline {
@@ -484,7 +412,8 @@ $purpleGradientEnd: #5a43ab;
   #referralCode {
     @include centerXY;
     height: 30px;
-    width: 90%;
+    width: 80%;
+    padding: 0 5px 0 5px;
     border-radius: 12px;
     background-color: rgba(0, 0, 0, 0.55);
     color: white;
@@ -596,7 +525,7 @@ $purpleGradientEnd: #5a43ab;
 }
 
 body {
-  background-color: $grayBackground;
+  background-color: #1b2435;
 }
 
 #logoInfo {
@@ -845,7 +774,6 @@ p {
     transform: none !important;
   }
 }
-
 
 // Scrollbar Style
 ::-webkit-scrollbar-track
