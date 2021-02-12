@@ -1,46 +1,72 @@
 <template>
   <div class="main">
+
     <div id="Upper">
-      <div id="liveFeed">
+
+      <!-- Live Drops Icon -->
+      <div id="liveDrops">
         <p>LIVE DROPS</p>
         <div id="dropIcon" class="blink"></div>
       </div>
 
+      <!-- Live Drops Feed -->
       <ul>
         <transition-group name="slide-fade">
+
           <li v-for="(gun, i) in gunsOpened" :key="i"
           :class="gun.grade">
-            <img :src="getWpnImg(gun.longhand)" alt="">
+
+            <!-- Skin Img -->
+            <img :src="getWpnImg(gun.longhand)">
+            <!-- Skin Name -->
             <p class="skin"><span class="skinName">{{ gun.skin }}</span></p>
-            <p class="condition"
-            :class="gun.condition">{{ gun.condition.toUpperCase() }}</p>
+            <!-- Skin Condition -->
+            <p class="condition" :class="gun.condition">
+              {{ gun.condition.toUpperCase() }}
+            </p>
+            <!-- Won by Username -->
             <p class="uname">{{ gun.uname }}</p>
+            <!-- Opened at Time -->
             <p class="time">{{ openedAgo(gun.timeOpened) }}</p>
+
           </li>
+
         </transition-group>
       </ul>
+
     </div>
+
     <div id="Downer">
 
       <ul>
-        <li v-for="(caseName, i) in cases" :key="i"
-        :class="`Pipe_${i}`">
-          <img class="case" :src="getCaseImg(caseName)" alt="">
+        <li v-for="(caseName, i) in cases"
+        :key="i" :class="`Pipe_${i}`">
+
+          <!-- Case Img -->
+          <img class="case" :src="getCaseImg(caseName)">
+          <!-- Case Title -->
           <p class="caseTitle">{{ formattedCaseName(caseName) }}</p>
-          <p class="amountOpened">Opened <span>{{ casesOpened[i] }}</span></p>
+          <!-- Case Amount Opened -->
+          <p class="amountOpened">Opened 
+            <span>{{ casesOpened[i] }}</span>
+          </p>
+          <!-- View Contents Btn -->
           <div class="viewContents"
           @click="changeView(caseName)">
             <span class="material-icons contentsIcon">toc</span>
             <p>View Contents</p>
           </div>
-          <div class="openBtnCon" @click="buyCase(caseName)">
+          <!-- Open Container Btn -->
+          <div class="openCaseBtn" @click="buyCase(caseName)">
             <img src="@/assets/icons/bullet.png" alt="">
             <p>{{ casePrices[i] }}</p>
           </div>
+
         </li>
       </ul>
 
     </div>
+
   </div>
 </template>
 
@@ -75,7 +101,7 @@ export default {
       formattedCaseNames: [
         'Danger Zone', 'Chroma 2', 'Clutch', 'Fracture', 'Phoenix'
       ],
-      casePrices: [399, 499, 599, 749, 999]
+      casePrices: [149, 199, 249, 399, 599]
     }
   },
   methods: {
@@ -174,7 +200,6 @@ export default {
 <style scoped lang="scss">
 @import '@/assets/mixins/blink';
 @import '@/assets/mixins/centerX';
-@import '@/assets/mixins/centerY';
 @import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/unselectable';
 @import '@/assets/mixins/skinGrades';
@@ -193,7 +218,7 @@ $blueGradientEnd: #018498;
 $purpleGradientStart: #7967bb;
 $purpleGradientEnd: #5a43ab;
 
-#liveFeed {
+#liveDrops {
   position: absolute;
   top: 0px;
   left: -10px;
@@ -215,14 +240,14 @@ $purpleGradientEnd: #5a43ab;
   }
 }
 
-.Pipe_3 {
-  background-color: $redGradientEnd;
-  background-image: linear-gradient($redGradientStart, $redGradientEnd);
-}
-
 .Pipe_4 {
   background-color: $yellowGradientEnd;
   background-image: linear-gradient($yellowGradientEnd, $yellowGradientStart);
+}
+
+.Pipe_3 {
+  background-color: $redGradientEnd;
+  background-image: linear-gradient($redGradientStart, $redGradientEnd);
 }
 
 .Pipe_2 {
@@ -384,7 +409,7 @@ $purpleGradientEnd: #5a43ab;
   }
 }
 
-.viewContents, .openBtnCon {
+.viewContents, .openCaseBtn {
   margin: auto;
   margin-top: 10px;
   box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.15);
@@ -418,7 +443,7 @@ $purpleGradientEnd: #5a43ab;
   }
 }
 
-.openBtnCon {
+.openCaseBtn {
   padding: 7px 10px 7px 10px;
   background-color: rgb(46, 209, 54);
   background-image: linear-gradient(rgb(46, 209, 54), rgb(18, 158, 41));
@@ -436,4 +461,5 @@ $purpleGradientEnd: #5a43ab;
     font-size: 18px;
   }
 }
+
 </style>
