@@ -75,17 +75,18 @@ import config from '@/assets/config/config'
 import moment from 'moment'
 import axios from 'axios'
 import { firestore } from '@/firebase/config.js'
-import translateTimestamp from '@/js/translateTimestamp.js'
 
 export default {
   name: 'Cases',
   data() {
     return {
-      casesOpened: [0, 0, 0, 0, 0],
-      wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
-      wpnLinks: {},
+      // Live Drops Feed
+      wpnImgLinks: {},
+      wpnImgSteamLink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
       caseCDNlink: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-",
-      caseLinks: [
+      // Cases
+      casesOpened: [0, 0, 0, 0, 0],
+      caseImgLinks: [
         "fRPasw8rsUFJ5KBFZv668FFUxnaPLJz5H74y1xtTcz6etNumIx29U6Zd3j7yQoYih3lG1-UJqY27xJIeLMlhpaD9Aclo/256fx256f.png",
         "fRPasw8rsUFJ5KBFZv668FFAuhqSaKWtEu43mxtbbk6b1a77Twm4Iu8Yl3bCU9Imii1Xt80M5MmD7JZjVLFH-6VnQJQ/256fx256f.png",
         "fRPasw8rsUFJ5KBFZv668FFY5naqQIz4R7Yjix9bZkvKiZrmAzzlTu5AoibiT8d_x21Wy8hY_MWz1doSLMlhpM3FKbNs/256fx256f.png",
@@ -104,18 +105,16 @@ export default {
       casePrices: [149, 199, 249, 399, 599]
     }
   },
-  methods: {
-    changeView(caseName) {
-      this.$store.commit('selectCase', { caseName })
-      this.$store.commit('changeView', { view: 'CaseContents' })
-    },
+  methods: {    
     async buyCase(caseName) {
+      // Get Case price
       const caseIndex = this.cases.indexOf(caseName)
       const casePrice = this.casePrices[caseIndex]
 
       this.user = this.$store.getters.getUser
       const myCoins = this.$store.getters.getCoins
 
+      // Check User has enough coins
       if (myCoins < casePrice) {
         this.$store.commit('setError', {
           errMsg: "You don't have enough coins!"
@@ -126,6 +125,7 @@ export default {
       const res = await axios.post(`${config.server}/buy-case`, 
       { caseName })
 
+      // Set current drop for CaseRoll
       this.$store.commit('setCurrentDrop', { 
         drop: {
           name: res.data.skin,
@@ -147,29 +147,31 @@ export default {
       return this.formattedCaseNames[index]
     },
     getWpnImg(wpnLonghand) {
-      const wpnID = this.wpnLinks[wpnLonghand]
+      const wpnID = this.wpnImgLinks[wpnLonghand]
 
       if (wpnLonghand === 'rare_item') {
         return require('@/assets/cases/rare_item.png')
       } else {
-        return `${this.wpnCDNlink}${wpnID}.png`
+        return `${this.wpnImgSteamLink}${wpnID}.png`
       }
     },
     getCaseImg(caseName) {
       const index = this.cases.indexOf(caseName)
 
-      return this.caseCDNlink + this.caseLinks[index]
-    },
-    getTime(timestamp) {
-      return translateTimestamp(timestamp)
+      return this.caseCDNlink + this.caseImgLinks[index]
     },
     openedAgo(timestamp) {
       return moment(timestamp).fromNow()
+    },
+    changeView(caseName) {
+      this.$store.commit('selectCase', { caseName })
+      this.$store.commit('changeView', { view: 'CaseContents' })
     }
   },
   mounted() {
-    this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
+    this.wpnImgLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
 
+    // Realtime Live Drops Feed
     const dropsRef = firestore.collection('drops')
       .orderBy('timeOpened').limitToLast(8)
 
@@ -182,6 +184,7 @@ export default {
       this.gunsOpened = results
     })
 
+    // Realtime Cases Opened amounts
     const casesOpenedRef = firestore.collection('casesOpened')
 
     casesOpenedRef.onSnapshot((snap) => {
