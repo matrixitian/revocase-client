@@ -1,6 +1,7 @@
 <template>
   <div>
 
+    <!-- Loader -->
     <div id="Loading" v-if="loading">
       <div class="snippet" data-title=".dot-flashing">
         <div class="stage">
@@ -10,14 +11,26 @@
     </div>
 
     <div id="Inputs">
+
+      <!-- Go To TradeUp Btn -->
+      <div id="tradeUpBtn" @click="$store.commit('changeView', { view: 'TradeUp' })">
+        <span class="material-icons">upgrade</span>
+        <p>Trade Ups</p>
+      </div>
+
+      <!-- Input New Trade URL -->
       <input placeholder="New Trade URL" type="text"
       v-model="tradeURL"
       @focus="tradeURL = null"
       @blur="updateTradeURL()">
+
+      <!-- Trade URL Input Info -->
       <a href="https://steamcommunity.com/my/tradeoffers/privacy#trade_offer_access_url"
-      target="_blank">
-        <img src="@/assets/icons/info.svg" alt="">
+        target="_blank"
+        id="tradeInfo">
+        <span>GET URL</span>
       </a>
+
     </div>
 
     <p id="noSkinsFound" v-if="!loading && mySkins.length === 0">You don't have any skins, open some cases!</p>
@@ -27,7 +40,7 @@
       :class="skin.grade">
 
         <!-- Skin Img -->
-        <img :src="getWpnImg(skin.skin)" alt="">
+        <img :src="getWpnImg(skin.skin)">
 
         <!-- Skin Name -->
         <p>{{ formatSkinName(skin.skin) }}</p>
@@ -179,10 +192,61 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/mixins/centerY';
 @import '@/assets/mixins/centerX';
 @import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/skinGrades';
 @import '@/assets/mixins/skinCondition';
+
+#tradeUpBtn {
+  position: absolute;
+  left: -180px;
+  width: 160px;
+  height: 35px;
+  background: linear-gradient(rgb(139, 18, 219), rgb(95, 18, 219));
+  border-radius: 10px;
+  border: none;
+  color: whitesmoke;
+  border: 4px solid rgb(228, 169, 255);
+  cursor: pointer;
+  &:hover {
+    transition: .1s ease;
+    transform: scale(1.05);
+  }
+  span, img {
+    @include centerY;
+    left: 10px;
+  }
+  p {
+    @include centerXY;
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
+
+#tradeInfo {
+  position: absolute;
+  top: 10px;
+  left: 40px;
+  width: 300px;
+  text-decoration: none;
+  span {
+    font-weight: bold;
+    text-decoration: none;
+    color: white;
+    padding: 5px;
+    font-size: 12px;
+    border: 2px solid white;
+    background-color: rgb(22, 158, 22);
+    border-radius: 5px;
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    &:hover {
+      transition: .15s ease;
+      background-color: rgb(31, 192, 31);
+    }
+  }
+}
 
 #noSkinsFound {
   @include centerXY;

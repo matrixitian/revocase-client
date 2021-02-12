@@ -78,11 +78,6 @@
           </div>
         </div>
 
-        <button id="tradeUpBtn"
-          @click="this.$store.commit('changeView', { view: 'TradeUp' })">
-          Trade Ups
-        </button>
-
       </div>
 
 <!-- Right -->
@@ -127,8 +122,7 @@
         </div>
 
         <img id="selectedLang" 
-        :src="require(`@/assets/flags/${selectedLang}.svg`)" 
-        alt=""
+        :src="require(`@/assets/flags/${selectedLang}.svg`)"
         @mouseenter="langListVisible = true">
         <!-- <ul id="Languages" v-show="langListVisible"
         @mouseleave="langListVisible = false">
@@ -352,189 +346,6 @@ export default {
 @import '@/assets/mixins/vueSlideFade';
 @import '@/assets/mixins/unselectable';
 
-@keyframes float {
-	0% {
-		transform: translatey(0px);}
-	50% {
-		transform: translatey(-12px);
-	}
-	100% {
-		transform: translatey(0px);
-	}
-}
-
-#usersOnline {
-  z-index: 1000;
-  position: absolute;
-  top: 200px;
-  width: 220px;
-  height: 40px;
-  background-color: rgb(15, 172, 15);
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  display: flex;
-  p {
-    margin: auto;
-    font-weight: bold;
-    text-transform: uppercase;
-    display: inline-block;
-    align-self: flex-end;
-    color: black;
-    span {
-      color: white;
-      border-radius: 5px;
-      padding: 3px 5px 3px 5px;
-      background-color: rgba(0, 0, 0, 0.5);
-    }
-  }
-  #onlineDot {
-    float: right;
-    margin-top: 12px;
-    margin-right: 10px;
-    height: 15px;
-    width: 15px;
-    background-color: lime;
-    border: 1px solid black;
-    border-radius: 100%;
-  }
-}
-
-#Referral {
-  position: relative;
-  width: 190px;
-  height: 40px;
-  margin-top: 10px;
-  margin-left: 20px;
-  border: none;
-  border: 1px solid white;
-  border-radius: 15px;
-  background-color: orangered;
-  #referralCode {
-    @include centerXY;
-    height: 30px;
-    width: 80%;
-    padding: 0 5px 0 5px;
-    border-radius: 12px;
-    background-color: rgba(0, 0, 0, 0.55);
-    color: white;
-    font-size: 15px;
-    border: none;
-    outline: none;
-    text-align: center;
-    font-weight: bold;
-  }
-  div {
-    @include centerX;
-    margin: 0;
-    bottom: -18px;
-    float: left;
-    width: 80%;
-    height: 15px;
-    color: rgba(0, 0, 0, 0.7);
-    background-color: whitesmoke;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    p {
-      @include centerXY;
-      font-size: 13px;
-      width: 100%;
-      font-weight: bold;
-    }
-  }
-  img {
-    z-index: 100;
-    position: absolute;
-    height: 25px;
-    top: 10px;
-    right: -30px;
-    background-color: rgb(65, 65, 65);
-    border-radius: 100%;
-    cursor: pointer;
-    &:hover {
-      transition: .2s ease;
-      transform: scale(1.1);
-    }
-  }
-  #referralInfo {
-    z-index: 20;
-    position: absolute;
-    top: 10px;
-    left: 400px;
-    width: 300px;
-    padding: 20px;
-    border-radius: 10px;
-    background-color: white;
-    box-shadow: 0 0 4px 6px rgba(0, 0, 0, 0.2);
-    p {
-      padding: 5px;
-      font-weight: bold;
-      font-size: 15px;
-    }
-  }
-}
-
-#Auth {
-  z-index: 100;
-  @include centerXY;
-}
-
-#Buttons {
-  position: absolute;
-  bottom: 20px;
-  #playAds {
-    z-index: 0 !important;
-  }
-  #playAds, #playTutorial, #logout, #support {
-    position: relative;
-    width: 180px;
-    height: 40px;
-    background-color: rgb(30, 175, 42);
-    border-radius: 20px;
-    color: whitesmoke;
-    cursor: pointer;
-    &:hover {
-      transition: .1s ease;
-      transform: scale(1.05);
-    }
-    span, img {
-      @include centerY;
-      left: 10px;
-    }
-    p {
-      @include centerXY;
-      font-size: 18px;
-      font-weight: bold;
-    }
-  }
-  img {
-    height: 30px;
-  }
-  #logout {
-    margin-bottom: 10px;
-    background-color: rgb(96, 45, 190);
-  }
-  #playTutorial {
-    z-index: 200 !important;
-    margin-top: 10px;
-    background-color: rgb(0, 162, 255);
-  }
-  #support {
-    margin-bottom: 10px;
-    background-color: rgb(5, 96, 216);
-  }
-}
-
-body {
-  background-color: #1b2435;
-}
-
-#logoInfo {
-  position: absolute;
-  bottom: 0;
-  font-size: 20px;
-  color: rgba(255, 255, 255, 0.4)
-}
-
 #app {
   font-family: 'Lato', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -548,48 +359,9 @@ body {
   overflow: hidden;
 }
 
-@keyframes textAnimate {
-  from {
-    filter: hue-rotate(0deg);
-    background-position-x: 0%;
-    
-  }
-  to {
-    filter: hue-rotate(360deg);
-    background-position-x: 600vw;
-    
-  }
-}
-
-#centerLogo {
+#Auth {
+  z-index: 100;
   @include centerXY;
-  width: 600px;
-  height: 150px;
-  margin: auto;
-  #centerUp {
-    height: 70%;
-    position: relative;
-    #Logo {
-      @include centerY;
-      left: 110px;
-      height: 100px;
-    }
-    #logoText {
-      @include centerY;
-      position: absolute;
-      right: 110px;
-      font-weight: bold;
-      font-size: 47px;
-      white-space: nowrap;
-      background: linear-gradient( 92deg, #95d7e3, #eb76ff );
-      background: -webkit-linear-gradient( 92deg, #95d7e3, #eb76ff );
-      background-size:600vw 600vw;
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: textAnimate 5s linear infinite alternate;
-    }
-  }
 }
 
 $leftTopperWidth: 220px;
@@ -600,6 +372,36 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
   width: 100vw;
   height: 30vh;
   border-bottom: 2px dashed rgba(255, 255, 255, 0.1);
+  #centerLogo {
+    @include centerXY;
+    width: 600px;
+    height: 150px;
+    margin: auto;
+    #centerUp {
+      height: 70%;
+      position: relative;
+      #Logo {
+        @include centerY;
+        left: 110px;
+        height: 100px;
+      }
+      #logoText {
+        @include centerY;
+        position: absolute;
+        right: 110px;
+        font-weight: bold;
+        font-size: 47px;
+        white-space: nowrap;
+        background: linear-gradient( 92deg, #95d7e3, #eb76ff );
+        background: -webkit-linear-gradient( 92deg, #95d7e3, #eb76ff );
+        background-size:600vw 600vw;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: textAnimate 5s linear infinite alternate;
+      }
+    }
+  }
   #Left {
     width: $leftTopperWidth;
     height: 100%;
@@ -656,6 +458,79 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
         transform: scale(1.05);
       }
     }
+    #Referral {
+      position: relative;
+      width: 190px;
+      height: 40px;
+      margin-top: 10px;
+      margin-left: 20px;
+      border: none;
+      border: 1px solid white;
+      border-radius: 15px;
+      background-color: orangered;
+      #referralCode {
+        @include centerXY;
+        height: 30px;
+        width: 80%;
+        padding: 0 5px 0 5px;
+        border-radius: 12px;
+        background-color: rgba(0, 0, 0, 0.55);
+        color: white;
+        font-size: 15px;
+        border: none;
+        outline: none;
+        text-align: center;
+        font-weight: bold;
+      }
+      div {
+        @include centerX;
+        margin: 0;
+        bottom: -18px;
+        float: left;
+        width: 80%;
+        height: 15px;
+        color: rgba(0, 0, 0, 0.7);
+        background-color: whitesmoke;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        p {
+          @include centerXY;
+          font-size: 13px;
+          width: 100%;
+          font-weight: bold;
+        }
+      }
+      img {
+        z-index: 100;
+        position: absolute;
+        height: 25px;
+        top: 10px;
+        right: -30px;
+        background-color: rgb(65, 65, 65);
+        border-radius: 100%;
+        cursor: pointer;
+        &:hover {
+          transition: .2s ease;
+          transform: scale(1.1);
+        }
+      }
+      #referralInfo {
+        z-index: 20;
+        position: absolute;
+        top: 10px;
+        left: 400px;
+        width: 300px;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: white;
+        box-shadow: 0 0 4px 6px rgba(0, 0, 0, 0.2);
+        p {
+          padding: 5px;
+          font-weight: bold;
+          font-size: 15px;
+        }
+      }
+    }
   }
   #Middle {
     position: relative;
@@ -691,7 +566,6 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
         background-color: rgba(255, 255, 255, 0.05);
       }
     }
-
     #Languages {
       z-index: 200 !important;
       position: absolute;
@@ -718,6 +592,87 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
         }
       }
     }
+    #Buttons {
+      position: absolute;
+      bottom: 20px;
+      #playAds {
+        z-index: 0 !important;
+      }
+      #playAds, #playTutorial, #logout, #support {
+        position: relative;
+        width: 180px;
+        height: 40px;
+        background-color: rgb(30, 175, 42);
+        border-radius: 20px;
+        color: whitesmoke;
+        cursor: pointer;
+        &:hover {
+          transition: .1s ease;
+          transform: scale(1.05);
+        }
+        span, img {
+          @include centerY;
+          left: 10px;
+        }
+        p {
+          @include centerXY;
+          font-size: 18px;
+          font-weight: bold;
+        }
+      }
+      img {
+        height: 30px;
+      }
+      #logout {
+        margin-bottom: 10px;
+        background-color: rgb(96, 45, 190);
+      }
+      #playTutorial {
+        z-index: 200 !important;
+        margin-top: 10px;
+        background-color: rgb(0, 162, 255);
+      }
+      #support {
+        margin-bottom: 10px;
+        background-color: rgb(5, 96, 216);
+      }
+    }
+  }
+}
+
+#usersOnline {
+  z-index: 1000;
+  position: absolute;
+  top: 200px;
+  width: 220px;
+  height: 40px;
+  background-color: rgb(15, 172, 15);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  display: flex;
+  p {
+    margin: auto;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: inline-block;
+    align-self: flex-end;
+    color: black;
+    span {
+      color: white;
+      border-radius: 5px;
+      padding: 3px 5px 3px 5px;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+  #onlineDot {
+    float: right;
+    margin-top: 12px;
+    margin-right: 10px;
+    height: 15px;
+    width: 15px;
+    background-color: lime;
+    border: 1px solid black;
+    border-radius: 100%;
   }
 }
 
@@ -731,14 +686,44 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
   }
 }
 
-button, input {
-  outline: none;
-  font-family: 'Lato'
+// Keyframes
+@keyframes float {
+	0% {
+		transform: translatey(0px);}
+	50% {
+		transform: translatey(-12px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
 }
 
+@keyframes textAnimate {
+  from {
+    filter: hue-rotate(0deg);
+    background-position-x: 0%;
+    
+  }
+  to {
+    filter: hue-rotate(360deg);
+    background-position-x: 600vw;
+    
+  }
+}
+
+// Global App Styling
 * {
   margin: 0;
   padding: 0;
+}
+
+body {
+  background-color: #1b2435;
+}
+
+button, input {
+  outline: none;
+  font-family: 'Lato'
 }
 
 li {
@@ -757,6 +742,7 @@ p {
   @include unselectable;
 }
 
+// Overwrites
 .goBackBtn {
   background-color: rgb(5, 125, 223) !important;
   background-image: linear-gradient(rgb(32, 146, 240), rgb(0, 109, 211)) !important;

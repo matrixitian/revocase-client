@@ -226,6 +226,7 @@ export default {
 @import '@/assets/mixins/skinCondition';
 
 #noSkinsFound {
+  z-index: 500;
   @include centerXY;
   background: linear-gradient(rgb(230, 144, 112), orangered);
   padding: 10px;
@@ -308,7 +309,7 @@ div {
   position: relative;
   height: 70vh;
   width: 50vw;
-  border-right: 4px dashed rgba(255, 255, 255, 0.2);
+  border-right: 2px dashed rgba(255, 255, 255, 0.2);
   float: left;
 }
 

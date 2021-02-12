@@ -53,19 +53,6 @@
           <span v-if="signUpForm">GET URL</span>
         </a>
 
-        <!-- Ad agreement -->
-        <!-- <div id="agreement"
-        v-if="signUpForm">
-          <div>
-            <p>I agree that I am over 18 
-            and I am okay with adult content being shown to me.</p>
-          </div>
-          <div>
-            <input type="checkbox"
-            v-model="agreed">
-          </div>
-        </div> -->
-
         <!-- Password Meter -->
         <div v-if="signUpForm && !showInfo" id="password_strength">
           <p>Password is <span 
@@ -309,11 +296,12 @@ export default {
   text-decoration: none;
   span {
     text-decoration: none;
-    color: white;
     padding: 5px;
     font-size: 12px;
+    color: white;
     background-color: rgb(22, 158, 22);
     border-radius: 5px;
+    border: 2px solid white;
     box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     &:hover {
