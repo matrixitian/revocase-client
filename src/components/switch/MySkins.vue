@@ -33,8 +33,10 @@
 
     </div>
 
+    <!-- No Skins Found -->
     <p id="noSkinsFound" v-if="!loading && mySkins.length === 0">You don't have any skins, open some cases!</p>
 
+    <!-- My Skins -->
     <ul v-if="!loading">
       <li v-for="(skin, i) in mySkins" :key="i"
       :class="skin.grade">
@@ -198,11 +200,17 @@ export default {
 @import '@/assets/mixins/skinGrades';
 @import '@/assets/mixins/skinCondition';
 
+#Loading {
+  @include centerXY;
+  width: 0;
+  height: 0;
+  transform: scale(2.2);
+}
+
 #tradeUpBtn {
   position: absolute;
-  left: -180px;
-  width: 160px;
   height: 35px;
+  width: 160px;
   background: linear-gradient(rgb(139, 18, 219), rgb(95, 18, 219));
   border-radius: 10px;
   border: none;
@@ -227,7 +235,7 @@ export default {
 #tradeInfo {
   position: absolute;
   top: 10px;
-  left: 40px;
+  right: -110px;
   width: 300px;
   text-decoration: none;
   span {
@@ -264,39 +272,40 @@ div {
 }
 
 #Inputs {
-  display: inline-block;
   position: relative;
   margin: auto;
-  margin-top: 15px;
-  width: 185px;
+  top: 10px;
+  width: 420px;
   height: 50px;
-   input {
-      width: 185px;
-      height: 30px;
-      border-radius: 8px;
-      border: 2px solid rgba(255, 255, 255, 0.2);
-      background-color: rgba(255, 255, 255, 0.05);
-      color: white;
-      padding: 5px 20px 5px 20px;
-      font-size: 17px;
-      font-weight: bold;
-      &::placeholder {
-        color: rgb(158, 158, 158);
-      }
+  input {
+    position: aboslute;
+    float: right;
+    width: 185px;
+    height: 30px;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+    padding: 5px 20px 5px 20px;
+    font-size: 17px;
+    font-weight: bold;
+    &::placeholder {
+      color: rgb(158, 158, 158);
     }
-    img {
-      position: absolute;
-      height: 25px;
-      top: 10px;
-      right: -30px;
-      background-color: rgb(65, 65, 65);
-      border-radius: 100%;
-      cursor: pointer;
-      &:hover {
-        transition: .2s ease;
-        transform: scale(1.1);
-      }
+  }
+  img {
+    position: absolute;
+    height: 25px;
+    top: 10px;
+    right: -30px;
+    background-color: rgb(65, 65, 65);
+    border-radius: 100%;
+    cursor: pointer;
+    &:hover {
+      transition: .2s ease;
+      transform: scale(1.1);
     }
+  }
 }
 
 #tradeDurationInfo {
@@ -316,7 +325,6 @@ div {
 
 ul {
   @include centerXY;
-  // border: 1px solid white;
   width: 90%;
   height: 80%;
   overflow-y: auto;
@@ -477,13 +485,6 @@ ul {
   100% {
     background-color: #1B2435;
   }
-}
-
-#Loading {
-  @include centerXY;
-  width: 0;
-  height: 0;
-  transform: scale(2.2);
 }
 
 </style>
