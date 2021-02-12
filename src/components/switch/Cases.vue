@@ -13,7 +13,7 @@
       <ul>
         <transition-group name="slide-fade">
 
-          <li v-for="(gun, i) in gunsOpened" :key="i"
+          <li v-for="(gun, i) in skinsOpened" :key="i"
           :class="gun.grade">
 
             <!-- Skin Img -->
@@ -80,12 +80,20 @@ export default {
   name: 'Cases',
   data() {
     return {
+      // User Data
+      user: null,
       // Live Drops Feed
+      skinsOpened: [],
       wpnImgLinks: {},
       wpnImgSteamLink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
       caseCDNlink: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-",
       // Cases
-      casesOpened: [0, 0, 0, 0, 0],
+      cases: [
+        'dangerZone', 'chroma2', 'clutch', 'fracture', 'phoenix'
+      ],
+      formattedCaseNames: [
+        'Danger Zone', 'Chroma 2', 'Clutch', 'Fracture', 'Phoenix'
+      ],
       caseImgLinks: [
         "fRPasw8rsUFJ5KBFZv668FFUxnaPLJz5H74y1xtTcz6etNumIx29U6Zd3j7yQoYih3lG1-UJqY27xJIeLMlhpaD9Aclo/256fx256f.png",
         "fRPasw8rsUFJ5KBFZv668FFAuhqSaKWtEu43mxtbbk6b1a77Twm4Iu8Yl3bCU9Imii1Xt80M5MmD7JZjVLFH-6VnQJQ/256fx256f.png",
@@ -93,15 +101,7 @@ export default {
         "fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk/256fx256f.png",
         "fRPasw8rsUFJ5KBFZv668FFUuh6qZJmlD7tiyl4OIlaGhYuLTzjhVupJ12urH89ii3lHlqEdoMDr2I5jVLFFSv_J2Rg/256fx256f.png"
       ],
-      user: null,
-      money: 0,
-      gunsOpened: [],
-      cases: [
-        'dangerZone', 'chroma2', 'clutch', 'fracture', 'phoenix'
-      ],
-      formattedCaseNames: [
-        'Danger Zone', 'Chroma 2', 'Clutch', 'Fracture', 'Phoenix'
-      ],
+      casesOpened: [0, 0, 0, 0, 0],
       casePrices: [149, 199, 249, 399, 599]
     }
   },
@@ -181,7 +181,7 @@ export default {
         doc.data().timeOpened && results.push({ ...doc.data(), id: doc.id})
       })
 
-      this.gunsOpened = results
+      this.skinsOpened = results
     })
 
     // Realtime Cases Opened amounts
@@ -221,6 +221,31 @@ $blueGradientEnd: #018498;
 $purpleGradientStart: #7967bb;
 $purpleGradientEnd: #5a43ab;
 
+.Pipe_0 {
+  background-color: $purpleGradientEnd;
+  background-image: linear-gradient($purpleGradientStart, $purpleGradientEnd);
+}
+
+.Pipe_1 {
+  background-color: $blueGradientEnd;
+  background-image: linear-gradient($blueGradientStart, $blueGradientEnd);
+}
+
+.Pipe_2 {
+  background-color: $greenGradientEnd;
+  background-image: linear-gradient($greenGradientStart, $greenGradientEnd);
+}
+
+.Pipe_3 {
+  background-color: $redGradientEnd;
+  background-image: linear-gradient($redGradientStart, $redGradientEnd);
+}
+
+.Pipe_4 {
+  background-color: $yellowGradientEnd;
+  background-image: linear-gradient($yellowGradientEnd, $yellowGradientStart);
+}
+
 #liveDrops {
   position: absolute;
   top: 0px;
@@ -241,31 +266,6 @@ $purpleGradientEnd: #5a43ab;
     border: 1px solid rgba(0, 0, 0, 0.3);
     border-radius: 100%;
   }
-}
-
-.Pipe_4 {
-  background-color: $yellowGradientEnd;
-  background-image: linear-gradient($yellowGradientEnd, $yellowGradientStart);
-}
-
-.Pipe_3 {
-  background-color: $redGradientEnd;
-  background-image: linear-gradient($redGradientStart, $redGradientEnd);
-}
-
-.Pipe_2 {
-  background-color: $greenGradientEnd;
-  background-image: linear-gradient($greenGradientStart, $greenGradientEnd);
-}
-
-.Pipe_1 {
-  background-color: $blueGradientEnd;
-  background-image: linear-gradient($blueGradientStart, $blueGradientEnd);
-}
-
-.Pipe_0 {
-  background-color: $purpleGradientEnd;
-  background-image: linear-gradient($purpleGradientStart, $purpleGradientEnd);
 }
 
 #Upper {
@@ -353,8 +353,9 @@ $purpleGradientEnd: #5a43ab;
       }
     }
   }
-  }
-  #Downer {
+}
+  
+#Downer {
     position: relative;
     width: 100%;
     height: calc(100% - 100px);
@@ -379,90 +380,89 @@ $purpleGradientEnd: #5a43ab;
           transition: .2s ease;
           height: 300px;
         }
+        .case {
+          transform: scale(0.6);
+          margin-top: -30px;
+          margin-left: -30px;
+        }
+
+        .caseTitle {
+          font-weight: bold;
+          margin-top: -40px;
+          padding: 5px;
+          background-color: rgba(0, 0, 0, 0.15);
+        }
+
+        .amountOpened {
+          font-size: 13px;
+          margin: auto;
+          margin-top: 10px;
+          width: 50%;
+          border-radius: 8px;
+          background-color: rgba(0, 0, 0, 0.3);
+          padding: 2px;
+          span {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 0 3px 0 3px;
+            font-weight: bold;
+            border-radius: 4px;
+          }
+        }
+
+        .viewContents, .openCaseBtn {
+          margin: auto;
+          margin-top: 10px;
+          box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.15);
+          border-radius: 7px;
+          border: 2px solid white;
+          color: white;
+          font-weight: bold;
+          font-size: 15px;
+          max-width: 150px;
+          background-color: rgb(46, 117, 209);
+          background-image: linear-gradient(rgb(60, 167, 230), rgb(3, 100, 228));
+          cursor: pointer;
+          &:hover {
+            transition: .15s ease;
+            transform: scale(1.05);
+          }
+        }
+
+        .viewContents {
+          height: 15px;
+          font-size: 14px;
+          padding: 4px 5px 4px 5px;
+          .contentsIcon {
+            float: left;
+            padding: 0;
+            margin: 0;
+            margin-top: -4px;
+          }
+          p {
+            margin-top: -2px;
+          }
+        }
+
+        .openCaseBtn {
+          padding: 7px 10px 7px 10px;
+          background-color: rgb(46, 209, 54);
+          background-image: linear-gradient(rgb(46, 209, 54), rgb(18, 158, 41));
+          border-radius: 20px;
+          max-width: 100px;
+          img {
+            float: left;
+            padding: 0;
+            margin: 0;
+            margin-top: -5px;
+            height: 30px;
+            width: 30px;
+          }
+          p {
+            font-size: 18px;
+          }
+        }
       }
     }
-  }
-
-.case {
-  transform: scale(0.6);
-  margin-top: -30px;
-  margin-left: -30px;
-}
-
-.caseTitle {
-  font-weight: bold;
-  margin-top: -40px;
-  padding: 5px;
-  background-color: rgba(0, 0, 0, 0.15);
-}
-
-.amountOpened {
-  font-size: 13px;
-  margin: auto;
-  margin-top: 10px;
-  width: 50%;
-  border-radius: 8px;
-  background-color: rgba(0, 0, 0, 0.3);
-  padding: 2px;
-  span {
-    background-color: rgba(0, 0, 0, 0.6);
-    padding: 0 3px 0 3px;
-    font-weight: bold;
-    border-radius: 4px;
-  }
-}
-
-.viewContents, .openCaseBtn {
-  margin: auto;
-  margin-top: 10px;
-  box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.15);
-  border-radius: 7px;
-  border: 2px solid white;
-  color: white;
-  font-weight: bold;
-  font-size: 15px;
-  max-width: 150px;
-  background-color: rgb(46, 117, 209);
-  background-image: linear-gradient(rgb(60, 167, 230), rgb(3, 100, 228));
-  cursor: pointer;
-  &:hover {
-    transition: .15s ease;
-    transform: scale(1.05);
-  }
-}
-
-.viewContents {
-  height: 15px;
-  font-size: 14px;
-  padding: 4px 5px 4px 5px;
-  .contentsIcon {
-    float: left;
-    padding: 0;
-    margin: 0;
-    margin-top: -4px;
-  }
-  p {
-    margin-top: -2px;
-  }
-}
-
-.openCaseBtn {
-  padding: 7px 10px 7px 10px;
-  background-color: rgb(46, 209, 54);
-  background-image: linear-gradient(rgb(46, 209, 54), rgb(18, 158, 41));
-  border-radius: 20px;
-  max-width: 100px;
-  img {
-    float: left;
-    padding: 0;
-    margin: 0;
-    margin-top: -5px;
-    height: 30px;
-    width: 30px;
-  }
-  p {
-    font-size: 18px;
-  }
 }
 
 </style>
