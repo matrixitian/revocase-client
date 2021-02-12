@@ -200,60 +200,9 @@ export default {
 @import '@/assets/mixins/skinGrades';
 @import '@/assets/mixins/skinCondition';
 
-#Loading {
-  @include centerXY;
-  width: 0;
-  height: 0;
-  transform: scale(2.2);
-}
-
-#tradeUpBtn {
-  position: absolute;
-  height: 35px;
-  width: 160px;
-  background: linear-gradient(rgb(139, 18, 219), rgb(95, 18, 219));
-  border-radius: 10px;
-  border: none;
-  color: whitesmoke;
-  border: 4px solid rgb(228, 169, 255);
-  cursor: pointer;
-  &:hover {
-    transition: .1s ease;
-    transform: scale(1.05);
-  }
-  span, img {
-    @include centerY;
-    left: 10px;
-  }
-  p {
-    @include centerXY;
-    font-size: 18px;
-    font-weight: bold;
-  }
-}
-
-#tradeInfo {
-  position: absolute;
-  top: 10px;
-  right: -110px;
-  width: 300px;
-  text-decoration: none;
-  span {
-    font-weight: bold;
-    text-decoration: none;
-    color: white;
-    padding: 5px;
-    font-size: 12px;
-    border: 2px solid white;
-    background-color: rgb(22, 158, 22);
-    border-radius: 5px;
-    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-    &:hover {
-      transition: .15s ease;
-      background-color: rgb(31, 192, 31);
-    }
-  }
+div {
+  height: 70vh;
+  width: 100vw;
 }
 
 #noSkinsFound {
@@ -266,9 +215,11 @@ export default {
   color: black;
 }
 
-div {
-  height: 70vh;
-  width: 100vw;
+#Loading {
+  @include centerXY;
+  width: 0;
+  height: 0;
+  transform: scale(2.2);
 }
 
 #Inputs {
@@ -304,6 +255,53 @@ div {
     &:hover {
       transition: .2s ease;
       transform: scale(1.1);
+    }
+  }
+  #tradeUpBtn {
+    position: absolute;
+    height: 35px;
+    width: 160px;
+    background: linear-gradient(rgb(139, 18, 219), rgb(95, 18, 219));
+    border-radius: 10px;
+    border: none;
+    color: whitesmoke;
+    border: 4px solid rgb(228, 169, 255);
+    cursor: pointer;
+    &:hover {
+      transition: .1s ease;
+      transform: scale(1.05);
+    }
+    span, img {
+      @include centerY;
+      left: 10px;
+    }
+    p {
+      @include centerXY;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  }
+  #tradeInfo {
+    position: absolute;
+    top: 10px;
+    right: -110px;
+    width: 300px;
+    text-decoration: none;
+    span {
+      font-weight: bold;
+      text-decoration: none;
+      color: white;
+      padding: 5px;
+      font-size: 12px;
+      border: 2px solid white;
+      background-color: rgb(22, 158, 22);
+      border-radius: 5px;
+      box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      &:hover {
+        transition: .15s ease;
+        background-color: rgb(31, 192, 31);
+      }
     }
   }
 }
