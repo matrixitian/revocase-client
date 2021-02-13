@@ -66,8 +66,23 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/skinGrades';
-@import '@/assets/mixins/skinCondition';
 @import '@/assets/mixins/vueSlideFade';
+
+.bs {
+  background-color: rgb(250, 0, 0);
+}
+.ww {
+  background-color: rgb(255, 145, 0);
+}
+.ft{
+  background-color: rgb(255, 251, 0);
+}
+.mw {
+  background-color: rgb(164, 255, 90);
+}
+.fn {
+  background-color: rgb(0, 255, 76);
+}
 
 $timeAgoWidth: 130px;
 $userWidth: 110px;
@@ -95,8 +110,8 @@ $completeWidth: 120px;
       li {
         position: relative;
         height: 50px;
-        background-color: rgba(255, 255, 255, 0.1);
-        border: 3px solid white;
+        // background-color: rgba(255, 255, 255, 0.1);
+        border: 3px solid rgba(0,0,0,0.5);
         border-radius: 20px;
         margin-right: 15px;
         margin-top: 10px;
@@ -123,12 +138,21 @@ $completeWidth: 120px;
         }
         #user {
           width: $userWidth;
+          p {
+            color: black;
+            font-weight: bold;
+            background-color: whitesmoke;
+          }
         }
         #skin {
           width: $skinWidth;
         }
         #condition {
           width: $conditionWidth;
+          p {
+            color: black;
+            font-weight: bold;
+          }
         }
         #requestTrade {
           width: $requestTradeWidth;
