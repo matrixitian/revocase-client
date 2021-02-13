@@ -57,7 +57,7 @@
           <img :src="getWpnImg(receivedSkin.longhand)">
 
           <!-- Skin Name -->
-          <p>{{ receivedSkin.formattedName }}</p>
+          <p>{{ formatSkinName(receivedSkin.longhand) }}</p>
 
           <!-- Skin Condition -->
           <p class="gunCondition"
@@ -163,23 +163,32 @@ export default {
         skinIDs
       })
 
-      this.receivedSkin = {
-        formattedName: res.data.formattedSkin,
-        longhand: res.data.skin,
-        condition: res.data.skinCon,
-        grade: res.data.skinGrade,
-        caseName: res.data.caseName
+      console.log(res.data)
+
+      if (res.status === 200) {
+
+        this.receivedSkin = {
+          _id: res.data._id,
+          longhand: res.data.skin,
+          condition: res.data.condition,
+          grade: res.data.grade,
+          caseName: res.data.caseName
+        }
+
+        this.mySkins.unshift(res.data)
+
+        skinIDs.forEach((skinID) => {
+          const removeIndex = this.mySkins.map(skin => skin._id).indexOf(skinID);
+
+          this.mySkins.splice(removeIndex, 1)
+        })
+
+        this.tradeUpSkins = []
+        this.tradeUpGrade = null
+        this.filteredSkins = this.mySkins
+      } else {
+        this.$store.commit('setError', {errMsg: 'Network error. Please refresh page and try again.'})
       }
-
-      this.mySkins.unshift(res.data)
-
-      skinIDs.forEach((skinID) => {
-        const removeIndex = this.mySkins.map(skin => skin.id).indexOf(skinID);
-
-        this.mySkins.splice(removeIndex, 1)
-      })
-
-      console.log(this.receivedSkin)
     },
     clearTradeUp() {
       this.tradeUpSkins = []
@@ -237,8 +246,6 @@ export default {
 
       this.mySkins = res.data
       this.filteredSkins = res.data
-
-      console.log(this.mySkins)
     },
     getWpnImg(wpnLonghand) {
       const wpnID = this.wpnLinks[wpnLonghand]
