@@ -17,7 +17,7 @@
           :class="gun.grade">
 
             <!-- Skin Img -->
-            <img :src="getWpnImg(gun.longhand)">
+            <img :src="getSkinImg(gun.longhand)">
             <!-- Skin Name -->
             <p class="skin"><span class="skinName">{{ gun.skin }}</span></p>
             <!-- Skin Condition -->
@@ -84,9 +84,9 @@ export default {
       user: null,
       // Live Drops Feed
       skinsOpened: [],
-      wpnImgLinks: {},
-      wpnImgSteamLink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
-      caseCDNlink: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-",
+      skinImgLinks: {},
+      skinImgSteamLink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
+      caseImgSteamLink: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-",
       // Cases
       cases: [
         'dangerZone', 'chroma2', 'clutch', 'fracture', 'phoenix'
@@ -146,19 +146,19 @@ export default {
 
       return this.formattedCaseNames[index]
     },
-    getWpnImg(wpnLonghand) {
-      const wpnID = this.wpnImgLinks[wpnLonghand]
+    getSkinImg(wpnLonghand) {
+      const wpnID = this.skinImgLinks[wpnLonghand]
 
       if (wpnLonghand === 'rare_item') {
         return require('@/assets/cases/rare_item.png')
       } else {
-        return `${this.wpnImgSteamLink}${wpnID}.png`
+        return `${this.skinImgSteamLink}${wpnID}.png`
       }
     },
     getCaseImg(caseName) {
       const index = this.cases.indexOf(caseName)
 
-      return this.caseCDNlink + this.caseImgLinks[index]
+      return this.caseImgSteamLink + this.caseImgLinks[index]
     },
     openedAgo(timestamp) {
       return moment(timestamp).fromNow()
@@ -169,7 +169,7 @@ export default {
     }
   },
   mounted() {
-    this.wpnImgLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
+    this.skinImgLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
 
     // Realtime Live Drops Feed
     const dropsRef = firestore.collection('drops')
@@ -248,8 +248,8 @@ $purpleGradientEnd: #5a43ab;
 
 #liveDrops {
   position: absolute;
-  top: 0px;
-  left: -10px;
+  top: 15px;
+  left: -35px;
   z-index: 200;
   p {
     float: left;

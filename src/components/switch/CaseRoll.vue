@@ -3,23 +3,31 @@
 
     <div id="Roller">
 
-      <div id="caret">
-        <img id="upperCaret" src="@/assets/icons/caret.svg" alt="">
-        <img id="downerCaret" src="@/assets/icons/caret.svg" alt="">
-      </div>
+      <!-- Skin Rolling -->
       <ul id="skinRoll">
         <transition-group name="slide-fade">
+
           <li v-for="(skin, i) in drops" :key="i"
           :class="skin.grade">
-            <img :src="getWpnImg(skin.longhand)" alt="">
+          <!-- Skin Img -->
+            <img :src="getSkinImg(skin.longhand)" alt="">
+            <!-- Skin Name -->
             <p class="skin">
               <span class="skinName">{{ skin.name }}</span>
             </p>
+            <!-- Skin Condition -->
             <p class="condition" :class="skin.condition">
               {{ skin.condition }}
             </p>
+
           </li>
+
         </transition-group>
+
+        <!-- Carets -->
+        <img id="upperCaret" src="@/assets/icons/caret.svg">
+        <img id="downerCaret" src="@/assets/icons/caret.svg">
+
       </ul>
 
       <button id="open" @click="openCase()"
@@ -38,14 +46,13 @@ export default {
   name: "CaseRoll",
   data() {
     return {
-      dropAt: 60,
-      wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
-      wpnLinks: {},
       selectedCase: null,
-      skins: [],
-      drops: [],
       caseIsRolling: false,
-      rollingFinished: true
+      rollingFinished: true,
+      drops: [],
+      dropAt: 60,
+      skinImgSteamLink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
+      skinImgLinks: {}
     }
   },
   methods: {
@@ -111,16 +118,16 @@ export default {
     formatCondition(condition) {
       return getCondition(condition)
     },
-    getWpnImg(wpnLonghand) {
-      const wpnID = this.wpnLinks[wpnLonghand]
+    getSkinImg(wpnLonghand) {
+      const wpnID = this.skinImgLinks[wpnLonghand]
 
       if (wpnLonghand === 'rare_item') {
         return require('@/assets/cases/rare_item.png')
       } else {
-        return `${this.wpnCDNlink}${wpnID}.png`
+        return `${this.skinImgSteamLink}${wpnID}.png`
       }
     },
-    getWeapon(caseName) {
+    getSkin(caseName) {
       const wpnCases = {
         dangerZone: {
           mil_spec: [
@@ -459,7 +466,7 @@ export default {
 
       let generated = []
       for(i = 0; i < 70; i++) {
-        const skin = this.getWeapon(this.selectedCase)
+        const skin = this.getSkin(this.selectedCase)
 
         generated.push(skin)
       }
@@ -470,7 +477,7 @@ export default {
   mounted() {
     this.selectedCase = this.$store.getters.getSelectedCase
 
-    this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
+    this.skinImgLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
 
     this.generateSkins()
 
@@ -517,15 +524,15 @@ export default {
 
 #upperCaret {
   @include centerX;
-  left: calc(50% - 35px);
+  left: calc(50% - 40px);
   transform: rotate(90deg);
   height: 80px;
-  top: 160px;
+  top: -20px;
 }
 #downerCaret {
   @include centerX;
-  left: calc(50% - 35px);
-  top: 350px;
+  left: calc(50% - 40px);
+  top: 120px;
   height: 80px;
   transform: rotate(270deg);
 }
