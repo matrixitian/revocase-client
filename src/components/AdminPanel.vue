@@ -88,8 +88,8 @@ $timeAgoWidth: 130px;
 $userWidth: 110px;
 $skinWidth: 250px;
 $conditionWidth: 50px;
-$requestTradeWidth: 120px;
-$completeWidth: 120px;
+$requestTradeWidth: 150px;
+$completeWidth: 150px;
 
 #adminPanelMain {
   z-index: 10000;
@@ -110,7 +110,6 @@ $completeWidth: 120px;
       li {
         position: relative;
         height: 50px;
-        // background-color: rgba(255, 255, 255, 0.1);
         border: 3px solid rgba(0,0,0,0.5);
         border-radius: 20px;
         margin-right: 15px;
@@ -132,8 +131,9 @@ $completeWidth: 120px;
           p {
             padding: 3px;
             width: 80% !important;
-            background-color: rgba(0,0,0,0.3);
             border-radius: 15px;
+            border: 2px solid rgba(255,255,255,0.3);
+            background-color: rgba(0,0,0,0.3);
           }
         }
         #user {
@@ -155,10 +155,33 @@ $completeWidth: 120px;
           }
         }
         #requestTrade {
+          margin-left: 10px;
           width: $requestTradeWidth;
+          background-color: rgba(255,255,255,0.1);
+          p {
+            width: 80% !important;
+            border-radius: 5px !important;
+            border: 1px solid whitesmoke;
+            background: linear-gradient(rgb(80, 147, 255), rgb(0, 93, 214));
+            cursor: pointer;
+          }
         }
         #complete {
           width: $completeWidth;
+          border-top-right-radius: 10px;
+          border-bottom-right-radius: 10px;
+          background-color: rgba(255,255,255,0.1);
+          p {
+            width: 80% !important;
+            border-radius: 5px !important;
+            border: 1px solid whitesmoke;
+            background: linear-gradient(rgb(228, 57, 34), rgb(144, 14, 10));
+            cursor: pointer;
+            &:hover {
+              transition: .15s ease;
+              
+            }
+          }
         }
       }
     }
