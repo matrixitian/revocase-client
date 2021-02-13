@@ -109,6 +109,7 @@ export default {
       cpassword: null,
       password: null,
       tradeURL: null,
+      signupReferral: null,
       pageText: null,
       signUpFormText: null,
       loginFormText: null,
@@ -231,12 +232,15 @@ export default {
       if (!navigator.onLine) {
         return this.createErrorMessage('You are offline!')
       }
+
+      const referral = this.$store.getters.getSignUpReferral
       
       const res = await axios.post(`${config.server}/signup`, {
         username: this.uname,
         email: this.email,
         password: this.password,
-        tradeURL: this.tradeURL
+        tradeURL: this.tradeURL,
+        referral
       })
 
       if (res.status === 200) {

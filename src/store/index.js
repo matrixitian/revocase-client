@@ -2,6 +2,7 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
+    signUpReferral: null,
     user: null,
     myCoins: 0,
     currentView: 'Cases',
@@ -10,6 +11,9 @@ export default createStore({
     errMsg: null
   },
   mutations: {
+    setSignUpReferral(state, payload) {
+      state.signUpReferral = payload.referral
+    },
     setCurrentDrop(state, payload) {
       state.currentDrop = payload.drop
     },
@@ -45,6 +49,9 @@ export default createStore({
     }
   },
   getters: {
+    getSignUpReferral(state) {
+      return state.signUpReferral
+    },
     getCurrentDrop(state) {
       return state.currentDrop
     },
