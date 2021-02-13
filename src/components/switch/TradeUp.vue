@@ -49,11 +49,40 @@
 
     <div id="tradeUp">
 
-      <div id="showReceivedSkin">
-       
-      </div>
+      <transition name="slide-fade">
+        <div id="showReceivedSkin" v-if="receivedSkin"
+        :class="receivedSkin.grade">
+          
+          <!-- Skin Img -->
+          <img :src="getWpnImg(receivedSkin.longhand)">
 
-      <p id="tradeUpInfo">10 skins needed for trade up to higher quality!</p>
+          <!-- Skin Name -->
+          <p>{{ receivedSkin.formattedName }}</p>
+
+          <!-- Skin Condition -->
+          <p class="gunCondition"
+          :class="receivedSkin.condition">{{ formatCondition(receivedSkin.condition) }}</p>
+
+          <!-- Sell Skin -->
+          <button class="sell">
+            <p>
+              <span>
+                {{ getSkinPrice(receivedSkin.caseName, receivedSkin.grade, receivedSkin.condition) }}
+              </span>
+            </p>
+            <img src="@/assets/icons/bullet.png" alt="">
+          </button>
+
+          <!-- Go back to MySkins -->
+          <button class="requestTrade">
+            Go to My Skins
+          </button>
+        </div>
+      </transition>
+
+      <p id="tradeUpInfo" :class="tradeUpGrade">
+        {{ tradeUpSkins.length }}/10 skins
+      </p>
 
       <ul v-if="!loading">
         <li v-for="(skin, i) in tradeUpSkins" :key="i"
@@ -116,6 +145,7 @@ export default {
       user: null,
       loading: true,
       mySkins: [],
+      receivedSkin: null,
       filteredSkins: [],
       tradeUpSkins: [],
       tradeUpGrade: null,
@@ -133,9 +163,23 @@ export default {
         skinIDs
       })
 
-      const receivedSkin = res.data
+      this.receivedSkin = {
+        formattedName: res.data.formattedSkin,
+        longhand: res.data.skin,
+        condition: res.data.skinCon,
+        grade: res.data.skinGrade,
+        caseName: res.data.caseName
+      }
 
-      console.log(receivedSkin)
+      this.mySkins.unshift(res.data)
+
+      skinIDs.forEach((skinID) => {
+        const removeIndex = this.mySkins.map(skin => skin.id).indexOf(skinID);
+
+        this.mySkins.splice(removeIndex, 1)
+      })
+
+      console.log(this.receivedSkin)
     },
     clearTradeUp() {
       this.tradeUpSkins = []
@@ -193,6 +237,8 @@ export default {
 
       this.mySkins = res.data
       this.filteredSkins = res.data
+
+      console.log(this.mySkins)
     },
     getWpnImg(wpnLonghand) {
       const wpnID = this.wpnLinks[wpnLonghand]
@@ -241,22 +287,118 @@ div {
   width: 100vw;
 }
 
+#showReceivedSkin {
+  z-index: 500;
+  box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.2);
+  @include centerXY;
+  float: left;
+  margin: 8px;
+  height: 250px;
+  width: 250px;
+  border: 5px solid white;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  img {
+    margin-top: 5px;
+    height: 120px;
+  }
+  p {
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.45);
+    padding: 4px;
+    margin: auto;
+    width: 90%;
+    margin-top: 5px;
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 16px;
+    span {
+      font-weight: bold;
+      color: rgb(43, 142, 255);
+    }
+  }
+
+  .gunCondition {
+    font-size: 16px;
+    width: 140px;
+    border-radius: 10px;
+    padding: 3px !important; 
+    font-weight: bold;
+    background-color: rgba(0, 0, 0, 0.65) !important;
+  }
+
+  .requestTrade, .sell {
+    font-size: 17px;
+    margin-top: 15px;
+    font-weight: bold;
+    width: 90%;
+    padding: 5px 0 5px 0;
+    border: none;
+    border-radius: 5px;
+    color: whitesmoke;
+    background: linear-gradient(rgb(153, 68, 233), rgb(155, 6, 110));
+    box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    &:hover {
+      transition: .15s ease;
+      background: linear-gradient(rgb(182, 104, 255),rgb(189, 23, 139));
+    }
+  }
+  .sell {
+    margin-top: 5px !important;
+    width: 70px !important; 
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: linear-gradient(rgb(90, 235, 71), rgb(8, 165, 29));
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    cursor: default;
+    &:hover {
+      background: linear-gradient(rgb(90, 235, 71), rgb(8, 165, 29));
+    }
+    p {
+      padding: 2px 0 4px 0 !important;
+      font-weight: bold;
+      font-size: 15px;
+      background-color: transparent !important;
+    }
+    span {
+      margin-bottom: 2px;
+      color: white;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 7px;
+      border-radius: 5px;
+      margin-left: -30px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    img {
+      position: absolute;
+      right: 5px;
+      top: 0px;
+      height: 20px;
+    }
+  }
+}
+
 #tradeUp {
   position: relative;
   height: 70vh;
   width: 49vw;
   float: right;
-
   #tradeUpInfo {
+    @include centerX;
+    top: 0;
     background: linear-gradient(rgb(11, 87, 185), rgb(10, 116, 216));
     padding: 3px;
     border-radius: 10px;
-    width: 400px;
-    border: 2px dashed rgba(255, 255, 255, 0.4);
+    width: 150px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
     margin: auto;
+    font-weight: bold;
     margin-top: 10px;
   }
-
   #tradeButtons {
     @include centerX;
     bottom: 25px;
@@ -276,7 +418,6 @@ div {
       box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
       cursor: default;
     }
-    
     #clearBtn {
       background: linear-gradient(rgb(170, 44, 228), rgb(86, 8, 149));
       cursor: pointer;
@@ -285,7 +426,6 @@ div {
         background: linear-gradient(rgb(173, 74, 219), rgb(114, 12, 197)) !important;
       }
     }
-
     .proceedOK {
       background: linear-gradient(rgb(43, 207, 98),rgb(0, 177, 59)) !important;
       cursor: pointer !important;
@@ -295,7 +435,6 @@ div {
       }
     }
   }
-
 }
 
 .deselect {
