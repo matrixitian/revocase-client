@@ -54,7 +54,7 @@ export default {
       console.log(res.data)
     },
     sendTradeOffer(i) {
-      console.log(i)
+      window.open(this.tradeRequests[i].tradeURL)
     }
   },
   mounted() {
@@ -158,12 +158,17 @@ $completeWidth: 150px;
           margin-left: 10px;
           width: $requestTradeWidth;
           background-color: rgba(255,255,255,0.1);
+          box-shadow: -10px 0px 10px 1px rgba(0,0,0,0.2);
           p {
             width: 80% !important;
             border-radius: 5px !important;
             border: 1px solid whitesmoke;
             background: linear-gradient(rgb(80, 147, 255), rgb(0, 93, 214));
             cursor: pointer;
+            &:hover {
+              transition: .15s ease;
+              background: linear-gradient(rgb(45, 125, 255), rgb(0, 77, 179));         
+            }
           }
         }
         #complete {
