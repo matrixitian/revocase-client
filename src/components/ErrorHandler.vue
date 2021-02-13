@@ -39,7 +39,7 @@ export default {
 @import '@/assets/mixins/centerXY';
 
 #mainErrorHandler {
-  z-index: 1000;
+  z-index: 11000;
   @include centerX;
   top: 50px;
   width: 500px;

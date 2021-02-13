@@ -2,7 +2,8 @@
   <div id="adminPanelMain">
     <div id="Todo">
       <ul id="tradeRequests">
-        <li v-for="(req, i) in tradeRequests" :key="i">
+        <li v-for="(req, i) in tradeRequests" :key="i"
+        :class="{ completeLightGreen: req.complete }">
           
           <div id="timeAgo">
             <p>{{ req.tradeRequestedAt }}</p>
@@ -25,7 +26,10 @@
           </div>
 
           <div id="complete">
-            <p @click="sendTradeOffer(i)">Complete</p>
+            <p @click="complete(i)"
+            :class="{ complete: req.complete }">
+              {{ req.complete? 'Offer Sent!' : 'Complete' }}
+            </p>
           </div>
 
         </li>
@@ -48,13 +52,31 @@ export default {
   },
   methods: {
     async viewTradeRequests() {
-      const res = await axios.get(`${config.server}/view-trade-requests`)
+      this.loading = true
 
-      this.tradeRequests = res.data.tradeRequests
-      console.log(res.data)
+      const res = await axios.get(`${config.server}/view-trade-requests`)
+      
+      if (res.status === 200) {
+        this.tradeRequests = res.data.tradeRequests
+
+        console.log(this.tradeRequests)
+      } else {
+        this.$store.commit('setError', { errMsg: 'Greška u učitavanju skinova. Refreshaj i pokušaj ponovno.' })
+      }
     },
     sendTradeOffer(i) {
       window.open(this.tradeRequests[i].tradeURL)
+    },
+    async complete(i) {
+      const res = await axios.post(`${config.server}/finish-trade-offer`, {
+        skinID: this.tradeRequests[i].skinID
+      })
+
+      if (res.status === 200) {
+        this.tradeRequests[i].complete = true
+      } else {
+        this.$store.commit('setError', { errMsg: 'Greška. Refreshaj i pokušaj ponovno.' })
+      }
     }
   },
   mounted() {
@@ -190,6 +212,18 @@ $completeWidth: 150px;
         }
       }
     }
+  }
+}
+
+.completeLightGreen {
+  background-color: rgba(0, 200, 0, 0.2) !important;
+}
+
+.complete {
+  background: linear-gradient(rgb(80, 228, 92), rgb(10, 148, 22)) !important;
+  cursor: default !important;
+  &:hover {
+    transform: none;
   }
 }
 
