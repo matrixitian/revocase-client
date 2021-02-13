@@ -129,7 +129,6 @@ export default {
       // removes info message on keyup too
       this.showInfo = false
       if (this.password) {
-        console.log(this.password)
         this.passwordStrength = passwordStrength(this.password).value
       } else {
         this.passwordStrength = "Weak"
@@ -213,8 +212,6 @@ export default {
       if (!navigator.onLine) {
         return this.createErrorMessage('You are offline!')
       }
-
-      console.log(this.email, this.password)
 
       const res = await axios.post(`${config.server}/login`, {
         email: this.email,

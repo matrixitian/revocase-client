@@ -1,6 +1,8 @@
 <template>
   <div id="Main">
 
+    <AdminPanel v-if="isAdmin" />
+
     <ErrorHandler />
 
     <div id="Auth" v-if="!user && authChecked"><Auth /></div>
@@ -155,15 +157,17 @@ import Cookies from 'js-cookie'
 import * as Parts from '@/components/switch'
 import Auth from '@/components/Auth'
 import ErrorHandler from '@/components/ErrorHandler'
+import AdminPanel from '@/components/AdminPanel'
 
 export default {
   name: 'App',
   components: {
-    ...Parts, Auth, ErrorHandler
+    ...Parts, Auth, ErrorHandler, AdminPanel
   },
   data() {
     return {
       socket: io(config.server),
+      isAdmin: false,
       // User data
       user: null,
       myCoins: 0,
@@ -268,6 +272,11 @@ export default {
 
         this.$store.commit('setUser',  { user: res.data })
         this.fetchCredits()
+
+        if (this.user.accountType === 'admin') {
+          this.isAdmin = true
+        }
+
         this.authChecked = true
       } else {
         this.authChecked = true
