@@ -16,6 +16,7 @@
     "js-cookie": "^2.2.1",
     "just-detect-adblock": "^1.1.0",
     "moment": "^2.29.1",
+    "shallow-copy": "0.0.1",
     "socket.io-client": "^3.1.1",
     "steam-price-api": "^2.0.0",
     "vue": "^3.0.0",

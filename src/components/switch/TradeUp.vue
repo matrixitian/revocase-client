@@ -136,6 +136,7 @@
 <script>
 import config from '@/assets/config/config'
 import axios from 'axios'
+import shallowCopy from 'shallow-copy'
 import getCondition from '@/js/translateGunCondition.js'
 
 export default {
@@ -163,8 +164,6 @@ export default {
         skinIDs
       })
 
-      console.log(res.data)
-
       if (res.status === 200) {
 
         this.receivedSkin = {
@@ -175,24 +174,24 @@ export default {
           caseName: res.data.caseName
         }
 
-        this.mySkins.unshift(res.data)
-
         skinIDs.forEach((skinID) => {
           const removeIndex = this.mySkins.map(skin => skin._id).indexOf(skinID);
 
           this.mySkins.splice(removeIndex, 1)
         })
 
+        this.mySkins.push(res.data)
+
         this.tradeUpSkins = []
         this.tradeUpGrade = null
-        this.filteredSkins = this.mySkins
+        this.filteredSkins = shallowCopy(this.mySkins)
       } else {
         this.$store.commit('setError', {errMsg: 'Network error. Please refresh page and try again.'})
       }
     },
     clearTradeUp() {
       this.tradeUpSkins = []
-      this.filteredSkins = this.mySkins
+      this.filteredSkins = shallowCopy(this.mySkins)
     },
     deselectSkin(skin, i) {
       this.tradeUpSkins.splice(i, 1)
@@ -200,7 +199,7 @@ export default {
       this.filteredSkins.unshift(skin)
 
       if (this.tradeUpSkins.length === 0) {
-        this.filteredSkins = this.mySkins
+        this.filteredSkins = shallowCopy(this.mySkins)
       }
     },
     selectForTradeUp(skin, i) {
@@ -220,6 +219,7 @@ export default {
       })
 
       this.tradeUpSkins.unshift(skin)
+      this.receivedSkin = null
     },
     checkSkinAvailable(skin) {
       if (skin.tradeOfferSent || skin.requestedTrade || skin.grade === 'covert') return false
@@ -244,8 +244,8 @@ export default {
 
       this.loading = false
 
-      this.mySkins = res.data
-      this.filteredSkins = res.data
+      this.mySkins = shallowCopy(res.data)
+      this.filteredSkins = shallowCopy(res.data)
     },
     getWpnImg(wpnLonghand) {
       const wpnID = this.wpnLinks[wpnLonghand]
