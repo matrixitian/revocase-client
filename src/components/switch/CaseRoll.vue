@@ -30,10 +30,12 @@
 
       </ul>
 
+      <!-- Open Case Btn -->
       <button id="open" @click="openCase()"
       :class="{disabled: caseIsRolling}">
         {{ caseIsRolling ? 'Opened' : 'Open' }}
       </button>
+      
     </div>
 
   </div>
@@ -488,7 +490,6 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/mixins/centerX';
-@import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/skinGrades';
 @import '@/assets/mixins/skinCondition';
 
@@ -529,6 +530,7 @@ export default {
   height: 80px;
   top: -20px;
 }
+
 #downerCaret {
   @include centerX;
   left: calc(50% - 40px);
@@ -539,7 +541,6 @@ export default {
 
 #Roller {
   position: relative;
-  // background-color: green;
   height: 100%;
 }
 

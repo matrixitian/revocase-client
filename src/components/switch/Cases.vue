@@ -209,6 +209,12 @@ export default {
 @import '@/assets/mixins/skinCondition';
 @import '@/assets/mixins/vueSlideFade';
 
+@media screen and (max-height: 900px) {
+  #Upper {
+    margin-bottom: 300px !important;
+  }
+}
+
 $grayBackground: #1b2435;
 $redGradientStart: #ea5a8d;
 $redGradientEnd: #e32565;
