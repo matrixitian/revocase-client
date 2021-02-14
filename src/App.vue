@@ -82,8 +82,9 @@
 
         <div id="giveawayBtn">
           <p>Giveaway ends in <span>{{ clock }}</span></p>
-          
         </div>
+
+        <p id="motivation">Watch ads and get up to 2 cases per day!</p>
 
       </div>
 
@@ -406,9 +407,17 @@ export default {
 @import '@/assets/mixins/vueSlideFade';
 @import '@/assets/mixins/unselectable';
 
+#motivation {
+  @include centerX;
+  font-size: 18px;
+  font-weight: bold;
+  color: limegreen;
+  top: 27vh;
+}
+
 #giveawayBtn {
   @include centerX;
-  top: 25vh;
+  top: 19vh;
   padding: 10px;
   background: linear-gradient(red, purple);
   border-radius: 10px;
