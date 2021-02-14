@@ -80,6 +80,11 @@
           </div>
         </div>
 
+        <div id="giveawayBtn">
+          <p>Giveaway ends in <span>{{ clock }}</span></p>
+          
+        </div>
+
       </div>
 
 <!-- Right -->
@@ -188,7 +193,8 @@ export default {
       langs: [
         'croatian', 'english', 'french', 'german', 'italian',
         'polish', 'portuguese', 'russian', 'serbian', 'spanish', 'turkish'
-      ]
+      ],
+      clock: '24:00:00'
     }
   },
   created() {
@@ -249,11 +255,29 @@ export default {
       return parms
     } 
 
-    const urlParams = parseURLParams(window.location.href);
+    const urlParams = parseURLParams(window.location.href)
     // console.log(urlParams)
-    if (urlParams.referral) {
+    if (urlParams) {
       this.$store.commit('setSignUpReferral', { referral: urlParams.referral })
     }
+
+    // Countdown
+    setInterval(() => {
+      let toDate = new Date()
+      let tomorrow = new Date()
+      tomorrow.setHours(24,0,0,0)
+      let diffMS = tomorrow.getTime() / 1000 - toDate.getTime() / 1000
+      let diffHr = Math.floor(diffMS / 3600)
+      diffMS = diffMS - diffHr * 3600
+      let diffMi = Math.floor(diffMS / 60)
+      diffMS = diffMS - diffMi * 60
+      let diffS = Math.floor(diffMS)
+      let result = ((diffHr < 10) ? "0" + diffHr : diffHr)
+      result += ":" + ((diffMi < 10) ? "0" + diffMi : diffMi)
+      result += ":" + ((diffS < 10) ? "0" + diffS : diffS)
+      
+      this.clock = result
+    }, 1000)
   },
   methods: {
     async fetchUser() {
@@ -381,6 +405,29 @@ export default {
 @import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/vueSlideFade';
 @import '@/assets/mixins/unselectable';
+
+#giveawayBtn {
+  @include centerX;
+  top: 25vh;
+  padding: 10px;
+  background: linear-gradient(red, purple);
+  border-radius: 10px;
+  border: 2px solid white;
+  font-weight: bold;
+  cursor: pointer;
+  &:hover {
+    transition: .15s ease-in-out;
+    padding: 15px;
+    background: linear-gradient(rgb(255, 102, 0), rgb(161, 16, 161));
+  }
+  p {
+    span {
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 4px;
+      border-radius: 10px;
+    }
+  }
+}
 
 #app {
   font-family: 'Lato', sans-serif;
@@ -640,6 +687,7 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
         height: 40px;
         background-color: rgb(30, 175, 42);
         border-radius: 20px;
+        // border: 1px solid white;
         color: whitesmoke;
         cursor: pointer;
         &:hover {
