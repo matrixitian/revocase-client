@@ -85,7 +85,6 @@
         </div>
 
         <p id="motivation">Watch ads and get up to 2 cases per day!</p>
-
       </div>
 
 <!-- Right -->
@@ -144,6 +143,10 @@
 
 <!-- Bottom -->
     <div id="Bottomer">
+      <div id="bonusBtn">
+        <p>Bonus Bullets!</p>
+        <img src="@/assets/icons/bullet.png">
+      </div>
 
       <div id="bottomAligner">
         <component :is="dynamicComponent" :Case="caseClicked" :user="user"></component>
@@ -407,15 +410,52 @@ export default {
 @import '@/assets/mixins/vueSlideFade';
 @import '@/assets/mixins/unselectable';
 
+@keyframes animateMotivation {
+  0% { color: limegreen }
+  50% { color: rgb(67, 231, 130) }
+  75% { color: rgb(134, 255, 134) }
+  100% { color: rgb(67, 206, 120) }
+}
+
 #motivation {
   @include centerX;
   font-size: 18px;
   font-weight: bold;
-  color: limegreen;
+  // color: limegreen;
   top: 27vh;
+  animation: animateMotivation 3s infinite;
 }
 
-#giveawayBtn {
+#bonusBtn {
+  position: relative;
+  top: 10px !important;
+  padding: 10px 20px 10px 40px !important;
+  color: rgba(0, 0, 0, 0.7);
+  width: 110px;
+  height: 25px;
+  border-radius: 30px !important;
+  background: linear-gradient(rgb(45, 223, 22), rgb(11, 172, 51)) !important;
+  &:hover {
+    transition: .15s ease-in-out;
+    padding: 11px 21px 11px 41px !important;
+    color: white !important;
+    background: linear-gradient(rgb(113, 241, 96), rgb(2, 207, 53)) !important;
+  }
+  p {
+    @include centerY;
+    float: left;
+    left: 20px;
+  }
+  img {
+    @include centerY;
+    float: right;
+    right: 5px;
+    height: 30px;
+    width: 30px;
+  }
+}
+
+#giveawayBtn, #bonusBtn {
   @include centerX;
   top: 19vh;
   padding: 10px;
