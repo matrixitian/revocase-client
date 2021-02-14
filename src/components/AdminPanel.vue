@@ -52,8 +52,6 @@ export default {
   },
   methods: {
     async viewTradeRequests() {
-      this.loading = true
-
       const res = await axios.get(`${config.server}/view-trade-requests`)
       
       if (res.status === 200) {
