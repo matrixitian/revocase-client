@@ -5,6 +5,9 @@
       <p id="weekly">WEEKLY</p>
       <img class="skinImg"
       src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_ak47_cu_ak47_cobra_light_large.7494bfdf4855fd4e6a2dbd983ed0a243c80ef830.png">
+      
+      <p id="lastWinner" class="weeklyLastWinner">Last winner <span>{{ `-` }}</span></p>
+
       <p id="skinName">AK-47 | <span>Redline</span></p>
       <button class="buyTicket">
         Buy Ticket <span>30</span><img src="@/assets/icons/bullet.png">
@@ -21,6 +24,8 @@
         </span>
         <span id="userCount">Entered: {{ playersEnteredGiveaway }}</span>
       </div>
+
+      <span id="timeLeft">Time left: <span>{{ weeklyCountdown }}</span></span>
     </div>
 
     <div id="skinShowcase">
@@ -29,6 +34,8 @@
       <img class="skinImg"
       src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_deagle_gs_deagle_mecha_light_large.e08c1fd8709f6b368956c41c68b17c15ff635635.png">
       
+      <p id="lastWinner">Last winner <span>{{ `-` }}</span></p>
+
       <p id="skinName">Desert Eagle | <span>Mecha Industries</span></p>
      
       <button>Copy My Referral</button>
@@ -59,13 +66,14 @@ export default {
   data() {
     return {
       myRP: 0,
-      clock: '24:00:00',
+      clock: '24h:00m:00s',
+      weeklyCountdown: '',
       chanceToWin: '3%',
       playersEnteredGiveaway: 10
     }
   },
   mounted() {
-    // Countdown
+    // Daily countdown
     setInterval(() => {
       let toDate = new Date()
       let tomorrow = new Date()
@@ -82,6 +90,39 @@ export default {
       
       this.clock = result + 's'
     }, 1000)
+  
+    // Weekly countdown
+    function update(){
+
+      // Get current date and time
+      var today = new Date();
+
+      // Get number of days to Friday
+      var dayNum = today.getDay();
+      var daysToMon = 7 - (dayNum < 7 ? dayNum : dayNum - 9);
+      
+      // Get milliseconds to noon friday
+      var sundayMidnight = new Date(+today);
+      sundayMidnight.setDate(sundayMidnight.getDate() + daysToMon);
+      sundayMidnight.setHours(24,0,0,0);
+      // Round up ms remaining so seconds remaining matches clock
+      var ms = Math.ceil((sundayMidnight - today)/1000)*1000;
+      var d =  ms / 8.64e7 | 0;
+      var h = (ms % 8.64e7) / 3.6e6 | 0;
+      var m = (ms % 3.6e6)  / 6e4 | 0;
+      var s = (ms % 6e4)    / 1e3 | 0;
+      
+      // Return remaining 
+      return d + 'd ' + h + 'h ' + m + 'm ' + s + 's';
+    }
+
+  // Run update just after next full second
+  const runUpdate = () => {
+    this.weeklyCountdown = update();
+    setTimeout(runUpdate, 1020 - (Date.now() % 1000));
+  }
+
+  runUpdate();
   },
   methods: {
     
@@ -115,6 +156,25 @@ export default {
   float: right;
   height: 70vh;
   width: 100vw;
+}
+
+#lastWinner {
+  position: absolute;
+  top: 240px;
+  left: 100px;
+  font-size: 16px !important;
+  font-weight: bold;
+  min-width: 80px;
+  span {
+    margin-left: 5px;
+    background-color: rgba(0,0,0,0.3);
+    padding: 4px 20px 4px 20px;
+    border-radius: 15px;
+  }
+}
+
+.weeklyLastWinner {
+  left: 70px !important;
 }
 
 #skinShowcase, #weeklyGiveaway {
@@ -202,7 +262,7 @@ export default {
   }
   #timeLeft {
     @include centerX;
-    bottom: -60px;
+    bottom: -40px;
     font-size: 20px;
     width: 300px;
     font-weight: bold;
@@ -247,9 +307,9 @@ export default {
 }
 
 #playersEntered {
-  margin-top: 15px;
   width: 120px;
-  float: right;
+  margin: auto;
+  margin-top: 15px;
   #userCountIcon {
     float: left;
   }
