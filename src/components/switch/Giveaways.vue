@@ -1,17 +1,10 @@
 <template>
   <div id="giveawaysMain">
-
-    <div id="close">
-      <span class="material-icons-round">
-        highlight_off
-      </span>
-    </div>
-
     <span id="timeLeft">Time left: <span>{{ clock }}</span></span>
 
     <div id="skinShowcase">
       <img src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_ak47_cu_ak47_cobra_light_large.7494bfdf4855fd4e6a2dbd983ed0a243c80ef830.png">
-      <p>AK-47 | <span>Redline</span></p>
+      <p id="skinName">AK-47 | <span>Redline</span></p>
       <button>Copy My Referral</button>
       <div id="myRP">
         <p>
@@ -19,6 +12,13 @@
           <span id="myChances"><span>Chance: </span>{{ chanceToWin }}</span>
         </p>
       </div>
+      <div id="playersEntered">
+        <span id="userCountIcon" class="material-icons">
+          record_voice_over
+        </span>
+        <span id="userCount">Entered: {{ playersEnteredGiveaway }}</span>
+      </div>
+      <p></p>
     </div>
 
   </div>
@@ -31,7 +31,8 @@ export default {
     return {
       myRP: 0,
       clock: '24:00:00',
-      chanceToWin: '3%'
+      chanceToWin: '3%',
+      playersEnteredGiveaway: 10
     }
   },
   mounted() {
@@ -176,18 +177,16 @@ export default {
   }
 }
 
-#close {
-  position: absolute;
-  top: 40px; right: 40px;
-  background-color: white;
-  span {
-    color: red;
-    transform: scale(2.5);
-    cursor: pointer;
-    &:hover {
-      transition: .15s ease-in-out;
-      transform: scale(2.6);
-    }
+#playersEntered {
+  margin-top: 15px;
+  width: 120px;
+  float: right;
+  #userCountIcon {
+    float: left;
+  }
+  #userCount {
+    float: right;
+    font-weight: bold;
   }
 }
 
