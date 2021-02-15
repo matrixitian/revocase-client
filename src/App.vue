@@ -262,7 +262,7 @@ export default {
     } 
 
     const urlParams = parseURLParams(window.location.href)
-    // console.log(urlParams)
+    console.log(urlParams)
     if (urlParams) {
       this.$store.commit('setSignUpReferral', { referral: urlParams.referral })
     }
@@ -279,10 +279,10 @@ export default {
       diffMS = diffMS - diffMi * 60
       let diffS = Math.floor(diffMS)
       let result = ((diffHr < 10) ? "0" + diffHr : diffHr)
-      result += ":" + ((diffMi < 10) ? "0" + diffMi : diffMi)
-      result += ":" + ((diffS < 10) ? "0" + diffS : diffS)
+      result += "h : " + ((diffMi < 10) ? "0" + diffMi : diffMi)
+      result += "m : " + ((diffS < 10) ? "0" + diffS : diffS)
       
-      this.clock = result
+      this.clock = result + 's'
     }, 1000)
   },
   methods: {
