@@ -1,14 +1,17 @@
 <template>
   <div id="giveawaysMain">
-    <span id="timeLeft">Time left: <span>{{ clock }}</span></span>
 
-    <div id="skinShowcase">
-      <img src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_ak47_cu_ak47_cobra_light_large.7494bfdf4855fd4e6a2dbd983ed0a243c80ef830.png">
+    <div id="weeklyGiveaway">
+      <p id="weekly">WEEKLY</p>
+      <img class="skinImg"
+      src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_ak47_cu_ak47_cobra_light_large.7494bfdf4855fd4e6a2dbd983ed0a243c80ef830.png">
       <p id="skinName">AK-47 | <span>Redline</span></p>
-      <button>Copy My Referral</button>
+      <button class="buyTicket">
+        Buy Ticket <span>30</span><img src="@/assets/icons/bullet.png">
+      </button>
       <div id="myRP">
         <p>
-          My RP: <span id="myRP">{{ myRP }}</span>
+          My Tickets: <span id="myRP">{{ myRP }}</span>
           <span id="myChances"><span>Chance: </span>{{ chanceToWin }}</span>
         </p>
       </div>
@@ -18,7 +21,33 @@
         </span>
         <span id="userCount">Entered: {{ playersEnteredGiveaway }}</span>
       </div>
-      <p></p>
+    </div>
+
+    <div id="skinShowcase">
+      <p id="daily">DAILY</p>
+      
+      <img class="skinImg"
+      src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_deagle_gs_deagle_mecha_light_large.e08c1fd8709f6b368956c41c68b17c15ff635635.png">
+      
+      <p id="skinName">Desert Eagle | <span>Mecha Industries</span></p>
+     
+      <button>Copy My Referral</button>
+
+      <div id="myRP">
+        <p>
+          My RP: <span id="myRP">{{ myRP }}</span>
+          <span id="myChances"><span>Chance: </span>{{ chanceToWin }}</span>
+        </p>
+      </div>
+
+      <div id="playersEntered">
+        <span id="userCountIcon" class="material-icons">
+          record_voice_over
+        </span>
+        <span id="userCount">Entered: {{ playersEnteredGiveaway }}</span>
+      </div>
+
+      <span id="timeLeft">Time left: <span>{{ clock }}</span></span>
     </div>
 
   </div>
@@ -62,6 +91,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/mixins/centerX';
+@import '@/assets/mixins/centerY';
 @import '@/assets/mixins/centerXY';
 
 @keyframes float {
@@ -80,34 +110,18 @@ export default {
   50%{background-position:100% 19%}
   100%{background-position:0% 82%}
 }
-
 #giveawaysMain {
+  float: right;
   height: 70vh;
   width: 100vw;
 }
 
-#timeLeft {
-  @include centerX;
-  bottom: 20px;
-  font-size: 20px;
-  font-weight: bold;
-  background-color: orangered;
-  border-radius: 20px;
-  padding: 5px 40px 5px 40px;
-  color: rgba(0,0,0,0.8);
-  span {
-    color: white;
-    padding: 4px 12px 4px 12px;
-    background-color: rgba(0,0,0,0.4);
-    border-radius: 10px;
-    margin-left: 10px;
-  }
-}
-
-#skinShowcase {
-  @include centerXY;
+#skinShowcase, #weeklyGiveaway {
+  @include centerY;
+  right: 5vw;
+  width: 45vw;
   animation: float 2s infinite;
-  img {
+  .skinImg {
     height: 220px;
     padding: 0 60px 0 60px;
     border-radius: 20px;
@@ -127,6 +141,7 @@ export default {
     }
   }
   button {
+    position: relative;
     margin-top: 10px;
     border: 2px solid white;
     outline: none;
@@ -139,6 +154,13 @@ export default {
     &:hover {
       transition: .15s ease-in-out;
       transform: scale(1.02);
+    }
+    img {
+      float: right;
+      height: 30px;
+      width: 30px;
+      margin-left: 5px;
+      margin-top: -5px;
     }
   }
   #myRP {
@@ -175,6 +197,50 @@ export default {
       }
     }
   }
+  #timeLeft {
+    @include centerX;
+    bottom: -60px;
+    font-size: 20px;
+    width: 300px;
+    font-weight: bold;
+    background-color: orangered;
+    border-radius: 20px;
+    padding: 5px 40px 5px 40px;
+    color: rgba(0,0,0,0.8);
+    span {
+      color: white;
+      padding: 4px 12px 4px 12px;
+      background-color: rgba(0,0,0,0.4);
+      border-radius: 10px;
+      margin-left: 10px;
+    }
+  }
+}
+
+#weeklyGiveaway {
+  left: 5vw !important;
+  width: 40vw !important;
+}
+
+.buyTicket {
+  background: linear-gradient(limegreen, rgb(0, 161, 0)) !important;
+  border-radius: 20px !important;
+  span {
+    color: white;
+    background-color: rgba(0,0,0,0.3);
+    padding: 3px;
+    border-radius: 5px;
+  }
+}
+
+#daily {
+  margin-bottom: 20px;
+  color: rgb(180, 50, 255);
+}
+
+#weekly {
+  margin-bottom: 20px;
+  color: rgb(255, 38, 0);
 }
 
 #playersEntered {
