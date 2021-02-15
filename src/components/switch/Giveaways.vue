@@ -110,6 +110,7 @@ export default {
   50%{background-position:100% 19%}
   100%{background-position:0% 82%}
 }
+
 #giveawaysMain {
   float: right;
   height: 70vh;
@@ -165,9 +166,11 @@ export default {
   }
   #myRP {
     position: relative;
+    margin: auto;
     margin-top: 20px;
     height: 45px;
     width: 100%;
+    max-width: 600px;
     text-align: center;
     border-radius: 10px;
     background-color: rgba(255, 255, 255, 0.1);
