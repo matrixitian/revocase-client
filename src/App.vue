@@ -25,7 +25,7 @@
         </div>
 
         <!-- My Skins Btn -->
-        <div id="mySkins" @click="switchDynamicComponent()"
+        <div id="mySkins" @click="switchDynamicComponent('MySkins')"
         :class="{goBackBtn : dynamicComponent !== 'Cases'}">
 
           <div v-if="dynamicComponent === 'Cases'">
@@ -80,7 +80,7 @@
           </div>
         </div>
 
-        <div id="giveawayBtn">
+        <div id="giveawayBtn" @click="goToView('Giveaways')">
           <p>Giveaway ends in <span>{{ clock }}</span></p>
         </div>
 
@@ -143,7 +143,9 @@
 
 <!-- Bottom -->
     <div id="Bottomer">
-      <div id="bonusBtn">
+      <div id="bonusBtn"
+      v-if="dynamicComponent === 'Cases'"
+      @click="goToView('BonusBullets')">
         <p>Bonus Bullets!</p>
         <img src="@/assets/icons/bullet.png">
       </div>
@@ -396,6 +398,9 @@ export default {
       } else {
         this.$store.commit('changeView', { view: 'MySkins' })
       }
+    },
+    goToView(view) {
+      this.$store.commit('changeView', { view: view })
     }
   }
 }
@@ -421,7 +426,6 @@ export default {
   @include centerX;
   font-size: 18px;
   font-weight: bold;
-  // color: limegreen;
   top: 27vh;
   animation: animateMotivation 3s infinite;
 }
