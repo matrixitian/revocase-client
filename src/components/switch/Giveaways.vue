@@ -16,7 +16,7 @@
       <div id="myRP">
         <p>
           My RP: <span id="myRP">{{ myRP }}</span>
-          <span id="myChances">Chance: {{ chanceToWin }}</span>
+          <span id="myChances"><span>Chance: </span>{{ chanceToWin }}</span>
         </p>
       </div>
     </div>
@@ -134,6 +134,11 @@ export default {
     border-radius: 10px;
     font-size: 20px;
     font-weight: bold;
+    cursor: pointer;
+    &:hover {
+      transition: .15s ease-in-out;
+      transform: scale(1.02);
+    }
   }
   #myRP {
     position: relative;
@@ -163,6 +168,9 @@ export default {
         background-color: rgba(0,0,0,0.4);
         border-radius: 20px;
         margin-left: 10px;
+        span {
+          color: white;
+        }
       }
     }
   }
