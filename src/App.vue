@@ -470,7 +470,6 @@ export default {
   cursor: pointer;
   &:hover {
     transition: .15s ease-in-out;
-    padding: 15px;
     background: linear-gradient(rgb(255, 102, 0), rgb(161, 16, 161));
   }
   p {
