@@ -94,13 +94,6 @@ export default {
       formattedCaseNames: [
         'Danger Zone', 'Chroma 2', 'Clutch', 'Fracture', 'Phoenix'
       ],
-      caseImgLinks: [
-        "fRPasw8rsUFJ5KBFZv668FFUxnaPLJz5H74y1xtTcz6etNumIx29U6Zd3j7yQoYih3lG1-UJqY27xJIeLMlhpaD9Aclo/256fx256f.png",
-        "fRPasw8rsUFJ5KBFZv668FFAuhqSaKWtEu43mxtbbk6b1a77Twm4Iu8Yl3bCU9Imii1Xt80M5MmD7JZjVLFH-6VnQJQ/256fx256f.png",
-        "fRPasw8rsUFJ5KBFZv668FFY5naqQIz4R7Yjix9bZkvKiZrmAzzlTu5AoibiT8d_x21Wy8hY_MWz1doSLMlhpM3FKbNs/256fx256f.png",
-        "fRPasw8rsUFJ5KBFZv668FFU2nfGaJG0btN2wwYHfxa-hY-uFxj4Dv50nj7uXpI7w3AewrhBpMWH6d9CLMlhpEbAe-Zk/256fx256f.png",
-        "fRPasw8rsUFJ5KBFZv668FFUuh6qZJmlD7tiyl4OIlaGhYuLTzjhVupJ12urH89ii3lHlqEdoMDr2I5jVLFFSv_J2Rg/256fx256f.png"
-      ],
       casesOpened: [0, 0, 0, 0, 0],
       casePrices: [149, 199, 249, 399, 599]
     }
@@ -150,15 +143,13 @@ export default {
       const wpnID = this.skinImgLinks[wpnLonghand]
 
       if (wpnLonghand === 'rare_item') {
-        return require('@/assets/cases/rare_item.png')
+        return require('@/assets/cases/rare_item.webp')
       } else {
         return `${this.skinImgSteamLink}${wpnID}.png`
       }
     },
     getCaseImg(caseName) {
-      const index = this.cases.indexOf(caseName)
-
-      return this.caseImgSteamLink + this.caseImgLinks[index]
+      return require(`@/assets/cases/${caseName}.webp`)
     },
     openedAgo(timestamp) {
       return moment(timestamp).fromNow()
@@ -386,15 +377,14 @@ $purpleGradientEnd: #5a43ab;
           transition: .2s ease;
           height: 300px;
         }
+
         .case {
-          transform: scale(0.6);
-          margin-top: -30px;
-          margin-left: -30px;
+          margin-top: 10px;
         }
 
         .caseTitle {
           font-weight: bold;
-          margin-top: -40px;
+          margin-top: 7px;
           padding: 5px;
           background-color: rgba(0, 0, 0, 0.15);
         }

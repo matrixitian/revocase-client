@@ -124,7 +124,7 @@ export default {
       const wpnID = this.skinImgLinks[wpnLonghand]
 
       if (wpnLonghand === 'rare_item') {
-        return require('@/assets/cases/rare_item.png')
+        return require('@/assets/cases/rare_item.webp')
       } else {
         return `${this.skinImgSteamLink}${wpnID}.png`
       }

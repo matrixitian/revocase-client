@@ -75,7 +75,7 @@
 
         <div id="centerLogo">
           <div id="centerUp">
-            <img id="Logo" src="@/assets/logo-min.png" alt="RevoSkins.Eu Logo">
+            <img id="Logo" src="@/assets/logo.webp" alt="RevoSkins.Eu Logo">
             <p id="logoText">Revo Cases</p>
           </div>
         </div>
