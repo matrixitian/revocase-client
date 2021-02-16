@@ -1,6 +1,22 @@
 <template>
   <div id="adminPanelMain">
     <div id="Todo">
+
+      <div id="giveawayData">
+        <div id="dailyWinner">
+          <p>Daily winner: {{ currentDailyWinner.username }}</p>
+          <div id="requestTrade">
+            <p @click="sendTradeOffer(i)">Send Offer</p>
+          </div>
+        </div>
+        <div id="weeklyWinner">
+          <p>Weekly winner: {{ currentWeeklyWinner.username }}</p>
+          <div id="requestTrade">
+            <p @click="sendTradeOffer(i)">Send Offer</p>
+          </div>
+        </div>
+      </div>
+
       <ul id="tradeRequests">
         <li v-for="(req, i) in tradeRequests" :key="i"
         :class="{ completeLightGreen: req.complete }">
@@ -47,7 +63,9 @@ export default {
   data() {
     return {
       tradeRequests: [],
-      done: []
+      done: [],
+      currentDailyWinner: {},
+      currentWeeklyWinner: {}
     }
   },
   methods: {
@@ -56,8 +74,9 @@ export default {
       
       if (res.status === 200) {
         this.tradeRequests = res.data.tradeRequests
-
-        console.log(this.tradeRequests)
+        
+        this.currentDailyWinner = res.data.giveawayData.currentDailyWinner
+        this.currentWeeklyWinner = res.data.giveawayData.currentWeeklyWinner
       } else {
         this.$store.commit('setError', { errMsg: 'Greška u učitavanju skinova. Refreshaj i pokušaj ponovno.' })
       }

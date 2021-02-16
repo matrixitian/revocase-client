@@ -207,6 +207,11 @@ export default {
     this.$store.subscribe(async(mutation, state) => {
       if (mutation.type === 'setUser') {
         this.user = state.user
+
+        if (this.user.accountType === 'admin') {
+          this.isAdmin = true
+        }
+
         this.myReferralCode = `https://revo-cases.com/?referral=${state.user.username}`
       }
 
