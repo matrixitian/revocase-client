@@ -1,22 +1,22 @@
 <template>
   <div id="adminPanelMain">
-    <div id="Todo">
 
-      <div id="giveawayData">
-        <div id="dailyWinner">
-          <p>Daily winner: {{ currentDailyWinner.username }}</p>
-          <div id="requestTrade">
-            <p @click="sendTradeOffer(i)">Send Offer</p>
-          </div>
-        </div>
-        <div id="weeklyWinner">
-          <p>Weekly winner: {{ currentWeeklyWinner.username }}</p>
-          <div id="requestTrade">
-            <p @click="sendTradeOffer(i)">Send Offer</p>
-          </div>
+    <div id="giveawayData">
+      <div id="dailyWinner">
+        <p class="winner">Daily winner: <span>{{ currentDailyWinner.username }}</span></p>
+        <div class="sendGiveawayOffer" @click="sendTradeOffer(currentDailyWinner.tradeURL.tradeURL)">
+          <p>Send Offer</p>
         </div>
       </div>
+      <div id="weeklyWinner">
+        <p class="winner">Weekly winner: <span>{{ currentWeeklyWinner.username }}</span></p>
+        <div class="sendGiveawayOffer" @click="sendTradeOffer(currentWeeklyWinner.tradeURL.tradeURL)">
+          <p>Send Offer</p>
+        </div>
+      </div>
+    </div>
 
+    <div id="Todo">
       <ul id="tradeRequests">
         <li v-for="(req, i) in tradeRequests" :key="i"
         :class="{ completeLightGreen: req.complete }">
@@ -37,8 +37,8 @@
             <p :class="req.condition">{{ req.condition.toUpperCase() }}</p>
           </div>
 
-          <div id="requestTrade">
-            <p @click="sendTradeOffer(i)">Send Offer</p>
+          <div class="requestTrade">
+            <p @click="sendTradeOffer(tradeRequests[i].tradeURL)">Send Offer</p>
           </div>
 
           <div id="complete">
@@ -81,8 +81,9 @@ export default {
         this.$store.commit('setError', { errMsg: 'Greška u učitavanju skinova. Refreshaj i pokušaj ponovno.' })
       }
     },
-    sendTradeOffer(i) {
-      window.open(this.tradeRequests[i].tradeURL)
+    sendTradeOffer(tradeURL) {
+      console.log(tradeURL)
+      window.open(tradeURL)
     },
     async complete(i) {
       const res = await axios.post(`${config.server}/finish-trade-offer`, {
@@ -103,6 +104,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@/assets/mixins/centerX';
+@import '@/assets/mixins/centerY';
 @import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/skinGrades';
 @import '@/assets/mixins/vueSlideFade';
@@ -129,6 +132,66 @@ $skinWidth: 250px;
 $conditionWidth: 50px;
 $requestTradeWidth: 150px;
 $completeWidth: 150px;
+
+#giveawayData {
+  @include centerX;
+  background-color: rgba(255,255,255,0.1);
+  width: 80%;
+  top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  .winner {
+    @include centerY;
+    left: 0;
+    font-weight: bold;
+    span {
+      color: red;
+      padding: 3px;
+    }
+  }
+  #dailyWinner {
+    position: relative;
+    width: 40%;
+    float: right;
+  }
+  #weeklyWinner {
+    position: relative;
+    width: 40%;
+    float: left;
+  }
+}
+
+.sendGiveawayOffer {
+  float: right;
+  padding: 4px 25px 4px 25px;
+  width: 100px;
+  border-radius: 5px !important;
+  border: 1px solid whitesmoke;
+  background: linear-gradient(rgb(80, 147, 255), rgb(0, 93, 214));
+  cursor: pointer;
+  &:hover {
+    transition: .15s ease;
+    background: linear-gradient(rgb(45, 125, 255), rgb(0, 77, 179));         
+  }
+}
+
+.requestTrade {
+  margin-left: 10px;
+  width: $requestTradeWidth;
+  background-color: rgba(255,255,255,0.1);
+  box-shadow: -10px 0px 10px 1px rgba(0,0,0,0.2);
+  p {
+    width: 80% !important;
+    border-radius: 5px !important;
+    border: 1px solid whitesmoke;
+    background: linear-gradient(rgb(80, 147, 255), rgb(0, 93, 214));
+    cursor: pointer;
+    &:hover {
+      transition: .15s ease;
+      background: linear-gradient(rgb(45, 125, 255), rgb(0, 77, 179));         
+    }
+  }
+}
 
 #adminPanelMain {
   z-index: 10000;
@@ -191,23 +254,6 @@ $completeWidth: 150px;
           p {
             color: black;
             font-weight: bold;
-          }
-        }
-        #requestTrade {
-          margin-left: 10px;
-          width: $requestTradeWidth;
-          background-color: rgba(255,255,255,0.1);
-          box-shadow: -10px 0px 10px 1px rgba(0,0,0,0.2);
-          p {
-            width: 80% !important;
-            border-radius: 5px !important;
-            border: 1px solid whitesmoke;
-            background: linear-gradient(rgb(80, 147, 255), rgb(0, 93, 214));
-            cursor: pointer;
-            &:hover {
-              transition: .15s ease;
-              background: linear-gradient(rgb(45, 125, 255), rgb(0, 77, 179));         
-            }
           }
         }
         #complete {
