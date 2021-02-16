@@ -9,7 +9,7 @@
       <p id="lastWinner" class="weeklyLastWinner">Last winner <span>{{ `-` }}</span></p>
 
       <p id="skinName">AK-47 | <span>Redline</span></p>
-      <button class="buyTicket">
+      <button class="buyTicket" @click="buyTicket">
         Buy Ticket <span>30</span><img src="@/assets/icons/bullet.png">
       </button>
       <div id="myRP">
@@ -135,6 +135,9 @@ export default {
   runUpdate()
   },
   methods: {
+    calcWeeklyChance() {
+      this.weeklyChance = (this.myTickets / this.enteredWeeklyGiveaway) * 100
+    },
     async getData() {
       const res = await axios.get(`${config.server}/get-giveaway-data`)
     
@@ -153,8 +156,26 @@ export default {
       this.enteredDailyGiveaway = data.giveaway.dailyUserPool.length
       this.enteredWeeklyGiveaway = data.giveaway.weeklyUserPool.length
 
-      this.dailyChance = this.myRP / this.enteredDailyGiveaway
-      this.weeklyChance = this.myTickets / this.enteredWeeklyGiveaway
+      this.dailyChance = (this.myRP / this.enteredDailyGiveaway) * 100
+      this.calcWeeklyChance()
+    },
+    async buyTicket() {
+      const myCoins = this.$store.getters.getCoins
+
+      if (myCoins < 30) {
+        return this.$store.commit('setError', { errMsg: "You don't have enough Bullets!" })
+      }
+
+      const res = await axios.post(`${config.server}/buy-ticket`)
+
+      if (res.status === 200) {
+        this.myTickets += 1
+        this.enteredWeeklyGiveaway += 1
+
+        this.calcWeeklyChance()
+      } else {
+        this.$store.commit('setError', { errMsg: 'Failed to buy ticket, refresh page and try again.' })
+      }
     }
   }
 }
