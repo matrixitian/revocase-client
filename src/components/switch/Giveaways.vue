@@ -139,6 +139,12 @@ export default {
     calcWeeklyChance() {
       const chance = (this.myTickets / this.enteredWeeklyGiveaway) * 100
       this.weeklyChance = Math.round((chance + Number.EPSILON) * 100) / 100
+
+      const notValid = isNaN(this.weeklyChance)
+
+      if (notValid) {
+        this.weeklyChance = 0
+      }
     },
     async getData() {
       const res = await axios.get(`${config.server}/get-giveaway-data`)
@@ -165,9 +171,10 @@ export default {
       this.calcWeeklyChance()
     },
     async buyTicket() {
+      const ticketPrice = 30
       const myCoins = this.$store.getters.getCoins
 
-      if (myCoins < 30) {
+      if (myCoins < ticketPrice) {
         return this.$store.commit('setError', { errMsg: "You don't have enough Bullets!" })
       }
 
@@ -184,6 +191,8 @@ export default {
       } else {
         this.$store.commit('setError', { errMsg: 'Failed to buy ticket, refresh page and try again.' })
       }
+
+      this.$store.commit('updateMyCoins', { type: 'subtract', amount: ticketPrice })
     }
   }
 }
