@@ -76,7 +76,7 @@
     </ul>
 
     <div id="tradeDurationInfo">
-      <p>It can take up to <span>24 hours</span> until your Steam account receives the trade offer!</p>
+      <p>It can sometimes take up to <span>7 days</span> until your Steam account receives the trade offer!</p>
     </div>
 
   </div>
@@ -107,7 +107,7 @@ export default {
       if (skin.tradeOfferSent) {
         return 'Trade offer received'
       } else if (skin.requestedTrade) {
-        return 'Skin will be sent within 1 day'
+        return 'Skin will be sent within 1 week'
       } else {
         return 'Trade to account'
       }

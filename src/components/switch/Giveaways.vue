@@ -105,18 +105,16 @@ export default {
     }, 1000)
   
     // Weekly countdown
-    function update(){
-
-      // Get current date and time
+    function updateWeeklyCountdown(){
       var today = new Date()
 
       // Get number of days to Friday
       var dayNum = today.getDay()
-      var daysToMon = 7 - (dayNum < 7 ? dayNum : dayNum - 9)
+      var daysToSunday = 6 - (dayNum < 6 ? dayNum : dayNum - 8)
       
       // Get milliseconds to noon friday
       var sundayMidnight = new Date(+today)
-      sundayMidnight.setDate(sundayMidnight.getDate() + daysToMon)
+      sundayMidnight.setDate(sundayMidnight.getDate() + daysToSunday)
       sundayMidnight.setHours(24,0,0,0)
       // Round up ms remaining so seconds remaining matches dailyCountdown
       var ms = Math.ceil((sundayMidnight - today) / 1000) * 1000
@@ -126,16 +124,16 @@ export default {
       var s = (ms % 6e4)    / 1e3 | 0
       
       // Return remaining 
-      return d + 'd ' + h + 'h ' + m + 'm ' + s + 's';
+      return d + 'd ' + h + 'h ' + m + 'm ' + s + 's'
     }
 
-  // Run update just after next full second
-  const runUpdate = () => {
-    this.weeklyCountdown = update()
-    setTimeout(runUpdate, 1020 - (Date.now() % 1000))
-  }
+    // Run update just after next full second
+    const runWeeklyCountdownUpdate = () => {
+      this.weeklyCountdown = updateWeeklyCountdown()
+      setTimeout(runWeeklyCountdownUpdate, 1020 - (Date.now() % 1000))
+    }
 
-  runUpdate()
+    runWeeklyCountdownUpdate()
   },
   methods: {
     calcWeeklyChance() {
@@ -153,7 +151,7 @@ export default {
       if (data.giveaway.lastWeeklyWinner) {
         this.lastWeeklyWinner = data.giveaway.lastWeeklyWinner
       }
-console.log(data)
+
       this.myRP = data.rp
       this.myTickets = data.tickets
 
