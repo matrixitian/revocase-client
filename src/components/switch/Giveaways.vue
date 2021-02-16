@@ -14,15 +14,15 @@
       </button>
       <div id="myRP">
         <p>
-          My Tickets: <span id="myRP">{{ myRP }}</span>
-          <span id="myChances"><span>Chance: </span>{{ chanceToWin }}</span>
+          My Tickets: <span id="myRP">{{ myTickets }}</span>
+          <span id="myChances"><span>Chance: </span>{{ weeklyChance }}</span>
         </p>
       </div>
       <div id="playersEntered">
         <span id="userCountIcon" class="material-icons">
           record_voice_over
         </span>
-        <span id="userCount">Entered: {{ playersEnteredGiveaway }}</span>
+        <span id="userCount">Entered: {{ enteredWeeklyGiveaway }}</span>
       </div>
 
       <span id="timeLeft">Time left: <span>{{ weeklyCountdown }}</span></span>
@@ -43,7 +43,7 @@
       <div id="myRP">
         <p>
           My RP: <span id="myRP">{{ myRP }}</span>
-          <span id="myChances"><span>Chance: </span>{{ chanceToWin }}</span>
+          <span id="myChances"><span>Chance: </span>{{ dailyChance }}</span>
         </p>
       </div>
 
@@ -51,28 +51,38 @@
         <span id="userCountIcon" class="material-icons">
           record_voice_over
         </span>
-        <span id="userCount">Entered: {{ playersEnteredGiveaway }}</span>
+        <span id="userCount">Entered: {{ enteredDailyGiveaway }}</span>
       </div>
 
-      <span id="timeLeft">Time left: <span>{{ clock }}</span></span>
+      <span id="timeLeft">Time left: <span>{{ dailyCountdown }}</span></span>
     </div>
 
   </div>
 </template>
 
 <script>
+import axios from 'axios'
+import config from '@/assets/config/config'
+
 export default {
   name: "Giveaways",
   data() {
     return {
       myRP: 0,
-      clock: '24h:00m:00s',
-      weeklyCountdown: '',
-      chanceToWin: '3%',
-      playersEnteredGiveaway: 10
+      myTickets: 0,
+      dailyCountdown: '24h:00m:00s',
+      weeklyCountdown: '7d 24h:00m:00s',
+      enteredDailyGiveaway: 0,
+      enteredWeeklyGiveaway: 0,
+      dailyChance: 0,
+      weeklyChance: 0,
+      lastDailyWinner: '-',
+      lastWeeklyWinner: '-'
     }
   },
   mounted() {
+    this.getData()
+
     // Daily countdown
     setInterval(() => {
       let toDate = new Date()
@@ -88,29 +98,29 @@ export default {
       result += "h : " + ((diffMi < 10) ? "0" + diffMi : diffMi)
       result += "m : " + ((diffS < 10) ? "0" + diffS : diffS)
       
-      this.clock = result + 's'
+      this.dailyCountdown = result + 's'
     }, 1000)
   
     // Weekly countdown
     function update(){
 
       // Get current date and time
-      var today = new Date();
+      var today = new Date()
 
       // Get number of days to Friday
-      var dayNum = today.getDay();
-      var daysToMon = 7 - (dayNum < 7 ? dayNum : dayNum - 9);
+      var dayNum = today.getDay()
+      var daysToMon = 7 - (dayNum < 7 ? dayNum : dayNum - 9)
       
       // Get milliseconds to noon friday
-      var sundayMidnight = new Date(+today);
-      sundayMidnight.setDate(sundayMidnight.getDate() + daysToMon);
-      sundayMidnight.setHours(24,0,0,0);
-      // Round up ms remaining so seconds remaining matches clock
-      var ms = Math.ceil((sundayMidnight - today)/1000)*1000;
-      var d =  ms / 8.64e7 | 0;
-      var h = (ms % 8.64e7) / 3.6e6 | 0;
-      var m = (ms % 3.6e6)  / 6e4 | 0;
-      var s = (ms % 6e4)    / 1e3 | 0;
+      var sundayMidnight = new Date(+today)
+      sundayMidnight.setDate(sundayMidnight.getDate() + daysToMon)
+      sundayMidnight.setHours(24,0,0,0)
+      // Round up ms remaining so seconds remaining matches dailyCountdown
+      var ms = Math.ceil((sundayMidnight - today) / 1000) * 1000
+      var d =  ms / 8.64e7 | 0
+      var h = (ms % 8.64e7) / 3.6e6 | 0
+      var m = (ms % 3.6e6)  / 6e4 | 0
+      var s = (ms % 6e4)    / 1e3 | 0
       
       // Return remaining 
       return d + 'd ' + h + 'h ' + m + 'm ' + s + 's';
@@ -118,14 +128,31 @@ export default {
 
   // Run update just after next full second
   const runUpdate = () => {
-    this.weeklyCountdown = update();
-    setTimeout(runUpdate, 1020 - (Date.now() % 1000));
+    this.weeklyCountdown = update()
+    setTimeout(runUpdate, 1020 - (Date.now() % 1000))
   }
 
-  runUpdate();
+  runUpdate()
   },
   methods: {
+    async getData() {
+      const res = await axios.get(`${config.server}/get-giveaway-data`)
     
+      const data = res.data
+
+      if (data.giveaway.lastDailyWinner) {
+        this.lastDailyWinner = data.lgiveaway.lastDailyWinner
+      }
+      if (data.giveaway.lastWeeklyWinner) {
+        this.lastWeeklyWinner = data.giveaway.lastWeeklyWinner
+      }
+
+      this.myRP = data.rp
+      this.myTickers = data.tickets
+
+
+
+    }
   }
 }
 </script>
@@ -187,6 +214,7 @@ export default {
     padding: 0 60px 0 60px;
     border-radius: 20px;
     border: 3px solid rgb(226, 0, 207);
+    border: 3px solid transparent;
     background-color: rgb(110, 54, 110);
     box-shadow: 0 0 3px 7px rgba(0,0,0,0.4);
     background: linear-gradient(124deg, #ff2400, #e81d1d, #af1de8, #751de8, #2b1de8, #e81d7c, #2b1de8, #dd00f3, #dd00f3);
