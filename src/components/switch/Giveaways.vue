@@ -153,12 +153,15 @@ export default {
       if (data.giveaway.lastWeeklyWinner) {
         this.lastWeeklyWinner = data.giveaway.lastWeeklyWinner
       }
-
+console.log(data)
       this.myRP = data.rp
       this.myTickets = data.tickets
 
       this.enteredDailyGiveaway = data.giveaway.dailyUserPool.length
       this.enteredWeeklyGiveaway = data.giveaway.weeklyUserPool.length
+
+      this.lastDailyWinner = data.giveaway.currentDailyWinner
+      this.lastWeeklyWinner = data.giveaway.currentWeeklyWinner
 
       this.dailyChance = (this.myRP / this.enteredDailyGiveaway) * 100
       this.calcWeeklyChance()
