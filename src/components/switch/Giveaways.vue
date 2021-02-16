@@ -3,11 +3,13 @@
 
     <div id="weeklyGiveaway">
       <p id="weekly">WEEKLY</p>
-      <img class="skinImg"
-      src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_ak47_cu_ak47_cobra_light_large.7494bfdf4855fd4e6a2dbd983ed0a243c80ef830.png">
-      
-      <p id="lastWinner" class="weeklyLastWinner">Last winner <span>{{ `-` }}</span></p>
 
+      <div class="skinImg">
+        <img
+          src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_ak47_cu_ak47_cobra_light_large.7494bfdf4855fd4e6a2dbd983ed0a243c80ef830.png">
+        <p class="lastWinner weeklyLastWinner">Last winner <span>{{ lastWeeklyWinner }}</span></p>
+      </div>
+      
       <p id="skinName">AK-47 | <span>Redline</span></p>
       <button class="buyTicket" @click="buyTicket">
         Buy Ticket <span>30</span><img src="@/assets/icons/bullet.png">
@@ -28,13 +30,14 @@
       <span id="timeLeft">Time left: <span>{{ weeklyCountdown }}</span></span>
     </div>
 
-    <div id="skinShowcase">
+    <div id="dailyGiveaway">
       <p id="daily">DAILY</p>
       
-      <img class="skinImg"
-      src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_deagle_gs_deagle_mecha_light_large.e08c1fd8709f6b368956c41c68b17c15ff635635.png">
-      
-      <p id="lastWinner">Last winner <span>{{ `-` }}</span></p>
+      <div class="skinImg">
+        <img
+          src="https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_deagle_gs_deagle_mecha_light_large.e08c1fd8709f6b368956c41c68b17c15ff635635.png">
+        <p class="lastWinner">Last winner <span>{{ lastDailyWinner }}</span></p>
+      </div>
 
       <p id="skinName">Desert Eagle | <span>Mecha Industries</span></p>
      
@@ -213,10 +216,10 @@ export default {
   width: 100vw;
 }
 
-#lastWinner {
+.lastWinner {
   position: absolute;
-  top: 240px;
-  left: 100px;
+  bottom: 10px;
+  left: 20px;
   font-size: 16px !important;
   font-weight: bold;
   min-width: 80px;
@@ -228,17 +231,15 @@ export default {
   }
 }
 
-.weeklyLastWinner {
-  left: 70px !important;
-}
-
-#skinShowcase, #weeklyGiveaway {
+#dailyGiveaway, #weeklyGiveaway {
   @include centerY;
   right: 5vw;
   width: 45vw;
   animation: float 2s infinite;
   .skinImg {
-    height: 220px;
+    position: relative;
+    margin: auto;
+    max-width: 300px;
     padding: 0 60px 0 60px;
     border-radius: 20px;
     border: 3px solid rgb(226, 0, 207);
@@ -248,6 +249,9 @@ export default {
     background: linear-gradient(124deg, #ff2400, #e81d1d, #af1de8, #751de8, #2b1de8, #e81d7c, #2b1de8, #dd00f3, #dd00f3);
     background-size: 1800% 1800%;
     animation: rainbow 18s ease infinite;
+    img {
+      height: 220px;
+    }
   }
   p {
     margin-top: 10px;
