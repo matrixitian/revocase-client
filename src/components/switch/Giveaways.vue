@@ -136,7 +136,8 @@ export default {
   },
   methods: {
     calcWeeklyChance() {
-      this.weeklyChance = (this.myTickets / this.enteredWeeklyGiveaway) * 100
+      const chance = (this.myTickets / this.enteredWeeklyGiveaway) * 100
+      this.weeklyChance = Math.round((chance + Number.EPSILON) * 100) / 100
     },
     async getData() {
       const res = await axios.get(`${config.server}/get-giveaway-data`)
@@ -171,6 +172,9 @@ export default {
       if (res.status === 200) {
         this.myTickets += 1
         this.enteredWeeklyGiveaway += 1
+
+        const chance = (this.myRP / this.enteredDailyGiveaway) * 100
+        this.dailyChance = Math.round((chance + Number.EPSILON) * 100) / 100
 
         this.calcWeeklyChance()
       } else {
