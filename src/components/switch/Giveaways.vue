@@ -15,7 +15,7 @@
       <div id="myRP">
         <p>
           My Tickets: <span id="myRP">{{ myTickets }}</span>
-          <span id="myChances"><span>Chance: </span>{{ weeklyChance }}</span>
+          <span id="myChances"><span>Chance: </span>{{ weeklyChance }} %</span>
         </p>
       </div>
       <div id="playersEntered">
@@ -43,7 +43,7 @@
       <div id="myRP">
         <p>
           My RP: <span id="myRP">{{ myRP }}</span>
-          <span id="myChances"><span>Chance: </span>{{ dailyChance }}</span>
+          <span id="myChances"><span>Chance: </span>{{ dailyChance }} %</span>
         </p>
       </div>
 
@@ -148,10 +148,13 @@ export default {
       }
 
       this.myRP = data.rp
-      this.myTickers = data.tickets
+      this.myTickets = data.tickets
 
+      this.enteredDailyGiveaway = data.giveaway.dailyUserPool.length
+      this.enteredWeeklyGiveaway = data.giveaway.weeklyUserPool.length
 
-
+      this.dailyChance = this.myRP / this.enteredDailyGiveaway
+      this.weeklyChance = this.myTickets / this.enteredWeeklyGiveaway
     }
   }
 }
