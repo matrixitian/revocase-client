@@ -146,6 +146,7 @@ export default {
       if (res.status === 200) {
         this.$store.commit('selectCase', { caseName })
         this.$store.commit('updateMyCoins', { type: 'subtract', amount: casePrice })
+        this.$store.commit('setCaseRollType', { caseRollType: 'case' })
         this.$store.commit('changeView', { view: 'CaseRoll' })
       }
     },

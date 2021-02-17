@@ -145,10 +145,12 @@
 
 <!-- Bottom -->
     <div id="Bottomer">
+
       <div id="bonusBtn"
       v-if="dynamicComponent === 'Cases'"
-      @click="goToView('BonusBullets')">
-        <p>Bonus Bullets!</p>
+      @click="openDailyReward"
+      :class="{dailyRewardUnavailable: !dailyRewardAvailable}">
+        <p>Daily Reward!</p>
         <img src="@/assets/icons/bullet.png">
       </div>
 
@@ -162,6 +164,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import config from '@/assets/config/config'
 import { detectAnyAdblocker } from 'just-detect-adblock'
 import axios from 'axios'
@@ -184,6 +187,7 @@ export default {
       // User data
       user: null,
       myCoins: 0,
+      dailyRewardAvailable: false,
       // Functional
       adCount: 0,
       userCount: 0,
@@ -291,8 +295,36 @@ export default {
       
       this.countdown = result + 's'
     }, 1000)
+
+    // Check if daily reward is available
+    setInterval(() => {
+      this.checkDailyRewardAvailable()
+    }, 60000)
   },
   methods: {
+    async openDailyReward() {
+      const res = await axios.post(`${config.server}/open-daily-reward`)
+
+      if (res.status === 200) {
+        this.$store.commit('setDailyRewardDrop', { amount: Number(res.data) })
+        this.$store.commit('setCaseRollType', { caseRollType: 'daily_reward' })
+        this.$store.commit('changeView', { view: 'CaseRoll' })
+      } else {
+        this.$store.commit('setError', { errMsg: 'Error. Please refresh page and try again.' })
+      }
+    },
+    checkDailyRewardAvailable() {
+      let a = moment(new Date())
+      let b = moment(this.user.dailyRewardOpened)
+
+      let hourDiff = a.diff(b, 'hours')
+
+      console.log(hourDiff)
+
+      if (hourDiff < 24) {
+        this.dailyRewardAvailable = true
+      }
+    },
     async fetchUser() {
       const token = localStorage.getItem('token')
 
@@ -313,6 +345,8 @@ export default {
         if (this.user.accountType === 'admin') {
           this.isAdmin = true
         }
+
+        this.checkDailyRewardAvailable()
 
         this.authChecked = true
       } else {
@@ -459,36 +493,7 @@ export default {
   animation: animateMotivation 3s infinite;
 }
 
-#bonusBtn {
-  position: relative;
-  top: 10px !important;
-  padding: 10px 20px 10px 40px !important;
-  color: rgba(0, 0, 0, 0.7);
-  width: 110px;
-  height: 25px;
-  border-radius: 30px !important;
-  background: linear-gradient(rgb(45, 223, 22), rgb(11, 172, 51)) !important;
-  &:hover {
-    transition: .15s ease-in-out;
-    padding: 11px 21px 11px 41px !important;
-    color: white !important;
-    background: linear-gradient(rgb(113, 241, 96), rgb(2, 207, 53)) !important;
-  }
-  p {
-    @include centerY;
-    float: left;
-    left: 20px;
-  }
-  img {
-    @include centerY;
-    float: right;
-    right: 5px;
-    height: 30px;
-    width: 30px;
-  }
-}
-
-#giveawayBtn, #bonusBtn {
+#giveawayBtn {
   @include centerX;
   top: 19vh;
   padding: 10px;
@@ -507,6 +512,46 @@ export default {
       padding: 4px;
       border-radius: 10px;
     }
+  }
+}
+
+#bonusBtn {
+  @include centerX;
+  top: 10px;
+  padding: 10px 20px 10px 40px ;
+  color: rgba(0, 0, 0, 0.7);
+  width: 110px;
+  height: 25px;
+  border-radius: 30px;
+  border: 2px solid white;
+  background: linear-gradient(rgb(45, 223, 22), rgb(11, 172, 51));
+  &:hover {
+    transition: .15s ease-in-out;
+    padding: 11px 21px 11px 41px;
+    color: white;
+    background: linear-gradient(rgb(113, 241, 96), rgb(2, 207, 53));
+  }
+  p {
+    @include centerY;
+    float: left;
+    left: 20px;
+    font-weight: bold
+  }
+  img {
+    @include centerY;
+    float: right;
+    right: 5px;
+    height: 30px;
+    width: 30px;
+  }
+}
+
+.dailyRewardUnavailable {
+  background: linear-gradient(rgb(204, 204, 204), rgb(112, 112, 112)) !important;
+  cursor: default !important;
+  &:hover {
+    color: rgba(0, 0, 0, 0.7) !important;
+    padding: 10px 20px 10px 40px !important;
   }
 }
 

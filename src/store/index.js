@@ -8,9 +8,17 @@ export default createStore({
     currentView: 'Cases',
     selectedCase: 'clutch',
     currentDrop: {},
+    dailyRewardDrop: null,
+    caseRollType: null,
     errMsg: null
   },
   mutations: {
+    setDailyRewardDrop(state, payload) {
+      state.dailyRewardDrop = payload.dailyRewardDrop
+    },
+    setCaseRollType(state, payload) {
+      state.caseRollType = payload.caseRollType
+    },
     setSignUpReferral(state, payload) {
       state.signUpReferral = payload.referral
     },
@@ -49,6 +57,12 @@ export default createStore({
     }
   },
   getters: {
+    getDailyRewardDrop(state) {
+      return state.dailyRewardDrop
+    },
+    getCaseRollType(state) {
+      return state.caseRollType
+    },
     getSignUpReferral(state) {
       return state.signUpReferral
     },

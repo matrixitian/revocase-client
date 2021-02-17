@@ -4,7 +4,7 @@
     <div id="Roller">
 
       <!-- Skin Rolling -->
-      <ul id="skinRoll">
+      <ul class="skinRoll" v-if="caseRollType === 'case'">
         <transition-group name="slide-fade">
 
           <li v-for="(skin, i) in drops" :key="i"
@@ -18,6 +18,28 @@
             <!-- Skin Condition -->
             <p class="condition" :class="skin.condition">
               {{ skin.condition }}
+            </p>
+
+          </li>
+
+        </transition-group>
+
+        <!-- Carets -->
+        <img id="upperCaret" src="@/assets/icons/caret.svg">
+        <img id="downerCaret" src="@/assets/icons/caret.svg">
+
+      </ul>
+
+      <ul class="skinRoll" v-else>
+        <transition-group name="slide-fade">
+
+          <li v-for="(dropAmount, i) in dailyRewardDrops" :key="i"
+          class="dailyContainer">
+          <!-- Skin Img -->
+            <img class="dailyImg" src="@/assets/icons/bullet.png">
+            <!-- Skin Condition -->
+            <p class="condition dailyAmount" :class="getDailyDropColor(dropAmount)">
+              {{ dropAmount }} Bullets!
             </p>
 
           </li>
@@ -48,16 +70,26 @@ export default {
   name: "CaseRoll",
   data() {
     return {
+      caseRollType: null,
       selectedCase: null,
       caseIsRolling: false,
       rollingFinished: true,
       drops: [],
-      dropAt: 60,
+      dropAt: 54,
       skinImgSteamLink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
-      skinImgLinks: {}
+      skinImgLinks: {},
+      // Daily Reward
+      dailyRewardDrops: []
     }
   },
   methods: {
+    getDailyDropColor(amount) {
+      if (amount === 5) return 'five'
+      else if (amount === 10) return 'ten'
+      else if (amount === 15) return 'fifteen'
+      else if (amount === 20) return 'twenty'
+      else if (amount === 50) return 'fifty'
+    },
     openCase() {
       if (this.caseIsRolling) {
         this.$store.commit('setError', {
@@ -83,7 +115,12 @@ export default {
       const iterator = () => {
         count -= 1
         interval += interval * 0.1
-        this.drops.shift()
+        
+        if (this.caseRollType === 'case') {
+          this.drops.shift()
+        } else {
+          this.dailyRewardDrops.shift()
+        }
 
         caseRollAudio.play()
         if (count === 9) {
@@ -474,16 +511,47 @@ export default {
       }
 
       this.drops = generated
+    },
+    getDailyRewardDrop() {
+      // Drop
+      let num = Math.random() * 100
+      num = Math.round(num * 100) / 100
+
+      if (num >= 0 && num < 0.35) return 50 
+      else if (num >= 0.35 && num < 0.95) return 20 
+      else if (num >= 0.95 && num < 4.15) return 15 
+      else if (num >= 4.15 && num < 20.00) return 10
+      else if (num >= 20.00) return 5
+    },
+    generateDailyRewardDrops() {
+      let i
+
+      let generated = []
+      for(i = 0; i < 70; i++) {
+        const drop = this.getDailyRewardDrop()
+
+        generated.push(drop)
+      }
+
+      this.dailyRewardDrops = generated
     }
   },
   mounted() {
+    this.caseRollType = this.$store.getters.getCaseRollType
+
     this.selectedCase = this.$store.getters.getSelectedCase
 
     this.skinImgLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
 
-    this.generateSkins()
-
-    this.drops[54] = this.$store.getters.getCurrentDrop
+    if (this.caseRollType === 'case') {
+      this.generateSkins()
+      // Set received drop
+      this.drops[this.dropAt] = this.$store.getters.getCurrentDrop
+    } else {
+      this.generateDailyRewardDrops()
+      // Set received drop
+      this.drops[this.dropAt] = this.$store.getters.getDailyRewardDrop
+    }
   }
 }
 </script>
@@ -492,6 +560,22 @@ export default {
 @import '@/assets/mixins/centerX';
 @import '@/assets/mixins/skinGrades';
 @import '@/assets/mixins/skinCondition';
+
+.dailyContainer {
+  background: linear-gradient(orange, orangered);
+}
+
+.dailyImg {
+  height: 60px !important;
+  margin-top: 15px;
+}
+
+.dailyAmount {
+  margin-top: 25px !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  width: 80% !important;
+}
 
 #caseRollMain {
   height: 70vh;
@@ -544,7 +628,7 @@ export default {
   height: 100%;
 }
 
-ul#skinRoll {
+ul.skinRoll {
   @include centerX;
   top: 30%;
   border-radius: 10px;
