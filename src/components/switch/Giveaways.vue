@@ -41,7 +41,7 @@
 
       <p id="skinName">Desert Eagle | <span>Mecha Industries</span></p>
      
-      <button>Copy My Referral</button>
+      <button @click="copyReferralCode">Copy My Referral</button>
 
       <div id="myRP">
         <p>
@@ -136,6 +136,13 @@ export default {
     runWeeklyCountdownUpdate()
   },
   methods: {
+    async copyReferralCode() {
+      const user = this.$store.getters.getUser
+
+      const myReferralCode = `https://revo-cases.com/?referral=${user.username}`
+
+      await navigator.clipboard.writeText(myReferralCode);
+    },
     calcWeeklyChance() {
       const chance = (this.myTickets / this.enteredWeeklyGiveaway) * 100
       this.weeklyChance = Math.round((chance + Number.EPSILON) * 100) / 100
