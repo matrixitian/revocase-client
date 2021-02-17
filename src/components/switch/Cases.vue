@@ -3,6 +3,17 @@
 
     <div id="Upper">
 
+      <!-- Skin Grades Opened -->
+      <div id="skinGradesOpened">
+        <ul>
+          <li v-for="(gradeCount, go) in skinGradesOpened" :key="go"
+          :class="skinGradeNamesRaw[go]">
+            <img src="@/assets/icons/grade_rifle.svg">
+            <p>{{skinGradeNames[go]}}: <span>{{ gradeCount }}</span></p>
+          </li>
+        </ul>
+      </div>
+
       <!-- Live Drops Icon -->
       <div id="liveDrops">
         <p>LIVE DROPS</p>
@@ -10,7 +21,7 @@
       </div>
 
       <!-- Live Drops Feed -->
-      <ul>
+      <ul id="liveDropsSkins">
         <transition-group name="slide-fade">
 
           <li v-for="(gun, i) in skinsOpened" :key="i"
@@ -95,6 +106,9 @@ export default {
         'Danger Zone', 'Chroma 2', 'Clutch', 'Fracture', 'Phoenix'
       ],
       casesOpened: [0, 0, 0, 0, 0],
+      skinGradesOpened: [0, 0, 0, 0, 0],
+      skinGradeNames: ['Rare', 'Covert', 'Classified', 'Restricted', 'Mil-Spec'],
+      skinGradeNamesRaw: ['exceedingly_rare', 'covert', 'classified', 'restricted', 'mil_spec'],
       casePrices: [149, 199, 249, 399, 599]
     }
   },
@@ -187,6 +201,19 @@ export default {
         this.casesOpened[4] = doc.data().phoenix
       })
     })
+
+    // Realtime Cases Opened amounts
+    const skinGradesOpened = firestore.collection('skinGradesOpened')
+
+    skinGradesOpened.onSnapshot((snap) => {
+      snap.docs.forEach(doc => {
+        this.skinGradesOpened[4] = doc.data().mil_spec
+        this.skinGradesOpened[3] = doc.data().restricted
+        this.skinGradesOpened[2] = doc.data().classified
+        this.skinGradesOpened[1] = doc.data().covert
+        this.skinGradesOpened[0] = doc.data().exceedingly_rare
+      })
+    })
   }
 }
 </script>
@@ -243,9 +270,48 @@ $purpleGradientEnd: #5a43ab;
   background-image: linear-gradient($yellowGradientEnd, $yellowGradientStart);
 }
 
+#skinGradesOpened {
+  @include centerXY;
+  top: 15%;
+  width: 1000px;
+  height: 55px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(200, 200, 200, 0.1);
+  ul {
+    position: relative;
+    height: 100%;
+    margin: auto;
+    text-align: center;
+    li {
+      float: right;
+      margin: 5px;
+      width: auto;
+      padding: 5px 20px 5px 20px;
+      border-radius: 10px;
+      border: 2px solid white;
+      img {
+        height: 30px;
+        float: left;
+        margin-left: -10px;
+        margin-right: 10px;
+      }
+      p {
+        float: right;
+        font-weight: bold;
+        margin-top: 5px;
+        span {
+          background-color: rgba(0, 0, 0, 0.3);
+          padding: 3px;
+          border-radius: 10px;
+        }
+      }
+    }
+  }
+}
+
 #liveDrops {
   position: absolute;
-  top: 15px;
+  top: -30px;
   left: -35px;
   z-index: 200;
   p {
@@ -272,8 +338,9 @@ $purpleGradientEnd: #5a43ab;
   min-width: 1100px;
   height: 250px;
   position: relative;
-  ul {
+  #liveDropsSkins {
     @include centerXY;
+    top: 60%;
     border-radius: 10px;
     padding: 10px;
     border: 3px solid rgba(200, 200, 200, 0.1);
