@@ -8,13 +8,14 @@ export default createStore({
     currentView: 'Cases',
     selectedCase: 'clutch',
     currentDrop: {},
-    dailyRewardDrop: null,
+    dailyRewardDrop: 0,
     caseRollType: null,
     errMsg: null
   },
   mutations: {
     setDailyRewardDrop(state, payload) {
-      state.dailyRewardDrop = payload.dailyRewardDrop
+      console.log('Should receive: ', payload.amount)
+      state.dailyRewardDrop = payload.amount
     },
     setCaseRollType(state, payload) {
       state.caseRollType = payload.caseRollType

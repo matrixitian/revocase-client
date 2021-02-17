@@ -273,7 +273,7 @@ export default {
     } 
 
     const urlParams = parseURLParams(window.location.href)
-    console.log(urlParams)
+    // console.log(urlParams)
     if (urlParams) {
       this.$store.commit('setSignUpReferral', { referral: urlParams.referral })
     }
@@ -306,7 +306,9 @@ export default {
       const res = await axios.post(`${config.server}/open-daily-reward`)
 
       if (res.status === 200) {
-        this.$store.commit('setDailyRewardDrop', { amount: Number(res.data) })
+        this.dailyRewardAvailable = false
+
+        this.$store.commit('setDailyRewardDrop', { amount: res.data })
         this.$store.commit('setCaseRollType', { caseRollType: 'daily_reward' })
         this.$store.commit('changeView', { view: 'CaseRoll' })
       } else {
@@ -319,9 +321,7 @@ export default {
 
       let hourDiff = a.diff(b, 'hours')
 
-      console.log(hourDiff)
-
-      if (hourDiff < 24) {
+      if (hourDiff > 24) {
         this.dailyRewardAvailable = true
       }
     },
@@ -525,6 +525,7 @@ export default {
   border-radius: 30px;
   border: 2px solid white;
   background: linear-gradient(rgb(45, 223, 22), rgb(11, 172, 51));
+  cursor: pointer;
   &:hover {
     transition: .15s ease-in-out;
     padding: 11px 21px 11px 41px;

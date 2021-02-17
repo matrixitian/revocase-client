@@ -125,6 +125,10 @@ export default {
 
         caseRollAudio.play()
         if (count === 9) {
+          const amount = Number(this.$store.getters.getDailyRewardDrop)
+
+          this.$store.commit('updateMyCoins', { type: 'add', amount })
+
           setTimeout(() => {
             showDropAudio.play()
           }, 500)
@@ -551,7 +555,7 @@ export default {
     } else {
       this.generateDailyRewardDrops()
       // Set received drop
-      this.drops[this.dropAt] = this.$store.getters.getDailyRewardDrop
+      this.dailyRewardDrops[this.dropAt] = this.$store.getters.getDailyRewardDrop
     }
   }
 }
