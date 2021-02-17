@@ -1,6 +1,8 @@
 <template>
   <div id="Main">
 
+    <p id="appVersion">version: <span>beta</span> 0.8.2</p>
+
     <AdminPanel v-if="isAdmin" />
 
     <ErrorHandler />
@@ -435,6 +437,18 @@ export default {
   50% { color: rgb(67, 231, 130) }
   75% { color: rgb(134, 255, 134) }
   100% { color: rgb(67, 206, 120) }
+}
+
+#appVersion {
+  @include centerX;
+  top: 15px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 4px 15px 4px 15px;
+  border-radius: 8px;
+  span {
+    color: red;
+  }
 }
 
 #motivation {

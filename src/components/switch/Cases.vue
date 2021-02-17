@@ -8,7 +8,8 @@
         <ul>
           <li v-for="(gradeCount, go) in skinGradesOpened" :key="go"
           :class="skinGradeNamesRaw[go]">
-            <img src="@/assets/icons/grade_rifle.svg">
+            <img v-if="skinGradeNamesRaw[go] === 'exceedingly_rare'" src="@/assets/icons/grade_knife.svg">
+            <img v-else src="@/assets/icons/grade_rifle.svg">
             <p>{{skinGradeNames[go]}}: <span>{{ gradeCount }}</span></p>
           </li>
         </ul>
