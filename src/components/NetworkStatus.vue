@@ -4,14 +4,11 @@
 			<p>You have no internet connection!</p>
 			<ul class="loader">
 				<li class="center"></li>
-				<li class="item item-1"></li>
-				<li class="item item-2"></li>
-				<li class="item item-3"></li>
-				<li class="item item-4"></li>
-				<li class="item item-5"></li>
-				<li class="item item-6"></li>
-				<li class="item item-7"></li>
-				<li class="item item-8"></li>
+				<li 
+					v-for="num in 8" :key="num"
+					class="item"
+					:class="`item-${num}`">
+				</li>
 			</ul>
 		</div>
 	</transition>
