@@ -34,11 +34,12 @@
         <transition-group name="slide-fade">
 
           <li v-for="(dropAmount, i) in dailyRewardDrops" :key="i"
-          class="dailyContainer">
+          class="dailyContainer"
+          :class="getDailyDropColor(dropAmount)">
           <!-- Skin Img -->
             <img class="dailyImg" src="@/assets/icons/bullet.png">
             <!-- Skin Condition -->
-            <p class="condition dailyAmount" :class="getDailyDropColor(dropAmount)">
+            <p class="condition dailyAmount">
               {{ dropAmount }} Bullets!
             </p>
 
@@ -517,11 +518,11 @@ export default {
       let num = Math.random() * 100
       num = Math.round(num * 100) / 100
 
-      if (num >= 0 && num < 0.35) return 50 
-      else if (num >= 0.35 && num < 0.95) return 20 
-      else if (num >= 0.95 && num < 4.15) return 15 
-      else if (num >= 4.15 && num < 20.00) return 10
-      else if (num >= 20.00) return 5
+      if (num >= 0 && num < 3) return 50 
+      else if (num >= 3 && num < 8) return 20 
+      else if (num >= 8 && num < 15) return 15 
+      else if (num >= 15 && num < 30.00) return 10
+      else if (num >= 30.00) return 5
     },
     generateDailyRewardDrops() {
       let i
@@ -561,8 +562,25 @@ export default {
 @import '@/assets/mixins/skinGrades';
 @import '@/assets/mixins/skinCondition';
 
-.dailyContainer {
+.five {
+  color: rgb(250, 0, 0);
+  background: linear-gradient(orangered, rgb(189, 16, 0));
+}
+.ten {
+  color: rgb(255, 145, 0);
   background: linear-gradient(orange, orangered);
+}
+.fifteen {
+  color: rgb(255, 251, 0);
+  background: linear-gradient(rgb(229, 255, 0), rgb(199, 202, 0));
+}
+.twenty {
+  color: rgb(164, 255, 90);
+  background: linear-gradient(rgb(115, 255, 0), rgb(66, 207, 0));
+}
+.fifty {
+  color: rgb(0, 255, 76);
+  background: linear-gradient(rgb(0, 255, 42), rgb(0, 199, 33));
 }
 
 .dailyImg {
