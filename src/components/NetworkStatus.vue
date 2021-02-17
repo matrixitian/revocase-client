@@ -1,18 +1,20 @@
 <template>
-  <div v-if="offline">
-    <p>You have no internet connection!</p>
-    <ul class="loader">
-      <li class="center"></li>
-      <li class="item item-1"></li>
-      <li class="item item-2"></li>
-      <li class="item item-3"></li>
-      <li class="item item-4"></li>
-      <li class="item item-5"></li>
-      <li class="item item-6"></li>
-      <li class="item item-7"></li>
-      <li class="item item-8"></li>
-    </ul>
-  </div>
+	<transition name="fade">
+		<div v-if="offline">
+			<p>You have no internet connection!</p>
+			<ul class="loader">
+				<li class="center"></li>
+				<li class="item item-1"></li>
+				<li class="item item-2"></li>
+				<li class="item item-3"></li>
+				<li class="item item-4"></li>
+				<li class="item item-5"></li>
+				<li class="item item-6"></li>
+				<li class="item item-7"></li>
+				<li class="item item-8"></li>
+			</ul>
+		</div>
+	</transition>
 </template>
 
 <script>
@@ -56,8 +58,18 @@ div {
   }
 }
 
-// LOADER
+// transition
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
 
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+// LOADER
 .loader {
 	position: absolute;
 	width: 40px;
