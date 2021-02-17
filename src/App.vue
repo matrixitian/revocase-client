@@ -3,6 +3,8 @@
 
     <p id="appVersion">version: <span>beta</span> 0.8.2</p>
 
+    <NetworkStatus />
+
     <AdminPanel v-if="isAdmin" />
 
     <ErrorHandler />
@@ -174,11 +176,12 @@ import * as Parts from '@/components/switch'
 import Auth from '@/components/Auth'
 import ErrorHandler from '@/components/ErrorHandler'
 import AdminPanel from '@/components/AdminPanel'
+import NetworkStatus from '@/components/NetworkStatus'
 
 export default {
   name: 'App',
   components: {
-    ...Parts, Auth, ErrorHandler, AdminPanel
+    ...Parts, Auth, ErrorHandler, AdminPanel, NetworkStatus
   },
   data() {
     return {
