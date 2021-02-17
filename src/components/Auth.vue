@@ -15,12 +15,13 @@
 
         <p>{{ signUpForm ? "Create a new account" : "Login to your account" }}</p>
 
-        <p v-show="signUpForm">Revo Cases: Earn cases and open them easily!</p>
+        <p id="moto" v-show="signUpForm">Earn easily up to 2 cases a day for free!</p>
 
         <!-- Username -->
         <input v-show="signUpForm" type="text"
         placeholder="Username" ref="uname"
         v-model="uname"
+        @input="uname=$event.target.value.toLowerCase()"
         @keyup="hideShowInfo">
 
         <!-- E-mail -->
@@ -30,13 +31,13 @@
         @keyup="hideShowInfo">
 
         <!-- Password -->
-        <input
-        type="password" :placeholder="passwordPlaceholder()"
+        <input name="password"
+        type="text" :placeholder="passwordPlaceholder()"
         v-model="password"
         @keyup="updatePasswordMeter()">
 
         <!-- Confirm Password -->
-        <input type="password" placeholder="Confirm password"
+        <input type="text" placeholder="Confirm password"
         v-if="signUpForm"
         v-model="cpassword"
         @keyup="hideShowInfo">
@@ -77,7 +78,7 @@
         </p>
 
         <!-- Reset password -->
-        <p v-show="!signUpForm" id="reset_password">Forgot your password?</p>
+        <!-- <p v-show="!signUpForm" id="reset_password">Forgot your password?</p> -->
 
         <!-- Login or Register -->
         <button type="submit"
@@ -141,63 +142,63 @@ export default {
       throw new Error(msg)
     },
     authenticate() {
-        if (this.signUpForm) {
+      if (this.signUpForm) {
 
-          // Check Username exists
-          if (!this.uname) {
-            this.createErrorMessage("You forgot to enter a username!")
-          }
-
-          // Check Username length
-          if (!(this.uname.length > 3) && !(this.uname.length > 10) ) {
-            this.createErrorMessage("Username must be between 3-10 characters long!")
-          }
-
-          if (!this.email) {
-            this.createErrorMessage("You need to enter an e-mail!")
-          }
-
-          // Check E-mails match
-          if (this.password !== this.cpassword) {
-            this.createErrorMessage("Passwords don't match!")
-          }
-
-          const format = /[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/
-          const containsSymbol = format.test(this.password)
-
-          // Check password not empty
-          if (!this.password) {
-            this.createErrorMessage("Password cannot be empty!")
-          }
-
-          // Check password length and has symbols
-          const passwordLen = this.password.length
-          if (!containsSymbol || passwordLen < 8) {
-            this.createErrorMessage("Password needs to contain a symbol and be at least 8 characters long!")
-          }
-
-          if (!this.tradeURL) {
-            this.createErrorMessage("Enter your Trade URL so we can send you Trade Offers!")
-          }
-
-          if(!this.tradeURL.includes('steamcommunity.com/tradeoffer/new/')) {
-            this.createErrorMessage("The Trade URL entered is not valid, click on the info icon!")
-          }
-
-          // Check Username exists
-          if (!this.agreed) {
-            this.createErrorMessage("You cannot create an account if you are a minor!")
-          }
-
-          // Check client has connection
-          if (!window.navigator.onLine) {
-            this.createErrorMessage("Please check you internet connection and refresh page!")
-          }
-
-          this.createAccount()
-        } else {
-          this.login()
+        // Check Username exists
+        if (!this.uname) {
+          this.createErrorMessage("You forgot to enter a username!")
         }
+
+        // Check Username length
+        if (!(this.uname.length > 3) && !(this.uname.length > 10) ) {
+          this.createErrorMessage("Username must be between 3-10 characters long!")
+        }
+
+        if (!this.email) {
+          this.createErrorMessage("You need to enter an e-mail!")
+        }
+
+        // Check E-mails match
+        if (this.password !== this.cpassword) {
+          this.createErrorMessage("Passwords don't match!")
+        }
+
+        const format = /[ `!@#$%^&*()_+\-=\]{};':"\\|,.<>?~]/
+        const containsSymbol = format.test(this.password)
+
+        // Check password not empty
+        if (!this.password) {
+          this.createErrorMessage("Password cannot be empty!")
+        }
+
+        // Check password length and has symbols
+        const passwordLen = this.password.length
+        if (!containsSymbol || passwordLen < 8) {
+          this.createErrorMessage("Password needs to contain a symbol and be at least 8 characters long!")
+        }
+
+        if (!this.tradeURL) {
+          this.createErrorMessage("Enter your Trade URL so we can send you Trade Offers!")
+        }
+
+        if(!this.tradeURL.includes('steamcommunity.com/tradeoffer/new/')) {
+          this.createErrorMessage("The Trade URL entered is not valid, click on the info icon!")
+        }
+
+        // Check Username exists
+        if (!this.agreed) {
+          this.createErrorMessage("You cannot create an account if you are a minor!")
+        }
+
+        // Check client has connection
+        if (!window.navigator.onLine) {
+          this.createErrorMessage("Please check you internet connection and refresh page!")
+        }
+
+        this.createAccount()
+      } else {
+        this.login()
+      }
     },
     saveUserAndRedirect(payload) {
       localStorage.setItem('token', payload.token)
@@ -290,9 +291,16 @@ export default {
   opacity: 0;
 }
 
+#moto {
+  color: white;
+  background-color: rgb(14, 221, 14);
+  padding: 3px;
+  border-radius: 10px;
+}
+
 #tradeInfo {
   position: absolute;
-  top: 342px;
+  top: 330px;
   right: 50px;
   text-decoration: none;
   span {
@@ -377,7 +385,7 @@ input {
 }
 
 .loginFormHeight {
-  height: 320px !important;
+  height: 240px !important;
 }
 
 #switch_to_login {

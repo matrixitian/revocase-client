@@ -81,7 +81,7 @@
         </div>
 
         <div id="giveawayBtn" @click="goToView('Giveaways')">
-          <p>Giveaway ends in <span>{{ clock }}</span></p>
+          <p>Giveaway ends in <span>{{ countdown }}</span></p>
         </div>
 
         <p id="motivation">Watch ads and get up to 2 cases per day!</p>
@@ -200,7 +200,7 @@ export default {
         'croatian', 'english', 'french', 'german', 'italian',
         'polish', 'portuguese', 'russian', 'serbian', 'spanish', 'turkish'
       ],
-      clock: '24:00:00'
+      countdown: '24:00:00'
     }
   },
   created() {
@@ -287,7 +287,7 @@ export default {
       result += "h : " + ((diffMi < 10) ? "0" + diffMi : diffMi)
       result += "m : " + ((diffS < 10) ? "0" + diffS : diffS)
       
-      this.clock = result + 's'
+      this.countdown = result + 's'
     }, 1000)
   },
   methods: {
@@ -366,23 +366,33 @@ export default {
         })
 
         if (this.adsRunning && !adBlockActive && this.adCount < 50) {
-            window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
+          window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
+          
+          setTimeout(() => {
             window.open('//stawhoph.com/afu.php?zoneid=3928400', '_blank')
+          }, 4000)
+            
+          setTimeout(() => {
             window.open('https://www.greatdexchange.com/jump/next.php?r=4138191', '_blank')
+          }, 8000)
+
+          setTimeout(() => {
             window.open('https://apprefaculty.pro/d.m/F/z-dpGaNLv/ZKG/Ux/ee/me9EuuZEU/lqkpPTTtQCxmNHj/YaxfNMjPkDteNJDIES2/N/jnE/3yMrAg', '_blank')
+          }, 12000)
+          
 
-            this.adCount++
-            localStorage.setItem('adCount', this.adCount)
+          this.adCount++
+          localStorage.setItem('adCount', this.adCount)
 
-            if (this.adCount === 50) {
-              Cookies.set('ads_viewed_today', true, { expires: 1 })
-              localStorage.setItem('adCount', 50)
-              finishDailyAds()
+          if (this.adCount === 50) {
+            Cookies.set('ads_viewed_today', true, { expires: 1 })
+            localStorage.setItem('adCount', 50)
+            finishDailyAds()
 
-              this.adsRunning = false
-            }
+            this.adsRunning = false
           }
-        }, 10000)
+          }
+        }, 16000)
 
       } else {
         this.$store.commit('setError', { errMsg: `You need to wait until ${new Date} to do that` })
@@ -774,6 +784,7 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
         background-color: rgb(0, 162, 255);
       }
       #support {
+        z-index: 200 !important;
         margin-bottom: 10px;
         background-color: rgb(5, 96, 216);
       }
