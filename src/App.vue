@@ -3,6 +3,8 @@
 
     <p id="appVersion">version: <span>beta</span> 0.8.2</p>
 
+    <VerifyEmail />
+
     <NetworkStatus />
 
     <AdminPanel v-if="isAdmin" />
@@ -177,11 +179,12 @@ import Auth from '@/components/Auth'
 import ErrorHandler from '@/components/ErrorHandler'
 import AdminPanel from '@/components/AdminPanel'
 import NetworkStatus from '@/components/NetworkStatus'
+import VerifyEmail from '@/components/VerifyEmail'
 
 export default {
   name: 'App',
   components: {
-    ...Parts, Auth, ErrorHandler, AdminPanel, NetworkStatus
+    ...Parts, Auth, ErrorHandler, AdminPanel, NetworkStatus, VerifyEmail
   },
   data() {
     return {

@@ -1,0 +1,134 @@
+<template>
+	<transition name="fade">
+		<div id="main" v-if="user && !emailVerified">
+			<span class="material-icons mailIcon">
+				mail
+			</span>
+			<span class="material-icons-round closeIcon">
+				close
+			</span>
+			<h1>E-Mail Verification</h1>
+			<p>We have sent a code to your e-mail!</p>
+			<input id="inputCode" 
+			placeholder="E-mail Code" type="text"
+			ref="code">
+			<div id="actionButtons">
+				<button id="verifyBtn">Verify</button>
+				<button id="resendBtn">Resend Code</button>
+			</div>
+		</div>
+	</transition>
+</template>
+
+<script>
+export default {
+  name: "VerifyEmail",
+  data() {
+    return {
+      user: null,
+			emailVerified: true
+    }
+  },
+  mounted() {
+		const checkUserExists = setInterval(() => {
+			this.user = this.$store.getters.getUser
+
+			if (this.user) {
+				this.emailVerified = this.user.emailVerified
+
+				setTimeout(() => {
+					this.$refs.code.focus()
+				}, 1000)
+
+				clearInterval(checkUserExists)
+			}
+		
+		}, 1000)
+	}
+}
+</script>
+
+<style lang="scss" scoped>
+@import '@/assets/mixins/centerX';
+@import '@/assets/mixins/centerXY';
+
+#main {
+  z-index: 16000;
+  @include centerXY;
+  width: 500px;
+  height: 400px;
+  background-color: #1B2435;
+	border: 2px solid white;
+	border-radius: 15px;
+	box-shadow: 0 0 5px 7px rgba(0, 0, 0, 0.2);
+	.mailIcon {
+		position: absolute;
+		top: 30px;
+		left: 30px;
+		transform: scale(2);
+	}
+	.closeIcon {
+		position: absolute;
+		top: 30px;
+		right: 30px;
+		transform: scale(1.5);
+		background-color: red;
+		padding: 3px;
+		border-radius: 100%;
+		box-shadow: 0 0 5px 7px rgba(0, 0, 0, 0.2);
+		cursor: pointer;
+		&:hover {
+			transition: .15s ease-in-out;
+			transform: scale(1.55);
+		}
+	}
+	h1 {
+		margin-top: 100px;
+	}
+  p {
+		color: rgba(255, 255, 255, 0.6);
+    font-style: italic;
+    font-size: 18px;
+  }
+	input {
+		margin-top: 50px;
+		width: 70%;
+		padding: 5px;
+		font-size: 20px;
+		font-weight: bold;
+		border-radius: 20px;
+		border: none;
+		text-align: center;
+	}
+	#actionButtons {
+		@include centerX;
+		bottom: 40px;
+		button {
+			padding: 5px 20px 5px 20px;
+			border-radius: 10px;
+			font-size: 20px;
+			font-weight: bold;
+			margin: 5px;
+			border: 2px solid white;
+		}
+		#verifyBtn {
+			background: linear-gradient(rgb(0, 246, 53), rgb(0, 185, 15));
+		}
+		#resendBtn {
+			background: linear-gradient(rgb(148, 0, 246), rgb(115, 3, 149));
+		}
+	}
+}
+
+// transition
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+</style>
