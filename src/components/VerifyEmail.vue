@@ -1,20 +1,22 @@
 <template>
 	<transition name="fade">
-		<div id="main" v-if="user && !emailVerified">
-			<span class="material-icons mailIcon">
-				mail
-			</span>
-			<span class="material-icons-round closeIcon">
-				close
-			</span>
-			<h1>E-Mail Verification</h1>
-			<p>We have sent a code to your e-mail!</p>
-			<input id="inputCode" 
-			placeholder="E-mail Code" type="text"
-			ref="code">
-			<div id="actionButtons">
-				<button id="verifyBtn">Verify</button>
-				<button id="resendBtn">Resend Code</button>
+		<div id="unclickable" v-if="user && !emailVerified">
+			<div id="main">
+				<span class="material-icons mailIcon">
+					mail
+				</span>
+				<span class="material-icons-round closeIcon">
+					close
+				</span>
+				<h1>E-Mail Verification</h1>
+				<p>We have sent a code to your e-mail!</p>
+				<input id="inputCode" 
+				placeholder="E-mail Code" type="text"
+				ref="code">
+				<div id="actionButtons">
+					<button id="verifyBtn">Verify</button>
+					<button id="resendBtn">Resend Code</button>
+				</div>
 			</div>
 		</div>
 	</transition>
@@ -52,8 +54,16 @@ export default {
 @import '@/assets/mixins/centerX';
 @import '@/assets/mixins/centerXY';
 
-#main {
+#unclickable {
   z-index: 16000;
+	position: absolute;
+	top: 0; left: 0;
+	background-color: rgba(0, 0, 0, 0.3);
+	width: 100vw;
+	height: 100vh;
+}
+
+#main {
   @include centerXY;
   width: 500px;
   height: 400px;
