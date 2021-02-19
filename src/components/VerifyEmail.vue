@@ -46,9 +46,15 @@ export default {
     }
   },
 	methods: {
-		resendCode() {
+		async resendCode() {
 			if (this.waitForResetAvailable === 0) {
 				this.waitForResetAvailable = 60
+
+				const res = await axios.post(`${config.server}/resend-email-verification`)
+
+				if (res.status === 400) {
+					this.$store.commit('setError', { errMsg: 'Error. Please refresh page and try again.' })
+				}
 
 				const wait = setInterval(() => {
 					if (this.waitForResetAvailable > 0) {

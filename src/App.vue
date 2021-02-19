@@ -327,7 +327,7 @@ export default {
 
       let hourDiff = a.diff(b, 'hours')
 
-      if (hourDiff > 24) {
+      if (hourDiff >= 24) {
         this.dailyRewardAvailable = true
       }
     },
