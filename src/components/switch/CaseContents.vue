@@ -10,11 +10,11 @@
         <p class="skinTitle" :class="guns.grade[i]">
           {{ gun }}
         </p>
-        <!-- Lowest Price -->
+        <!-- Lowest Price
         <p class="price" v-if="guns.grade[i] !== 'exceedingly_rare'">
           Lowest price (FN): 
           <span>{{ '$0.00' }}</span>
-        </p>
+        </p> -->
 
         <!-- Go to Market -->
         <button class="inspect goToMarket" @click="openMarketLink(i)"
@@ -61,17 +61,6 @@ export default {
     this.guns = require(`@/assets/gunData/caseGuns/${this.selectedCase}.json`)
     this.inspectGunLinks = require(`@/assets/gunData/inspect_guns.json`)
     this.goToMarket = require(`@/assets/gunData/go_to_market.json`)
-
-    // let formattedGuns = this.guns.formatted.map((gun) => {
-    //   return `${gun} (Factory New)`
-    // })
-
-    // formattedGuns.shift()
-
-    // const res = await axios.post('https://revo-cases.com/get-wpn-prices',
-    // { wpns: formattedGuns })
-  
-    // this.wpnPrices = res.data.prices
   },
   methods: {
     openMarketLink(i) {
@@ -136,7 +125,8 @@ ul {
       height: 120px;
     }
     .skinTitle {
-      padding: 3px 0 3px 0;
+      margin-top: 12px;
+      padding: 7px 0 7px 0;
       font-weight: bold;
     }
     .price {

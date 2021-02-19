@@ -110,7 +110,7 @@ export default {
       skinGradesOpened: [0, 0, 0, 0, 0],
       skinGradeNames: ['Rare', 'Covert', 'Classified', 'Restricted', 'Mil-Spec'],
       skinGradeNamesRaw: ['exceedingly_rare', 'covert', 'classified', 'restricted', 'mil_spec'],
-      casePrices: [149, 199, 249, 399, 599]
+      casePrices: [149, 199, 249, 349, 499]
     }
   },
   methods: {    
