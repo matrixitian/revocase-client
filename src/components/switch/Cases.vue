@@ -451,114 +451,114 @@ $purpleGradientEnd: #35ca4e;
 }
   
 #Downer {
-    position: relative;
-    width: 100%;
-    height: calc(100% - 100px);
-    ul {
-      @include centerX;
-      width: auto;
-      height: 325px;
+  position: relative;
+  width: 100%;
+  height: calc(100% - 100px);
+  ul {
+    @include centerX;
+    width: auto;
+    height: 325px;
+    bottom: 0;
+    display: flex;
+    li {
+      position: relative;
+      display: inline-block;
+      align-self: flex-end;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      margin: 0 10px 0 10px;
+      height: 90%;
+      width: 200px;
       bottom: 0;
-      display: flex;
-      li {
-        position: relative;
-        display: inline-block;
-        align-self: flex-end;
-        border-top-left-radius: 20px;
-        border-top-right-radius: 20px;
-        margin: 0 10px 0 10px;
-        height: 90%;
-        width: 200px;
-        bottom: 0;
-        border: 5px solid white;
-        border-bottom: none;
+      border: 5px solid white;
+      border-bottom: none;
+      &:hover {
+        transition: .2s ease;
+        height: 300px;
+      }
+
+      .case {
+        margin-top: 10px;
+      }
+
+      .caseTitle {
+        font-weight: bold;
+        margin-top: 7px;
+        padding: 5px;
+        background-color: rgba(0, 0, 0, 0.15);
+      }
+
+      .amountOpened {
+        font-size: 13px;
+        margin: auto;
+        margin-top: 10px;
+        width: 50%;
+        border-radius: 8px;
+        background-color: rgba(0, 0, 0, 0.3);
+        padding: 2px;
+        span {
+          background-color: rgba(0, 0, 0, 0.6);
+          padding: 0 3px 0 3px;
+          font-weight: bold;
+          border-radius: 4px;
+        }
+      }
+
+      .viewContents, .openCaseBtn {
+        margin: auto;
+        margin-top: 10px;
+        box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.15);
+        border-radius: 7px;
+        border: 2px solid white;
+        color: white;
+        font-weight: bold;
+        font-size: 15px;
+        max-width: 150px;
+        background-color: rgb(46, 117, 209);
+        background-image: linear-gradient(rgb(60, 167, 230), rgb(3, 100, 228));
+        cursor: pointer;
         &:hover {
-          transition: .2s ease;
-          height: 300px;
+          transition: .15s ease;
+          transform: scale(1.05);
         }
+      }
 
-        .case {
-          margin-top: 10px;
+      .viewContents {
+        height: 15px;
+        font-size: 14px;
+        padding: 4px 5px 4px 5px;
+        .contentsIcon {
+          float: left;
+          padding: 0;
+          margin: 0;
+          margin-top: -4px;
         }
-
-        .caseTitle {
-          font-weight: bold;
-          margin-top: 7px;
-          padding: 5px;
-          background-color: rgba(0, 0, 0, 0.15);
+        p {
+          margin-top: -2px;
         }
+      }
 
-        .amountOpened {
-          font-size: 13px;
-          margin: auto;
-          margin-top: 10px;
-          width: 50%;
-          border-radius: 8px;
-          background-color: rgba(0, 0, 0, 0.3);
-          padding: 2px;
-          span {
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 0 3px 0 3px;
-            font-weight: bold;
-            border-radius: 4px;
-          }
+      .openCaseBtn {
+        padding: 7px 10px 7px 10px;
+        background-color: rgb(46, 209, 54);
+        background-image: linear-gradient(rgb(46, 209, 54), rgb(18, 158, 41));
+        border-radius: 20px;
+        max-width: 100px;
+        animation: floatBuyBtn 2s infinite;
+        img {
+          float: left;
+          padding: 0;
+          margin: 0;
+          margin-top: -5px;
+          height: 30px;
+          width: 30px;
         }
-
-        .viewContents, .openCaseBtn {
-          margin: auto;
-          margin-top: 10px;
-          box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.15);
-          border-radius: 7px;
-          border: 2px solid white;
-          color: white;
-          font-weight: bold;
-          font-size: 15px;
-          max-width: 150px;
-          background-color: rgb(46, 117, 209);
-          background-image: linear-gradient(rgb(60, 167, 230), rgb(3, 100, 228));
-          cursor: pointer;
-          &:hover {
-            transition: .15s ease;
-            transform: scale(1.05);
-          }
-        }
-
-        .viewContents {
-          height: 15px;
-          font-size: 14px;
-          padding: 4px 5px 4px 5px;
-          .contentsIcon {
-            float: left;
-            padding: 0;
-            margin: 0;
-            margin-top: -4px;
-          }
-          p {
-            margin-top: -2px;
-          }
-        }
-
-        .openCaseBtn {
-          padding: 7px 10px 7px 10px;
-          background-color: rgb(46, 209, 54);
-          background-image: linear-gradient(rgb(46, 209, 54), rgb(18, 158, 41));
-          border-radius: 20px;
-          max-width: 100px;
-          animation: floatBuyBtn 2s infinite;
-          img {
-            float: left;
-            padding: 0;
-            margin: 0;
-            margin-top: -5px;
-            height: 30px;
-            width: 30px;
-          }
-          p {
-            font-size: 18px;
-          }
+        p {
+          font-size: 18px;
         }
       }
     }
+  }
 }
 
 </style>
