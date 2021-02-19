@@ -114,7 +114,7 @@ export default {
       skinGradesOpened: [0, 0, 0, 0, 0],
       skinGradeNames: ['Rare', 'Covert', 'Classified', 'Restricted', 'Mil-Spec'],
       skinGradeNamesRaw: ['exceedingly_rare', 'covert', 'classified', 'restricted', 'mil_spec'],
-      casePrices: [149, 199, 249, 349, 499]
+      casePrices: [275, 199, 249, 349, 599]
     }
   },
   methods: {    
@@ -264,7 +264,7 @@ $blueGradientEnd: #006fee;
 $purpleGradientStart: #67bb72;
 $purpleGradientEnd: #35ca4e;
 
-.Pipe_0 {
+.Pipe_2 {
   background-color: $purpleGradientEnd;
   background-image: linear-gradient($purpleGradientStart, $purpleGradientEnd);
 }
@@ -274,7 +274,7 @@ $purpleGradientEnd: #35ca4e;
   background-image: linear-gradient($blueGradientStart, $blueGradientEnd);
 }
 
-.Pipe_2 {
+.Pipe_0 {
   background-color: $greenGradientEnd;
   background-image: linear-gradient($greenGradientStart, $greenGradientEnd);
 }
