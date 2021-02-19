@@ -437,6 +437,18 @@ $purpleGradientEnd: #35ca4e;
     }
   }
 }
+
+@keyframes floatBuyBtn {
+	0% {
+		transform: translatey(4px);
+  }
+  50% {
+		transform: translatey(0px);
+  }
+  100% {
+		transform: translatey(4px);
+  }
+}
   
 #Downer {
     position: relative;
@@ -532,6 +544,7 @@ $purpleGradientEnd: #35ca4e;
           background-image: linear-gradient(rgb(46, 209, 54), rgb(18, 158, 41));
           border-radius: 20px;
           max-width: 100px;
+          animation: floatBuyBtn 2s infinite;
           img {
             float: left;
             padding: 0;
