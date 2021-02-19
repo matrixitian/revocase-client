@@ -5,17 +5,25 @@
 				<span class="material-icons mailIcon">
 					mail
 				</span>
-				<span class="material-icons-round closeIcon">
+				<span class="material-icons-round closeIcon"
+				@click="closeVerificationForm()">
 					close
 				</span>
 				<h1>E-Mail Verification</h1>
 				<p>We have sent a code to your e-mail!</p>
 				<input id="inputCode" 
 				placeholder="E-mail Code" type="text"
-				ref="code">
+				ref="code"
+				v-model="verificationCode">
 				<div id="actionButtons">
-					<button id="verifyBtn">Verify</button>
-					<button id="resendBtn">Resend Code</button>
+					<button id="verifyBtn"
+					@click="verifyEmail()">{{
+						verifyingInProgress? 'Verifying...' : 'Verify'	
+					}}</button>
+					<button id="resendBtn" @click="resendCode()"
+					:class="{resendCodeDisabled: waitForResetAvailable > 0}">{{
+						waitForResetAvailable === 0? 'Resend Code' : `Resend Again in ${waitForResetAvailable}s`	
+					}}</button>
 				</div>
 			</div>
 		</div>
@@ -23,14 +31,56 @@
 </template>
 
 <script>
+import config from '@/assets/config/config'
+import axios from 'axios'
+
 export default {
   name: "VerifyEmail",
   data() {
     return {
       user: null,
-			emailVerified: true
+			emailVerified: true,
+			verificationCode: null,
+			verifyingInProgress: false,
+			waitForResetAvailable: 0
     }
   },
+	methods: {
+		resendCode() {
+			if (this.waitForResetAvailable === 0) {
+				this.waitForResetAvailable = 60
+
+				const wait = setInterval(() => {
+					if (this.waitForResetAvailable > 0) {
+						this.waitForResetAvailable--
+					} else {
+						clearInterval(wait)
+					}
+				}, 1000)
+			}
+		},
+		async verifyEmail() {
+			if (this.verificationCode && !this.verifyingInProgress) {
+				const res = await axios.post(`${config.server}/verify-email`, {
+					emailVerificationCode: this.verificationCode
+				})
+
+				if (res.status === 200) {
+					this.emailVerified = true
+					this.user.emailVerified = true
+
+					this.$store.commit('setUser', { user: this.user })
+				} else if (res.status === 400) {
+					this.$store.commit('setError', { errMsg: 'The code you entered is not correct.' })
+				} else {
+					this.$store.commit('setError', { errMsg: 'Error. Please refresh page.' })
+				}
+			}
+		},
+		closeVerificationForm() {
+			this.emailVerified = true
+		}
+	},
   mounted() {
 		const checkUserExists = setInterval(() => {
 			this.user = this.$store.getters.getUser
@@ -120,6 +170,11 @@ export default {
 			font-weight: bold;
 			margin: 5px;
 			border: 2px solid white;
+			cursor: pointer;
+			&:hover {
+				transition: .15s ease-in-out;
+				transform: scale(1.03);
+			}
 		}
 		#verifyBtn {
 			background: linear-gradient(rgb(0, 246, 53), rgb(0, 185, 15));
@@ -127,6 +182,14 @@ export default {
 		#resendBtn {
 			background: linear-gradient(rgb(148, 0, 246), rgb(115, 3, 149));
 		}
+	}
+}
+
+.resendCodeDisabled {
+	cursor: default !important;
+	background: linear-gradient(rgb(194, 194, 194), rgb(109, 109, 109)) !important;
+	&:hover {
+		transform: none !important;
 	}
 }
 
