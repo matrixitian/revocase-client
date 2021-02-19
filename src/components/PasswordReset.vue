@@ -39,19 +39,15 @@ export default {
 		async updatePassword() {
 			this.saving = true
 
-			const res = await axios.post(`${config.server}/update-password`, {
-				safeCode: this.safeCode,
-				newPassword: this.newPassword
-			})
+			try {
+				await axios.post(`${config.server}/update-password`, {
+					safeCode: this.safeCode,
+					newPassword: this.newPassword
+				})
+			} catch(err) {
+				this.saving = false
 
-			this.saving = false
-
-			if (res.status === 200) {
-				this.$emit('passwordResetComplete')
-			} else if (res.status === 400) {
 				this.$store.commit('setError', { errMsg: 'This password reset has expired' })
-			} else if (res.status === 500) {
-				this.$store.commit('setError', { errMsg: 'Network error. Please try again.' })
 			}
 		}
 	}
