@@ -322,16 +322,18 @@ export default {
   },
   methods: {
     async openDailyReward() {
-      const res = await axios.post(`${config.server}/open-daily-reward`)
+      if (this.dailyRewardAvailable) {
+        const res = await axios.post(`${config.server}/open-daily-reward`)
 
-      if (res.status === 200) {
-        this.dailyRewardAvailable = false
+        if (res.status === 200) {
+          this.dailyRewardAvailable = false
 
-        this.$store.commit('setDailyRewardDrop', { amount: res.data })
-        this.$store.commit('setCaseRollType', { caseRollType: 'daily_reward' })
-        this.$store.commit('changeView', { view: 'CaseRoll' })
-      } else {
-        this.$store.commit('setError', { errMsg: 'Error. Please refresh page and try again.' })
+          this.$store.commit('setDailyRewardDrop', { amount: res.data })
+          this.$store.commit('setCaseRollType', { caseRollType: 'daily_reward' })
+          this.$store.commit('changeView', { view: 'CaseRoll' })
+        } else {
+          this.$store.commit('setError', { errMsg: 'Error. Please refresh page and try again.' })
+        }
       }
     },
     checkDailyRewardAvailable() {
