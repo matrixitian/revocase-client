@@ -94,6 +94,14 @@
           <p>Giveaway ends in <span>{{ countdown }}</span></p>
         </div>
 
+        <div id="bonusBtn"
+        v-if="dynamicComponent === 'Cases'"
+        @click="openDailyReward"
+        :class="{dailyRewardUnavailable: !dailyRewardAvailable}">
+          <p>Daily Reward!</p>
+          <img src="@/assets/icons/bullet.png">
+        </div>
+
         <p id="motivation">Watch ads and get up to 2 cases per day!</p>
       </div>
 
@@ -153,14 +161,6 @@
 
 <!-- Bottom -->
     <div id="Bottomer">
-
-      <div id="bonusBtn"
-      v-if="dynamicComponent === 'Cases'"
-      @click="openDailyReward"
-      :class="{dailyRewardUnavailable: !dailyRewardAvailable}">
-        <p>Daily Reward!</p>
-        <img src="@/assets/icons/bullet.png">
-      </div>
 
       <div id="bottomAligner">
         <component :is="dynamicComponent" :Case="caseClicked" :user="user"></component>
@@ -516,7 +516,8 @@ export default {
 
 #giveawayBtn {
   @include centerX;
-  top: 19vh;
+  margin-left: -90px;
+  top: 170px;
   padding: 10px;
   background: linear-gradient(red, purple);
   border-radius: 10px;
@@ -538,7 +539,8 @@ export default {
 
 #bonusBtn {
   @include centerX;
-  top: 10px;
+  top: 167px;
+  margin-left: 140px;
   padding: 10px 20px 10px 40px ;
   color: rgba(0, 0, 0, 0.7);
   width: 110px;
