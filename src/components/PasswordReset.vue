@@ -44,16 +44,16 @@ export default {
 				newPassword: this.newPassword
 			})
 
+			this.saving = false
+
 			if (res.status === 200) {
-				this.saving = false
 				this.$emit('passwordResetComplete')
-			} else {
+			} else if (res.status === 400) {
+				this.$store.commit('setError', { errMsg: 'This password reset has expired' })
+			} else if (res.status === 500) {
 				this.$store.commit('setError', { errMsg: 'Network error. Please try again.' })
 			}
 		}
-	},
-  mounted() {
-	
 	}
 }
 </script>
