@@ -78,7 +78,7 @@
         </p>
 
         <!-- Reset password -->
-        <!-- <p v-show="!signUpForm" id="reset_password">Forgot your password?</p> -->
+        <p v-show="!signUpForm" id="reset_password">Forgot your password?</p>
 
         <!-- Login or Register -->
         <button type="submit"
@@ -385,7 +385,7 @@ input {
 }
 
 .loginFormHeight {
-  height: 240px !important;
+  height: 310px !important;
 }
 
 #switch_to_login {

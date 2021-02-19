@@ -14,7 +14,6 @@ export default createStore({
   },
   mutations: {
     setDailyRewardDrop(state, payload) {
-      console.log('Should receive: ', payload.amount)
       state.dailyRewardDrop = payload.amount
     },
     setCaseRollType(state, payload) {

@@ -95,7 +95,9 @@ export default {
 				this.emailVerified = this.user.emailVerified
 
 				setTimeout(() => {
-					this.$refs.code.focus()
+					if (!this.emailVerified) {
+						this.$refs.code.focus()
+					}
 				}, 1000)
 
 				clearInterval(checkUserExists)
