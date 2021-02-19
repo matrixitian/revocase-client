@@ -1,7 +1,7 @@
 <template>
   <div id="Main">
 
-    <p id="appVersion">version: <span>beta</span> 0.8.2</p>
+    <p id="appVersion">version: <span>beta</span> 0.9.1</p>
 
     <PasswordReset v-if="showPasswordResetView" 
     @passwordResetComplete="this.showPasswordResetView = false"

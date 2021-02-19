@@ -54,6 +54,10 @@
         <li v-for="(caseName, i) in cases"
         :key="i" :class="`Pipe_${i}`">
 
+          <!-- Best value -->
+          <p id="bestValue" v-if="caseName === 'clutch'">
+            Best Value!
+          </p>
           <!-- Case Img -->
           <img class="case" :src="getCaseImg(caseName)">
           <!-- Case Title -->
@@ -235,6 +239,19 @@ export default {
   }
 }
 
+#bestValue {
+  position: absolute;
+  top: 15px;
+  right: 7px;
+  padding: 4px 10px 4px 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  border: 2px solid white;
+  background: linear-gradient(rgb(66, 255, 66), green);
+  box-shadow: 0 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: float 4s infinite;
+}
+
 $grayBackground: #1b2435;
 $redGradientStart: #ea5a8d;
 $redGradientEnd: #e32565;
@@ -242,10 +259,10 @@ $yellowGradientStart: #ff7b36;
 $yellowGradientEnd: #ffcc01;
 $greenGradientStart: #884bd6;
 $greenGradientEnd: #a81b8a;
-$blueGradientStart: #4ba8b7;
-$blueGradientEnd: #018498;
-$purpleGradientStart: #7967bb;
-$purpleGradientEnd: #5a43ab;
+$blueGradientStart: #4797ff;
+$blueGradientEnd: #006fee;
+$purpleGradientStart: #67bb72;
+$purpleGradientEnd: #35ca4e;
 
 .Pipe_0 {
   background-color: $purpleGradientEnd;
@@ -432,6 +449,7 @@ $purpleGradientEnd: #5a43ab;
       bottom: 0;
       display: flex;
       li {
+        position: relative;
         display: inline-block;
         align-self: flex-end;
         border-top-left-radius: 20px;
