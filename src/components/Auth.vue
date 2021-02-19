@@ -1,7 +1,10 @@
 <template>
   <div class="main" @keypress.enter.prevent>
 
-    <form :class="{loginFormHeight: !signUpForm}">
+    <form 
+    :class="[
+    {loginFormHeight: !signUpForm}, 
+    {passwordResetHeight: passwordResetForm}]">
 
       <!-- Switch Auth -->
       <button id="switch_to_login"
@@ -13,7 +16,8 @@
 
       <div id="center" v-if="mounted">
 
-        <p>{{ signUpForm ? "Create a new account" : "Login to your account" }}</p>
+        <p v-if="!passwordResetForm">{{ signUpForm ? "Create a new account" : "Login to your account" }}</p>
+        <p v-else>Reset your password</p>
 
         <p id="moto" v-show="signUpForm">Earn easily up to 2 cases a day for free!</p>
 
@@ -34,7 +38,8 @@
         <input name="password"
         type="text" :placeholder="passwordPlaceholder()"
         v-model="password"
-        @keyup="updatePasswordMeter()">
+        @keyup="updatePasswordMeter()"
+        v-if="!passwordResetForm">
 
         <!-- Confirm Password -->
         <input type="text" placeholder="Confirm password"
@@ -78,14 +83,27 @@
         </p>
 
         <!-- Reset password -->
-        <p v-show="!signUpForm" id="reset_password">Forgot your password?</p>
+        <p v-show="!signUpForm && !passwordResetForm" id="reset_password"
+        @click="passwordResetForm = true">
+          Forgot your password?
+        </p>
 
         <!-- Login or Register -->
-        <button type="submit"
+        <button v-if="!passwordResetForm"
+        type="submit"
         id="formButton"
         @click.prevent="authenticate()"
         :class="{loginBtnMargin: !signUpForm}">
           {{ signUpForm ? "Create your Revo account" : "Login" }}
+        </button>
+
+        <!-- Reset Oasswird -->
+        <button v-else
+        type="submit"
+        id="formButton"
+        @click.prevent="sendPasswordReset()"
+        :class="{loginBtnMargin: !signUpForm}">
+          {{ resetIsBeingSent? 'Sending please wait...' : 'Send password reset' }}
         </button>
 
       </div>
@@ -102,7 +120,8 @@ const passwordStrength = require('check-password-strength')
 export default {
   data() {
     return {
-      agreed: true,
+      resetIsBeingSent: false,
+      passwordResetForm: false,
       alreadySignedUp: null,
       passwordStrength: "Weak",
       uname: null,
@@ -123,6 +142,24 @@ export default {
     }
   },
   methods: {
+    async sendPasswordReset() {
+      if (this.email) {
+        this.resetIsBeingSent = true
+
+        const res = await axios.post(`${config.server}/send-password-reset`, {
+          forEmail: this.email
+        })
+
+        if (res.status === 200) {
+          this.email = null
+          this.resetIsBeingSent = false
+        } else {
+          this.createErrorMessage('Error. Refresh page and try again.')
+        }
+      } else {
+        this.createErrorMessage('Please enter an e-mail.')
+      }
+    },
     hideShowInfo() {
       this.showInfo = false
     },
@@ -183,11 +220,6 @@ export default {
 
         if(!this.tradeURL.includes('steamcommunity.com/tradeoffer/new/')) {
           this.createErrorMessage("The Trade URL entered is not valid, click on the info icon!")
-        }
-
-        // Check Username exists
-        if (!this.agreed) {
-          this.createErrorMessage("You cannot create an account if you are a minor!")
         }
 
         // Check client has connection
@@ -252,6 +284,7 @@ export default {
       }
     },
     toggleFormType() {
+      this.passwordResetForm = false
       this.showInfo = false
       this.signUpForm = !this.signUpForm
     },
@@ -386,6 +419,10 @@ input {
 
 .loginFormHeight {
   height: 310px !important;
+}
+
+.passwordResetHeight {
+  height: 200px !important;
 }
 
 #switch_to_login {

@@ -3,6 +3,10 @@
 
     <p id="appVersion">version: <span>beta</span> 0.8.2</p>
 
+    <PasswordReset v-if="showPasswordResetView" 
+    @passwordResetComplete="this.showPasswordResetView = false"
+    :safeCode="safeCode"/>
+
     <VerifyEmail />
 
     <NetworkStatus />
@@ -180,20 +184,24 @@ import ErrorHandler from '@/components/ErrorHandler'
 import AdminPanel from '@/components/AdminPanel'
 import NetworkStatus from '@/components/NetworkStatus'
 import VerifyEmail from '@/components/VerifyEmail'
+import PasswordReset from '@/components/PasswordReset'
 
 export default {
   name: 'App',
   components: {
-    ...Parts, Auth, ErrorHandler, AdminPanel, NetworkStatus, VerifyEmail
+    ...Parts, Auth, ErrorHandler, AdminPanel, NetworkStatus, VerifyEmail, PasswordReset
   },
   data() {
     return {
       socket: io(config.server),
       isAdmin: false,
+      showPasswordResetView: false,
       // User data
       user: null,
       myCoins: 0,
       dailyRewardAvailable: false,
+      // For password reset
+      safeCode: null,
       // Functional
       adCount: 0,
       userCount: 0,
@@ -282,6 +290,11 @@ export default {
     // console.log(urlParams)
     if (urlParams) {
       this.$store.commit('setSignUpReferral', { referral: urlParams.referral })
+    
+      if (urlParams.safecode) {
+        this.safeCode = urlParams.safecode[0]
+        this.showPasswordResetView = true
+      }
     }
 
     // Countdown
