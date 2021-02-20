@@ -98,7 +98,7 @@
         v-if="dynamicComponent === 'Cases'"
         @click="openDailyReward"
         :class="{dailyRewardUnavailable: !dailyRewardAvailable}">
-          <p>Daily Reward!</p>
+          <p>{{ dailyRewardAvailable? 'Daily Reward!' : dailyRewardCountdown }}</p>
           <img src="@/assets/icons/bullet.png">
         </div>
 
@@ -130,12 +130,12 @@
           <div id="playAds" @click="getPoint()"
           :class="[{ adsRunning: adsRunning },{ disablePlayAds: adCount === 50 },]">
             <img src="@/assets/icons/start.svg" alt="">
-            <p>
+            <p v-if="adCount < 50">
               {{
-                adCount === 50 ? 'Done' :
                 `${adCount}/50 Ads`
               }}
             </p>
+            <p v-else id="startAdsCountdown">{{ startAdsCountdown }}</p>
           </div>
 
           <!-- Tutorial Btn -->
@@ -231,7 +231,9 @@ export default {
         'croatian', 'english', 'french', 'german', 'italian',
         'polish', 'portuguese', 'russian', 'serbian', 'spanish', 'turkish'
       ],
-      countdown: '24:00:00'
+      countdown: '24:00:00',
+      dailyRewardCountdown: '24:00:00',
+      startAdsCountdown: '24:00:00'
     }
   },
   created() {
@@ -256,19 +258,6 @@ export default {
     })
   },
   async mounted() {
-    console.log(this.isMobileDevice)
-
-    // Get adCount (count of viewed ads on #playAds button)
-    if (localStorage.getItem('adCount')) {
-      this.adCount = Number(localStorage.getItem('adCount'))
-    }
-
-    const lastViewedADayAgo = Cookies.get('ads_viewed_today')
-
-    if (!lastViewedADayAgo) {
-      this.adCount = 0
-    }
-    
     // Check user session
     this.fetchUser()
 
@@ -328,6 +317,48 @@ export default {
       this.countdown = result + 's'
     }, 1000)
 
+    // Countdown Daily Reward
+    setInterval(() => {
+      let date = new Date(this.user.dailyRewardOpened)
+      // add a day
+      date.setDate(date.getDate() + 1)
+      let toDate = new Date()
+      let tomorrow = date
+      let diffMS = tomorrow.getTime() / 1000 - toDate.getTime() / 1000
+      let diffHr = Math.floor(diffMS / 3600)
+      diffMS = diffMS - diffHr * 3600
+      let diffMi = Math.floor(diffMS / 60)
+      diffMS = diffMS - diffMi * 60
+      // let diffS = Math.floor(diffMS)
+      let result = ((diffHr < 10) ? "0" + diffHr : diffHr)
+      result += "h : " + ((diffMi < 10) ? "0" + diffMi : diffMi)
+      // result += "m : " + ((diffS < 10) ? "0" + diffS : diffS)
+      
+      this.dailyRewardCountdown = 'Wait ' + result + 'm'
+    }, 1000)
+
+    // Countdown Daily Reward
+    setInterval(() => {
+      let date = new Date(this.user.boosterAdsFinishedAt)
+      // add a day
+      date.setDate(date.getDate() + 1)
+      let toDate = new Date()
+      let tomorrow = date
+      let diffMS = tomorrow.getTime() / 1000 - toDate.getTime() / 1000
+      let diffHr = Math.floor(diffMS / 3600)
+      diffMS = diffMS - diffHr * 3600
+      let diffMi = Math.floor(diffMS / 60)
+      diffMS = diffMS - diffMi * 60
+      let diffS = Math.floor(diffMS)
+      let result = ((diffHr < 10) ? "0" + diffHr : diffHr)
+      result += "h : " + ((diffMi < 10) ? "0" + diffMi : diffMi)
+      result += "m : " + ((diffS < 10) ? "0" + diffS : diffS)
+      
+      this.startAdsCountdown = result + 's'
+
+      console.log(this.user.boosterAdsFinishedAt)
+    }, 1000)
+
     // Check if daily reward is available
     setInterval(() => {
       this.checkDailyRewardAvailable()
@@ -382,6 +413,22 @@ export default {
 
         this.checkDailyRewardAvailable()
 
+        // Get adCount (count of viewed ads on #playAds button)
+        if (localStorage.getItem('adCount')) {
+          this.adCount = Number(localStorage.getItem('adCount'))
+        }
+
+        const a = moment(new Date())
+        const b = moment(this.user.boosterAdsFinishedAt)
+
+        const hourDiff = a.diff(b, 'hours')
+
+        if (hourDiff > 24) {
+          this.adCount = 0
+        }
+
+        console.log(hourDiff)
+
         this.authChecked = true
       } else {
         this.authChecked = true
@@ -428,6 +475,7 @@ export default {
 
         detectAnyAdblocker().then((detected) => {
           if (detected) {
+            alert('Please disable Adblock!')
             this.$store.commit('setError', { errMsg: 'Please turn off your Ad Blocker or you will not be able to get bullets!' })
             adBlockActive = true
           } else {
@@ -512,6 +560,12 @@ export default {
   h1 {
     margin-bottom: 20px;
   }
+}
+
+#startAdsCountdown {
+  font-size: 16px !important;
+  width: 100%;
+  margin-left: 10px;
 }
 
 #appVersion {
