@@ -275,11 +275,11 @@ export default {
       this.adCount = Number(localStorage.getItem('adCount'))
     }
 
-    const lastViewedADayAgo = Cookies.get('ads_viewed_today')
-
-    if (lastViewedADayAgo) {
-      this.adCount = 0
-      localStorage.setItem('adCount', 0)
+    const alreadyViewed = Cookies.get('ads_viewed_today')
+    
+    if (alreadyViewed) {
+      this.adCount = 50
+      localStorage.setItem('adCount', 50)
     }
 
     // User count
@@ -306,7 +306,7 @@ export default {
           parms[n].push(nv.length === 2 ? v : null)
       }
       return parms
-    } 
+    }
 
     const urlParams = parseURLParams(window.location.href)
     // console.log(urlParams)
@@ -482,10 +482,9 @@ export default {
           adBlockActive = true
         } else {
           adBlockActive = false
+          this.adsRunning = !this.adsRunning
         }
       })
-
-      this.adsRunning = !this.adsRunning
 
       const finishDailyAds = async() => {
         const res = await axios.post(`${config.server}/finish-daily-ads`)
@@ -501,7 +500,7 @@ export default {
         if (this.adsRunning && !adBlockActive && this.adCount < 50) {
           window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
           window.open('//stawhoph.com/afu.php?zoneid=3928400', '_blank')
-          // window.open('https://www.greatdexchange.com/jump/next.php?r=4138191', '_blank')
+          window.open('https://www.greatdexchange.com/jump/next.php?r=4138191', '_blank')
           // window.open('https://apprefaculty.pro/d.m/F/z-dpGaNLv/ZKG/Ux/ee/me9EuuZEU/lqkpPTTtQCxmNHj/YaxfNMjPkDteNJDIES2/N/jnE/3yMrAg', '_blank')
 
           this.adCount++
@@ -511,6 +510,12 @@ export default {
             Cookies.set('ads_viewed_today', true, { expires: 1 })
             localStorage.setItem('adCount', 50)
             finishDailyAds()
+
+            this.user.boosterAdsFinishedAt = new Date()
+
+            this.$store.commit('setUser', { user: this.user })
+
+            this.$store.commit('updateMyCoins', { type: 'add', amount: 25 })
 
             this.adsRunning = false
           }
