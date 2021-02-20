@@ -89,7 +89,7 @@
         </p>
 
         <!-- Login or Register -->
-        <button v-if="!passwordResetForm"
+        <button v-if="!passwordResetForm && !loading"
         type="submit"
         id="formButton"
         @click.prevent="authenticate()"
@@ -97,13 +97,20 @@
           {{ signUpForm ? "Create your Revo account" : "Login" }}
         </button>
 
-        <!-- Reset Oasswird -->
-        <button v-else
+        <!-- Reset Password -->
+        <button v-if="passwordResetForm && !loading"
         type="submit"
         id="formButton"
         @click.prevent="sendPasswordReset()"
         :class="{loginBtnMargin: !signUpForm}">
           {{ resetIsBeingSent? 'Sending please wait...' : 'Send password reset' }}
+        </button>
+
+        <button v-if="loading"
+        type="submit"
+        id="formButton"
+        :class="{loginBtnMargin: !signUpForm}">
+         Please wait...
         </button>
 
       </div>
@@ -138,7 +145,8 @@ export default {
       showInfo: false,
       mounted: false,
       showForm: false,
-      curInfoMessage: null
+      curInfoMessage: null,
+      loading: false
     }
   },
   methods: {
@@ -242,6 +250,8 @@ export default {
       }
     },
     async login() {
+      this.loading = true
+
       if (!navigator.onLine) {
         return this.createErrorMessage('You are offline!')
       }
@@ -252,6 +262,7 @@ export default {
       })
 
       if (res.status === 200) {
+        this.loading = false
         this.$store.commit('updateMyCoins', { type: 'set', amount: res.data.user.credits })
         this.saveUserAndRedirect({ user: res.data.user, token: res.data.token })
       } else {
@@ -259,6 +270,8 @@ export default {
       }
     },
     async createAccount() {
+      this.loading = true
+
       if (!navigator.onLine) {
         return this.createErrorMessage('You are offline!')
       }
@@ -278,6 +291,7 @@ export default {
       }
 
       if (res.status === 201) {
+        this.loading = false
         this.saveUserAndRedirect({ user: res.data.user, token: res.data.token })
       } else {
         this.$store.commit('setError', { errMsg: 'Registration failed. Refresh the site and try again!' })
