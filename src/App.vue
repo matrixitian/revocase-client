@@ -135,7 +135,12 @@
                 `${adCount}/50 Ads`
               }}
             </p>
-            <p v-else id="startAdsCountdown">{{ startAdsCountdown }}</p>
+            <p v-if="!user && adCount == 50">
+              {{
+                `${adCount}/50 Ads`
+              }}
+            </p>
+            <p id="startAdsCountdown" v-if="adCount >= 50 && user">{{ startAdsCountdown }}</p>
           </div>
 
           <!-- Tutorial Btn -->
@@ -241,8 +246,10 @@ export default {
       if (mutation.type === 'setUser') {
         this.user = state.user
 
-        if (this.user.accountType === 'admin') {
-          this.isAdmin = true
+        if (this.user) {
+          if (this.user.accountType === 'admin') {
+            this.isAdmin = true
+          }
         }
 
         this.myReferralCode = `https://revo-cases.com/?referral=${state.user.username}`
@@ -261,10 +268,23 @@ export default {
     // Check user session
     this.fetchUser()
 
+    this.dailyRewardAvailable = true
+
+    // Get adCount (count of viewed ads on #playAds button)
+    if (localStorage.getItem('adCount')) {
+      this.adCount = Number(localStorage.getItem('adCount'))
+    }
+
+    const lastViewedADayAgo = Cookies.get('ads_viewed_today')
+
+    if (lastViewedADayAgo) {
+      this.adCount = 0
+      localStorage.setItem('adCount', 0)
+    }
+
     // User count
     this.socket.on('get user count', (data) => {
       this.userCount = data.userCount
-      this.$forceUpdate()
     })
 
     // Get referral code if there is one
@@ -319,44 +339,46 @@ export default {
 
     // Countdown Daily Reward
     setInterval(() => {
-      let date = new Date(this.user.dailyRewardOpened)
-      // add a day
-      date.setDate(date.getDate() + 1)
-      let toDate = new Date()
-      let tomorrow = date
-      let diffMS = tomorrow.getTime() / 1000 - toDate.getTime() / 1000
-      let diffHr = Math.floor(diffMS / 3600)
-      diffMS = diffMS - diffHr * 3600
-      let diffMi = Math.floor(diffMS / 60)
-      diffMS = diffMS - diffMi * 60
-      // let diffS = Math.floor(diffMS)
-      let result = ((diffHr < 10) ? "0" + diffHr : diffHr)
-      result += "h : " + ((diffMi < 10) ? "0" + diffMi : diffMi)
-      // result += "m : " + ((diffS < 10) ? "0" + diffS : diffS)
-      
-      this.dailyRewardCountdown = 'Wait ' + result + 'm'
+      if (this.user) {
+        let date = new Date(this.user.dailyRewardOpened)
+        // add a day
+        date.setDate(date.getDate() + 1)
+        let toDate = new Date()
+        let tomorrow = date
+        let diffMS = tomorrow.getTime() / 1000 - toDate.getTime() / 1000
+        let diffHr = Math.floor(diffMS / 3600)
+        diffMS = diffMS - diffHr * 3600
+        let diffMi = Math.floor(diffMS / 60)
+        diffMS = diffMS - diffMi * 60
+        // let diffS = Math.floor(diffMS)
+        let result = ((diffHr < 10) ? "0" + diffHr : diffHr)
+        result += "h : " + ((diffMi < 10) ? "0" + diffMi : diffMi)
+        // result += "m : " + ((diffS < 10) ? "0" + diffS : diffS)
+        
+        this.dailyRewardCountdown = 'Wait ' + result + 'm'
+      }
     }, 1000)
 
     // Countdown Daily Reward
     setInterval(() => {
-      let date = new Date(this.user.boosterAdsFinishedAt)
-      // add a day
-      date.setDate(date.getDate() + 1)
-      let toDate = new Date()
-      let tomorrow = date
-      let diffMS = tomorrow.getTime() / 1000 - toDate.getTime() / 1000
-      let diffHr = Math.floor(diffMS / 3600)
-      diffMS = diffMS - diffHr * 3600
-      let diffMi = Math.floor(diffMS / 60)
-      diffMS = diffMS - diffMi * 60
-      let diffS = Math.floor(diffMS)
-      let result = ((diffHr < 10) ? "0" + diffHr : diffHr)
-      result += "h : " + ((diffMi < 10) ? "0" + diffMi : diffMi)
-      result += "m : " + ((diffS < 10) ? "0" + diffS : diffS)
-      
-      this.startAdsCountdown = result + 's'
-
-      console.log(this.user.boosterAdsFinishedAt)
+      if (this.user) {
+        let date = new Date(this.user.boosterAdsFinishedAt)
+        // add a day
+        date.setDate(date.getDate() + 1)
+        let toDate = new Date()
+        let tomorrow = date
+        let diffMS = tomorrow.getTime() / 1000 - toDate.getTime() / 1000
+        let diffHr = Math.floor(diffMS / 3600)
+        diffMS = diffMS - diffHr * 3600
+        let diffMi = Math.floor(diffMS / 60)
+        diffMS = diffMS - diffMi * 60
+        let diffS = Math.floor(diffMS)
+        let result = ((diffHr < 10) ? "0" + diffHr : diffHr)
+        result += "h : " + ((diffMi < 10) ? "0" + diffMi : diffMi)
+        result += "m : " + ((diffS < 10) ? "0" + diffS : diffS)
+        
+        this.startAdsCountdown = result + 's'
+      }
     }, 1000)
 
     // Check if daily reward is available
@@ -372,6 +394,9 @@ export default {
         if (res.status === 200) {
           this.dailyRewardAvailable = false
 
+          this.user.dailyRewardOpened = new Date()
+          this.$store.commit('setUser', { user: this.user })
+
           this.$store.commit('setDailyRewardDrop', { amount: res.data })
           this.$store.commit('setCaseRollType', { caseRollType: 'daily_reward' })
           this.$store.commit('changeView', { view: 'CaseRoll' })
@@ -381,13 +406,15 @@ export default {
       }
     },
     checkDailyRewardAvailable() {
-      let a = moment(new Date())
-      let b = moment(this.user.dailyRewardOpened)
+      if (this.user.dailyRewardOpened) {
+        let a = moment(new Date())
+        let b = moment(this.user.dailyRewardOpened)
 
-      let hourDiff = a.diff(b, 'hours')
+        let hourDiff = a.diff(b, 'hours')
 
-      if (hourDiff >= 24) {
-        this.dailyRewardAvailable = true
+        if (hourDiff < 24) {
+          this.dailyRewardAvailable = false
+        }
       }
     },
     async fetchUser() {
@@ -407,27 +434,13 @@ export default {
         this.$store.commit('setUser',  { user: res.data })
         this.fetchCredits()
 
+        console.log(this.user)
+
         if (this.user.accountType === 'admin') {
           this.isAdmin = true
         }
 
         this.checkDailyRewardAvailable()
-
-        // Get adCount (count of viewed ads on #playAds button)
-        if (localStorage.getItem('adCount')) {
-          this.adCount = Number(localStorage.getItem('adCount'))
-        }
-
-        const a = moment(new Date())
-        const b = moment(this.user.boosterAdsFinishedAt)
-
-        const hourDiff = a.diff(b, 'hours')
-
-        if (hourDiff > 24) {
-          this.adCount = 0
-        }
-
-        console.log(hourDiff)
 
         this.authChecked = true
       } else {
@@ -446,7 +459,8 @@ export default {
       this.user = res.data
 
       if (res.status === 200) {
-        localStorage.setItem('token', '')
+        localStorage.removeItem('adCount')
+        localStorage.removeItem('token')
         this.$store.commit('setUser', { user: null })
         this.user = null
         this.myCoins = 0
@@ -458,6 +472,18 @@ export default {
       if (this.currentIntervalID) {
         clearInterval(this.currentIntervalID)
       }
+
+      let adBlockActive
+      detectAnyAdblocker().then((detected) => {
+        
+        if (detected) {
+          alert('Please turn off adblock! Otherwise you will not be getting any points!')
+          this.$store.commit('setError', { errMsg: 'Please turn off your Ad Blocker or you will not be able to get bullets!' })
+          adBlockActive = true
+        } else {
+          adBlockActive = false
+        }
+      })
 
       this.adsRunning = !this.adsRunning
 
@@ -471,24 +497,12 @@ export default {
 
       if (this.adCount < 50) {
         this.currentIntervalID = setInterval(() => {
-        let adBlockActive
-
-        detectAnyAdblocker().then((detected) => {
-          if (detected) {
-            alert('Please disable Adblock!')
-            this.$store.commit('setError', { errMsg: 'Please turn off your Ad Blocker or you will not be able to get bullets!' })
-            adBlockActive = true
-          } else {
-            adBlockActive = false
-          }
-        })
 
         if (this.adsRunning && !adBlockActive && this.adCount < 50) {
           window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
-
           window.open('//stawhoph.com/afu.php?zoneid=3928400', '_blank')
-    
-          window.open('https://www.greatdexchange.com/jump/next.php?r=4138191', '_blank')
+          // window.open('https://www.greatdexchange.com/jump/next.php?r=4138191', '_blank')
+          // window.open('https://apprefaculty.pro/d.m/F/z-dpGaNLv/ZKG/Ux/ee/me9EuuZEU/lqkpPTTtQCxmNHj/YaxfNMjPkDteNJDIES2/N/jnE/3yMrAg', '_blank')
 
           this.adCount++
           localStorage.setItem('adCount', this.adCount)
@@ -553,12 +567,6 @@ export default {
   }
 }
 
-#startAdsCountdown {
-  font-size: 16px !important;
-  width: 100%;
-  margin-left: 10px;
-}
-
 #appVersion {
   @include centerX;
   top: -5px;
@@ -569,6 +577,12 @@ export default {
   span {
     color: red;
   }
+}
+
+#startAdsCountdown {
+  font-size: 16px !important;
+  margin-left: 10px;
+  width: 80%;
 }
 
 #motivation {
