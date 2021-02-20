@@ -19,7 +19,7 @@
         <p v-if="!passwordResetForm">{{ signUpForm ? "Create a new account" : "Login to your account" }}</p>
         <p v-else>Reset your password</p>
 
-        <p id="moto" v-show="signUpForm">Earn easily up to 2 cases a day for free!</p>
+        <p id="moto" v-show="signUpForm">Earn a free case every day!</p>
 
         <!-- Username -->
         <input v-show="signUpForm" type="text"
@@ -36,13 +36,13 @@
 
         <!-- Password -->
         <input name="password"
-        type="text" :placeholder="passwordPlaceholder()"
+        type="password" :placeholder="passwordPlaceholder()"
         v-model="password"
         @keyup="updatePasswordMeter()"
         v-if="!passwordResetForm">
 
         <!-- Confirm Password -->
-        <input type="text" placeholder="Confirm password"
+        <input type="password" placeholder="Confirm password"
         v-if="signUpForm"
         v-model="cpassword"
         @keyup="hideShowInfo">
@@ -195,7 +195,7 @@ export default {
         }
 
         // Check Username length
-        if (!(this.uname.length > 3) && !(this.uname.length > 10) ) {
+        if (!(this.uname.length >= 3) && !(this.uname.length > 10) ) {
           this.createErrorMessage("Username must be between 3-10 characters long!")
         }
 
