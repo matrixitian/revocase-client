@@ -485,19 +485,10 @@ export default {
 
         if (this.adsRunning && !adBlockActive && this.adCount < 50) {
           window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
-          
-          setTimeout(() => {
-            window.open('//stawhoph.com/afu.php?zoneid=3928400', '_blank')
-          }, 4000)
-            
-          setTimeout(() => {
-            window.open('https://www.greatdexchange.com/jump/next.php?r=4138191', '_blank')
-          }, 8000)
 
-          setTimeout(() => {
-            window.open('https://apprefaculty.pro/d.m/F/z-dpGaNLv/ZKG/Ux/ee/me9EuuZEU/lqkpPTTtQCxmNHj/YaxfNMjPkDteNJDIES2/N/jnE/3yMrAg', '_blank')
-          }, 12000)
-          
+          window.open('//stawhoph.com/afu.php?zoneid=3928400', '_blank')
+    
+          window.open('https://www.greatdexchange.com/jump/next.php?r=4138191', '_blank')
 
           this.adCount++
           localStorage.setItem('adCount', this.adCount)
