@@ -1,5 +1,5 @@
 <template>
-  <div id="Main">
+  <div id="Main" v-if="!isMobileDevice">
 
     <p id="appVersion">version: <span>beta</span> 0.9.1</p>
 
@@ -102,7 +102,7 @@
           <img src="@/assets/icons/bullet.png">
         </div>
 
-        <p id="motivation">Watch ads and get up to 2 cases per day!</p>
+        <p id="motivation">Watch ads and get a free case of choice every day!</p>
       </div>
 
 <!-- Right -->
@@ -169,9 +169,19 @@
     </div>
 
   </div>
+
+  <div id="Mobile" v-else>
+    <img src="@/assets/logo.webp" alt="">
+    <h1>Revo Cases App</h1>
+    <a href="https://play.google.com/store/apps/details?id=com.gametune.revo">
+      <img src="@/assets/icons/google-play-badge.webp">
+    </a>
+    <p id="trademark">Google Play and the Google Play logo are trademarks of Google LLC.</p>
+  </div>
 </template>
 
 <script>
+import { isMobile } from 'mobile-device-detect';
 import moment from 'moment'
 import config from '@/assets/config/config'
 import { detectAnyAdblocker } from 'just-detect-adblock'
@@ -193,6 +203,7 @@ export default {
   },
   data() {
     return {
+      isMobileDevice: isMobile ? true : false,
       socket: io(config.server),
       isAdmin: false,
       showPasswordResetView: false,
@@ -245,6 +256,8 @@ export default {
     })
   },
   async mounted() {
+    console.log(this.isMobileDevice)
+
     // Get adCount (count of viewed ads on #playAds button)
     if (localStorage.getItem('adCount')) {
       this.adCount = Number(localStorage.getItem('adCount'))
@@ -494,9 +507,16 @@ export default {
   100% { color: rgb(67, 206, 120) }
 }
 
+#Mobile {
+  @include centerXY;
+  h1 {
+    margin-bottom: 20px;
+  }
+}
+
 #appVersion {
   @include centerX;
-  top: 15px;
+  top: -5px;
   background-color: rgba(0, 0, 0, 0.2);
   border: 2px solid rgba(255, 255, 255, 0.2);
   padding: 4px 15px 4px 15px;
