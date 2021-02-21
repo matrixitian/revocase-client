@@ -1,0 +1,44 @@
+{
+    "formatted": [
+        "AWP | Exoskeleton",
+        "AWP | Phobos",
+        "Desert Eagle | Light Rail",
+        "AWP | PAW",
+        "USP-S | Guardian",
+        "AWP | Safari Mesh",
+        "Desert Eagle | Blue Ply",
+        "Desert Eagle | Bronze Deco",
+        "M4A4 | Magnesium",
+        "Nova | Wood Fired",
+        "P90 | Freight",
+        "Negev | Ultralight"
+    ],
+    "raw": [
+      "awp_exoskeleton",
+      "awp_phobos",
+      "desert_eagle_light_rail",
+      "awp_paw",
+      "usp-s_guardian",
+      "awp_safari_mesh",
+      "desert_eagle_blue_ply",
+      "desert_eagle_bronze_deco",
+      "m4a4_magnesium",
+      "nova_wood_fired",
+      "p90_freight",
+      "negev_ultralight"
+    ],
+    "grade": [
+        "gold",
+        "gold",
+        "pink",
+        "pink",
+        "pink",
+        "purple",
+        "purple",
+        "purple",
+        "purple",
+        "blue",
+        "blue",
+        "blue"
+    ]
+}

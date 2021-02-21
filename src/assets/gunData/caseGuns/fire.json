@@ -1,0 +1,44 @@
+{
+    "formatted": [
+        "USP-S | Flashback",
+        "M4A1-S | Nitro",
+        "AK-47 | Uncharted",
+        "Desert Eagle | Corinthian",
+        "USP-S | Lead Conduit",
+        "AK-47 | Safari Mesh",
+        "CZ75-Auto | Pole Position",
+        "CZ75-Auto | Imprint",
+        "Five-SeveN | Flame Test",
+        "XM1014 | Oxide Blaze",
+        "MP9 | Black Sand",
+        "R8 Revolver | Grip"
+    ],
+    "raw": [
+      "usp-s_flashback",
+      "m4a1-s_nitro",
+      "ak-47_uncharted",
+      "desert_eagle_corinthian",
+      "usp-s_lead_conduit",
+      "ak-47_safari_mesh",
+      "cz75-auto_pole_position",
+      "cz75-auto_imprint",
+      "five-seven_flame_test",
+      "xm1014_oxide_blaze",
+      "mp9_black_sand",
+      "r8_revolver_grip"
+    ],
+    "grade": [
+        "gold",
+        "gold",
+        "pink",
+        "pink",
+        "pink",
+        "purple",
+        "purple",
+        "purple",
+        "purple",
+        "blue",
+        "blue",
+        "blue"
+    ]
+}

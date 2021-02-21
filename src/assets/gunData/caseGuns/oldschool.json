@@ -1,0 +1,42 @@
+{
+    "formatted": [
+        "USP-S | Cyrex",
+        "AK-47 | Elite Build",
+        "Famas | Valence",
+        "SSG 08 | Parallax",
+        "Desert Eagle | Metheorite",
+        "Desert Eagle | The Bronze",
+        "AK-47 | Safari Mesh",
+        "M4A4 | Magnesium",
+        "Tec-9 | Fubar",
+        "P250 | Cassette",
+        "MAG-7 | Heaven Guard"
+    ],
+    "raw": [
+        "usp-s_cyrex",
+        "ak-47_elite_build",
+        "famas_valence",
+        "ssg_08_parallax",
+        "desert_eagle_metheorite",
+        "desert_eagle_the_bronze",
+        "ak-47_safari_mesh",
+        "m4a4_magnesium",
+        "tec-9_fubar",
+        "p250_cassette",
+        "mag-7_heaven_guard"
+    ],
+    "grade": [
+        "gold",
+        "gold",
+        "pink",
+        "pink",
+        "pink",
+        "purple",
+        "purple",
+        "purple",
+        "purple",
+        "blue",
+        "blue",
+        "blue"
+    ]
+}

@@ -1,0 +1,44 @@
+{
+    "formatted": [
+        "Famas | Styx",
+        "M4A4 | Evil Daimyo",
+        "M4A1-S | Basilisk",
+        "Desert Eagle | Naga",
+        "AK-47 | Elite Build",
+        "MAC-10 | Pipe Down",
+        "Desert Eagle | Oxide Blaze",
+        "SG 553 | Phantom",
+        "P250 | Inferno",
+        "MP7 | Armor Core",
+        "SG 553 | Danger Close",
+        "MP9 | Modest Threat"
+    ],
+    "raw": [
+        "famas_styx",
+        "m4a4_evil_daimyo",
+        "m4a1-s_basilisk",
+        "desert_eagle_naga",
+        "ak-47_elite_build",
+        "mac-10_pipe_down",
+        "desert_eagle_oxide_blaze",
+        "sg_553_phantom",
+        "p250_inferno",
+        "mp7_armor_core",
+        "sg_553_danger_close",
+        "mp9_modest_threat"
+    ],
+    "grade": [
+        "gold",
+        "gold",
+        "pink",
+        "pink",
+        "pink",
+        "purple",
+        "purple",
+        "purple",
+        "purple",
+        "blue",
+        "blue",
+        "blue"
+    ]
+}

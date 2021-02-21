@@ -1,0 +1,44 @@
+{
+    "formatted": [
+        "USP-S | Mashup",
+        "M4A4 | Cyber Security",
+        "AWP | Atheris",
+        "Famas | Djinn",
+        "AWP | Mortis",
+        "Desert Eagle | Directive",
+        "P250 | Nevermore",
+        "M4A1-S | Flashback",
+        "SG 553 | Darkwing",
+        "Famas | Decommissioned",
+        "Glock-18 | Oxide Blaze",
+        "SG 553 | Ol' Rusty"
+    ],
+    "raw": [
+        "usp-s_mashup",
+        "m4a4_cyber_security",
+        "awp_atheris",
+        "famas_djinn",
+        "awp_mortis",
+        "desert_eagle_directive",
+        "p250_nevermore",
+        "m4a1-s_flashback",
+        "sg_553_darkwing",
+        "famas_decommissioned",
+        "glock-18_oxide_blaze",
+        "sg_553_ol'_rusty"
+    ],
+    "grade": [
+        "gold",
+        "gold",
+        "pink",
+        "pink",
+        "pink",
+        "purple",
+        "purple",
+        "purple",
+        "purple",
+        "blue",
+        "blue",
+        "blue"
+    ]
+}
