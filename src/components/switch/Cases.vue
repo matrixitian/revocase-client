@@ -105,16 +105,16 @@ export default {
       caseImgSteamLink: "https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXU5A1PIYQNqhpOSV-",
       // Cases
       cases: [
-        'dangerZone', 'chroma2', 'clutch', 'fracture', 'phoenix'
+        'fire', 'lambda', 'oldschool', 'goldenLambda', 'nuclear'
       ],
       formattedCaseNames: [
         'Danger Zone', 'Chroma 2', 'Clutch', 'Fracture', 'Phoenix'
       ],
       casesOpened: [0, 0, 0, 0, 0],
       skinGradesOpened: [0, 0, 0, 0, 0],
-      skinGradeNames: ['Rare', 'Covert', 'Classified', 'Restricted', 'Mil-Spec'],
-      skinGradeNamesRaw: ['exceedingly_rare', 'covert', 'classified', 'restricted', 'mil_spec'],
-      casePrices: [275, 199, 249, 349, 599]
+      skinGradeNames: ['Gold', 'Pink', 'Purple', 'Blue'],
+      skinGradeNamesRaw: ['gold', 'pink', 'purple', 'blue'],
+      casePrices: [125, 149, 199, 299, 399]
     }
   },
   methods: {    
@@ -200,11 +200,11 @@ export default {
 
     casesOpenedRef.onSnapshot((snap) => {
       snap.docs.forEach(doc => {
-        this.casesOpened[0] = doc.data().dangerZone
-        this.casesOpened[1] = doc.data().chroma2
-        this.casesOpened[2] = doc.data().clutch
-        this.casesOpened[3] = doc.data().fracture
-        this.casesOpened[4] = doc.data().phoenix
+        this.casesOpened[0] = doc.data().fire
+        this.casesOpened[1] = doc.data().lambda
+        this.casesOpened[2] = doc.data().oldschool
+        this.casesOpened[3] = doc.data().goldenLambda
+        this.casesOpened[4] = doc.data().nuclear
       })
     })
 
@@ -213,11 +213,10 @@ export default {
 
     skinGradesOpened.onSnapshot((snap) => {
       snap.docs.forEach(doc => {
-        this.skinGradesOpened[4] = doc.data().mil_spec
-        this.skinGradesOpened[3] = doc.data().restricted
-        this.skinGradesOpened[2] = doc.data().classified
-        this.skinGradesOpened[1] = doc.data().covert
-        this.skinGradesOpened[0] = doc.data().exceedingly_rare
+        this.skinGradesOpened[3] = doc.data().blue
+        this.skinGradesOpened[2] = doc.data().purple
+        this.skinGradesOpened[1] = doc.data().pink
+        this.skinGradesOpened[0] = doc.data().gold
       })
     })
   }

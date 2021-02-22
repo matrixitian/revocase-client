@@ -53,7 +53,7 @@
 
         <!-- Sell Skin -->
         <button class="sell" v-if="!skin.requestedTrade"
-        :class="{adjustSellBtn: skin.grade === 'mil_spec'}"
+        :class="{adjustSellBtn: skin.grade === 'blue'}"
         @click="sellSkin(skin, i)">
           <p>Sell for 
             <span>{{ getSkinPrice(skin.caseName, skin.grade, skin.condition) }}</span>
@@ -63,7 +63,7 @@
 
         <!-- Request Trade -->
         <button class="requestTrade"
-        v-if="skin.grade !== 'mil_spec'"
+        v-if="skin.grade !== 'blue'"
         :class="[
           {disabled: skin.requestedTrade},
           {offerReceived: skin.tradeOfferSent}

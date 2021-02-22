@@ -474,11 +474,10 @@ export default {
       grade = Math.round(grade * 100) / 100
 
       const getGrade = () => {
-        if (grade >= 0 && grade < 0.35) return 'exceedingly_rare' 
-        else if (grade >= 0.35 && grade < 0.95) return 'covert' 
-        else if (grade >= 0.95 && grade < 4.15) return 'classified' 
-        else if (grade >= 4.15 && grade < 20.00) return 'restricted'
-        else if (grade >= 20.00) return 'mil_spec'
+        if (grade >= 0 && grade <= 0.2) return 'gold' 
+        else if (grade > 0.2 && grade <= 4.0) return 'pink' 
+        else if (grade > 4.0 && grade <= 25.00) return 'purple'
+        else if (grade > 25.00) return 'blue'
       }
 
       grade = getGrade()

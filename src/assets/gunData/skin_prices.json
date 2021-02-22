@@ -1,103 +1,127 @@
 {
-  "dangerZone": {
-    "mil_spec": {
+  "fire": {
+    "blue": {
       "fn": 20,
       "mw": 15,
       "ft": 12,
       "ww": 9,
       "bs": 7
     },
-    "restricted": {
+    "purple": {
       "fn": 135,
       "mw": 90,
       "ft": 60,
       "ww": 50,
       "bs": 45
     },
-    "classified": {
+    "pink": {
       "ww": 475,
       "bs": 400
-    }
-  },
-  "chroma2": {
-    "mil_spec": {
-      "fn": 30,
-      "mw": 20,
-      "ft": 15,
-      "ww": 12,
-      "bs": 10
     },
-    "restricted": {
-      "fn": 135,
-      "mw": 80,
-      "ft": 45,
-      "ww": 30,
-      "bs": 15
-    },
-    "classified": {
-      "ww": 350,
+    "gold": {
+      "ft": 150,
+      "ww": 100,
       "bs": 200
     }
   },
-  "clutch": {
-    "mil_spec": {
-      "fn": 17,
+  "lambda": {
+    "blue": {
+      "fn": 20,
       "mw": 15,
       "ft": 12,
-      "ww": 10,
-      "bs": 8
+      "ww": 9,
+      "bs": 7
     },
-    "restricted": {
-      "fn": 150,
-      "mw": 80,
-      "ft": 45,
-      "ww": 25,
-      "bs": 15
+    "purple": {
+      "fn": 135,
+      "mw": 90,
+      "ft": 60,
+      "ww": 50,
+      "bs": 45
     },
-    "classified": {
-      "ww": 260,
-      "bs": 150
+    "pink": {
+      "ww": 475,
+      "bs": 400
+    },
+    "gold": {
+      "ft": 150,
+      "ww": 100,
+      "bs": 200
     }
   },
-  "fracture": {
-    "mil_spec": {
-      "fn": 30,
-      "mw": 20,
-      "ft": 15,
-      "ww": 12,
-      "bs": 10
+  "oldschool": {
+    "blue": {
+      "fn": 20,
+      "mw": 15,
+      "ft": 12,
+      "ww": 9,
+      "bs": 7
     },
-    "restricted": {
-      "fn": 250,
-      "mw": 180,
-      "ft": 100,
-      "ww": 70,
-      "bs": 60
+    "purple": {
+      "fn": 135,
+      "mw": 90,
+      "ft": 60,
+      "ww": 50,
+      "bs": 45
     },
-    "classified": {
-      "ww": 900,
-      "bs": 800
+    "pink": {
+      "ww": 475,
+      "bs": 400
+    },
+    "gold": {
+      "ft": 150,
+      "ww": 100,
+      "bs": 200
     }
   },
-  "phoenix": {
-    "mil_spec": {
-      "fn": 40,
-      "mw": 30,
-      "ft": 20,
-      "ww": 15,
-      "bs": 12
+  "goldenLambda": {
+    "blue": {
+      "fn": 20,
+      "mw": 15,
+      "ft": 12,
+      "ww": 9,
+      "bs": 7
     },
-    "restricted": {
-      "fn": 500,
-      "mw": 360,
-      "ft": 160,
-      "ww": 145,
-      "bs": 215
+    "purple": {
+      "fn": 135,
+      "mw": 90,
+      "ft": 60,
+      "ww": 50,
+      "bs": 45
     },
-    "classified": {
-      "ft": 1450,
-      "ww": 750,
-      "bs": 600
+    "pink": {
+      "ww": 475,
+      "bs": 400
+    },
+    "gold": {
+      "ft": 150,
+      "ww": 100,
+      "bs": 200
+    }
+  },
+  "nuclear": {
+    "blue": {
+      "fn": 20,
+      "mw": 15,
+      "ft": 12,
+      "ww": 9,
+      "bs": 7
+    },
+    "purple": {
+      "fn": 135,
+      "mw": 90,
+      "ft": 60,
+      "ww": 50,
+      "bs": 45
+    },
+    "pink": {
+      "ww": 475,
+      "bs": 400
+    },
+    "gold": {
+      "ft": 150,
+      "ww": 100,
+      "bs": 200
     }
   }
 }

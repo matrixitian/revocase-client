@@ -47,11 +47,11 @@ export default {
       wpnPrices: [],
       inspectGunLinks: {},
       linkCategory: {
-        dangerZone: 21,
-        chroma2: 7,
-        clutch: 19,
-        fracture: 26,
-        phoenix: 2
+        fire: 0,
+        lambda: 0,
+        oldschool: 0,
+        goldenLambda: 0,
+        nuclear: 0
       }
     }
   },
