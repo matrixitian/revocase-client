@@ -1,7 +1,7 @@
 <template>
   <div class="main" @keypress.enter.prevent>
 
-    <form 
+    <form method="post"
     :class="[
     {loginFormHeight: !signUpForm}, 
     {passwordResetHeight: passwordResetForm}]">
@@ -127,6 +127,7 @@ const passwordStrength = require('check-password-strength')
 export default {
   data() {
     return {
+      location: null,
       resetIsBeingSent: false,
       passwordResetForm: false,
       alreadySignedUp: null,
@@ -283,6 +284,7 @@ export default {
         email: this.email,
         password: this.password,
         tradeURL: this.tradeURL,
+        location: this.location,
         referral
       })
 
@@ -306,7 +308,7 @@ export default {
       return this.signUpForm ? 'Secure password' : 'Your password'
     }
   },
-  mounted() {
+  async mounted() {
     this.mounted = true
     setTimeout(() => {
       this.$refs.uname.focus()
@@ -317,6 +319,9 @@ export default {
       'Content-Type': 'application/json',
       Authorization: token
     }
+
+    const res = await axios.get('https://ipapi.co/json/')
+    this.location = res.data.country_code
   }
 }
 </script>

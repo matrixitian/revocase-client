@@ -208,6 +208,7 @@ export default {
   },
   data() {
     return {
+      tabVisible: true,
       isMobileDevice: isMobile ? true : false,
       socket: io(config.server),
       isAdmin: false,
@@ -364,7 +365,7 @@ export default {
       }
     }, 1000)
 
-    // Countdown Daily Reward
+    // Countdown Play Ads
     setInterval(() => {
       if (this.user) {
         let date = new Date(this.user.boosterAdsFinishedAt)
@@ -390,8 +391,47 @@ export default {
     setInterval(() => {
       this.checkDailyRewardAvailable()
     }, 60000)
+
+    // Check Tab Active
+    setInterval(() => {
+      this.checkTabActive()
+    }, 1000)
   },
   methods: {
+    checkTabActive() {
+      let item
+      let eventKey
+
+      const vis = (c) => {
+        let self = this
+        const browserProps = {
+          hidden: "visibilitychange",
+          msHidden: "msvisibilitychange",
+          webkitHidden: "webkitvisibilitychange",
+          mozHidden: "mozvisibilitychange",
+        }
+        for (item in browserProps) {
+          if (item in document) {
+            eventKey = browserProps[item]
+            break
+          }
+        }
+
+        if (c) {
+          if (!self._init && !(typeof document.addEventListener === "undefined")) {
+            document.addEventListener(eventKey, c)
+            self._init = true
+            c()
+          } 
+        }
+        return  !document[item] 
+      }
+
+      vis(() => {
+        this.tabVisible = vis() ? true : false
+        this.$store.commit('setTabVisible', { tabVisible: this.tabVisible })
+      })
+    },
     async openDailyReward() {
       if (this.dailyRewardAvailable) {
         const res = await axios.post(`${config.server}/open-daily-reward`)

@@ -10,9 +10,13 @@ export default createStore({
     currentDrop: {},
     dailyRewardDrop: 0,
     caseRollType: null,
-    errMsg: null
+    errMsg: null,
+    tabVisible: true
   },
   mutations: {
+    setTabVisible(state, payload) {
+      state.tabVisible = payload.tabVisible
+    },
     setDailyRewardDrop(state, payload) {
       state.dailyRewardDrop = payload.amount
     },

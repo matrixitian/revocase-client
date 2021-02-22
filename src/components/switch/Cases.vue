@@ -95,6 +95,8 @@ export default {
   name: 'Cases',
   data() {
     return {
+      userLocation: null,
+      tabVisible: true,
       // User Data
       user: null,
       // Live Drops Feed
@@ -116,7 +118,49 @@ export default {
       casePrices: [125, 149, 199, 299, 399]
     }
   },
-  methods: {    
+  created() {
+    this.$store.subscribe(async(mutation, state) => {
+      if (mutation.type === 'setTabVisible') {
+        this.tabVisible = state.tabVisible
+      }
+
+      if (mutation.type === 'setUser') {
+        this.user = state.user
+        this.getUserLocation()
+      }
+    })
+  },
+  methods: {
+    getUserLocation() {
+
+      const ccCasePrices = [
+        [599, 799, 1199, 1799, 2099],
+        [299, 345, 599, 899, 1099],
+        [249, 299, 399, 599, 799],
+        [199, 279, 449, 599, 699],
+        [149, 199, 249, 349, 449]
+      ]
+
+      const countryCodes = [
+        ['XK', 'SY'],
+        ['IQ', 'BA', 'PA', 'LY', 'DZ', 'ME', 'MK', 'AL'],
+        ['RS', 'LB', 'MD', 'GS', 'JO', 'MO', 'EG', 'BY'],
+        ['BG', 'UA'],
+        ['HR', 'CY', 'LV', 'LT', 'TR', 'SI', 'RO']
+      ]
+
+      const userLoc = this.user.location
+
+      if (userLoc) {
+        let i
+        for (i = 0; i < 5; i++) {
+          if (countryCodes[i].includes(userLoc)) {
+            this.casePrices = ccCasePrices[i]
+          }
+        }
+      }
+
+    },
     async buyCase(caseName) {
       // Get Case price
       const caseIndex = this.cases.indexOf(caseName)
@@ -177,43 +221,46 @@ export default {
   mounted() {
     this.skinImgLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
 
-    // Realtime Live Drops Feed
-    const dropsRef = firestore.collection('drops')
-      .orderBy('timeOpened').limitToLast(8)
+    if (this.tabVisible) {
+      // Realtime Live Drops Feed
+      const dropsRef = firestore.collection('drops')
+        .orderBy('timeOpened').limitToLast(8)
 
-    dropsRef.onSnapshot((snap) => {
-      let results = []
-      snap.docs.forEach(doc => {
-        doc.data().timeOpened && results.push({ ...doc.data(), id: doc.id})
+      dropsRef.onSnapshot((snap) => {
+        let results = []
+        snap.docs.forEach(doc => {
+          doc.data().timeOpened && results.push({ ...doc.data(), id: doc.id})
+        })
+
+        this.skinsOpened = results
       })
 
-      this.skinsOpened = results
-    })
+      // Realtime Cases Opened amounts
+      const casesOpenedRef = firestore.collection('casesOpened')
 
-    // Realtime Cases Opened amounts
-    const casesOpenedRef = firestore.collection('casesOpened')
-
-    casesOpenedRef.onSnapshot((snap) => {
-      snap.docs.forEach(doc => {
-        this.casesOpened[0] = doc.data().fire
-        this.casesOpened[1] = doc.data().lambda
-        this.casesOpened[2] = doc.data().oldschool
-        this.casesOpened[3] = doc.data().goldenLambda
-        this.casesOpened[4] = doc.data().nuclear
+      casesOpenedRef.onSnapshot((snap) => {
+        snap.docs.forEach(doc => {
+          this.casesOpened[0] = doc.data().fire
+          this.casesOpened[1] = doc.data().lambda
+          this.casesOpened[2] = doc.data().oldschool
+          this.casesOpened[3] = doc.data().goldenLambda
+          this.casesOpened[4] = doc.data().nuclear
+        })
       })
-    })
 
-    // Realtime Cases Opened amounts
-    const skinGradesOpened = firestore.collection('skinGradesOpened')
+      // Realtime Cases Opened amounts
+      const skinGradesOpened = firestore.collection('skinGradesOpened')
 
-    skinGradesOpened.onSnapshot((snap) => {
-      snap.docs.forEach(doc => {
-        this.skinGradesOpened[3] = doc.data().blue
-        this.skinGradesOpened[2] = doc.data().purple
-        this.skinGradesOpened[1] = doc.data().pink
-        this.skinGradesOpened[0] = doc.data().gold
+      skinGradesOpened.onSnapshot((snap) => {
+        snap.docs.forEach(doc => {
+          this.skinGradesOpened[3] = doc.data().blue
+          this.skinGradesOpened[2] = doc.data().purple
+          this.skinGradesOpened[1] = doc.data().pink
+          this.skinGradesOpened[0] = doc.data().gold
+        })
       })
-    })
+
+    }
   }
 }
 </script>
