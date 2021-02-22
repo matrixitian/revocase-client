@@ -2,7 +2,7 @@
   <div>
     <ul v-if="wpnPrices">
       <li v-for="(gun, i) in guns.formatted" :key="i"
-      :class="guns.grade[i]">
+      :class="`${guns.grade[i]}-animated`">
 
         <!-- Skin Image -->
         <img :src="getWpnImg(guns.raw[i])">
@@ -92,7 +92,28 @@ export default {
 @import '@/assets/mixins/centerY';
 @import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/unselectable';
-@import '@/assets/mixins/skinGrades';
+
+@keyframes rainbow3 {
+  0% {background-position: 0% 82% }
+  50% {background-position: 100% 19% }
+  100% {background-position: 0% 82% }
+}
+
+.blue-animated {
+  background: linear-gradient(124deg, #00ccff, #1d86e8, #1d64e8, #1d4ce8, #2b1de8, #1d86e8, #2b1de8, #1000f3, #0086f3);
+}
+
+.purple-animated {
+  background: linear-gradient(124deg, #8400ff, #751de8, #af1de8, #751de8, #2b1de8, #491de8, #751de8, #dd00f3, #dd00f3);
+}
+
+.pink-animated {
+  background: linear-gradient(124deg, #ff00f2, #e81d72, #d01de8, #af1de8, #2b1de8, #e81d7c, #b91de8, #ba00f3, #dd00f3);
+}
+
+.gold-animated {
+  background: linear-gradient(124deg, #fbff00, #e8c31d, #e6be0c, #e8781d, #e89a1d, #e8d41d, #d4e81d, #f3db00, #f3cf00);
+}
 
 div {
   height: 70vh;
@@ -111,6 +132,8 @@ ul {
     width: 250px;
     border: 2px solid white;
     border-radius: 10px;
+    background-size: 1800% 1800% !important;
+    animation: rainbow3 5s infinite !important;
     img {
       margin-top: 20px;
       height: 120px;
@@ -138,7 +161,7 @@ ul {
     }
 
     .goToMarket {
-      margin-top: 10px !important;
+      margin-top: 7px !important;
       background: -webkit-linear-gradient(#3fd364,#0aac4e) !important;
        &:hover {
         background: -webkit-linear-gradient(rgb(35, 187, 21),#09b651) !important;
@@ -149,30 +172,18 @@ ul {
       margin-top: 5px;
       width: 90%;
       padding: 5px 0 5px 0;
-      border: none;
+      border: 1px solid rgb(56, 56, 56);
       border-radius: 5px;
       color: whitesmoke;
       background: -webkit-linear-gradient(#4793e9,#0b71d8);
       box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
       cursor: pointer;
       &:hover {
-        transition: .15s ease;
+        transition: .1s ease;
         transform: scale(1.01);
         background: -webkit-linear-gradient(#337bce,#0b5aa8);
       }
     }
-  }
-}
-
-.fullRare {
-  border: 2px solid white !important;
-  background: linear-gradient(rgb(255, 218, 8), rgb(246, 181, 0)) !important;
-  img {
-    height: 170px;
-  }
-  p {
-    border-top: 4px dashed rgba(0, 0, 0, 0.2);
-    border-bottom: 4px dashed rgba(0, 0, 0, 0.2);
   }
 }
 
