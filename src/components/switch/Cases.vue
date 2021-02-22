@@ -363,6 +363,7 @@ $greenGradientEnd: #35ca4e;
 }
 
 .gold-animated {
+  color: black !important;
   background: linear-gradient(124deg, #fbff00, #e8c31d, #e6be0c, #e8781d, #e89a1d, #e8d41d, #d4e81d, #f3db00, #f3cf00);
 }
 
@@ -384,7 +385,7 @@ $greenGradientEnd: #35ca4e;
       width: auto;
       padding: 5px 20px 5px 20px;
       border-radius: 10px;
-      border: 2px solid white;
+      border: 2px solid black;
       background-size: 1800% 1800%;
       animation: rainbow2 18s ease infinite;
       img {
