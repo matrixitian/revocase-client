@@ -7,7 +7,7 @@
       <div id="skinGradesOpened">
         <ul>
           <li v-for="(gradeCount, go) in skinGradesOpened" :key="go"
-          :class="skinGradeNamesRaw[go]">
+          :class="`${skinGradeNamesRaw[go]}-animated`">
             <img src="@/assets/icons/grade_rifle.svg">
             <p>{{skinGradeNames[go]}}: <span>{{ gradeCount }}</span></p>
           </li>
@@ -311,32 +311,59 @@ $greenGradientStart: #884bd6;
 $greenGradientEnd: #a81b8a;
 $blueGradientStart: #4797ff;
 $blueGradientEnd: #006fee;
-$purpleGradientStart: #67bb72;
-$purpleGradientEnd: #35ca4e;
+$greenGradientStart: #67bb72;
+$greenGradientEnd: #35ca4e;
 
 .Pipe_2 {
-  background-color: $purpleGradientEnd;
-  background-image: linear-gradient($purpleGradientStart, $purpleGradientEnd);
+  // background-color: $greenGradientEnd;
+  // background-image: linear-gradient($greenGradientStart, $greenGradientEnd);
+  background: linear-gradient(124deg,  $greenGradientStart,  $greenGradientEnd, #0ce617, #b0ff91, #079513, #00c53b, #00cf79, #09ffb5, #73ff9d);
 }
 
 .Pipe_1 {
-  background-color: $blueGradientEnd;
-  background-image: linear-gradient($blueGradientStart, $blueGradientEnd);
-}
-
-.Pipe_0 {
-  background-color: $greenGradientEnd;
-  background-image: linear-gradient($greenGradientStart, $greenGradientEnd);
-}
-
-.Pipe_3 {
-  background-color: $redGradientEnd;
-  background-image: linear-gradient($redGradientStart, $redGradientEnd);
+  // background-color: $blueGradientEnd;
+  // background-image: linear-gradient($blueGradientStart, $blueGradientEnd);
+  background: linear-gradient(124deg, #00ccff, #1d86e8, #1d64e8, #1d4ce8, #2b1de8, #1d86e8, #2b1de8, #1000f3, #0086f3);
 }
 
 .Pipe_4 {
-  background-color: $yellowGradientEnd;
-  background-image: linear-gradient($yellowGradientEnd, $yellowGradientStart);
+  // background-color: $greenGradientEnd;
+  // background-image: linear-gradient($greenGradientStart, $greenGradientEnd);
+  background: linear-gradient(124deg, #8400ff, #751de8, #af1de8, #751de8, #2b1de8, #491de8, #751de8, #dd00f3, #dd00f3);
+}
+
+.Pipe_0 {
+  background-color: $redGradientEnd;
+  background-image: linear-gradient($redGradientStart, $redGradientEnd);
+  background: linear-gradient(124deg, $redGradientStart, $redGradientEnd, #ff92de, #ff0062, #a5007c, #e71212, #e81dc6, #f300b2, #dd00f3);
+}
+
+.Pipe_3 {
+  // background-color: $yellowGradientEnd;
+  // background-image: linear-gradient($yellowGradientEnd, $yellowGradientStart);
+  background: linear-gradient(124deg, #ff8800, #e48c00, #ffcf33, #e8781d, #e89a1d, #ffe601, #ffe180, #f3db00, #f38a00);
+}
+
+@keyframes rainbow2 {
+  0%{background-position:0% 82%}
+  50%{background-position:100% 19%}
+  100%{background-position:0% 82%}
+}
+
+.blue-animated {
+  background: linear-gradient(124deg, #00ccff, #1d86e8, #1d64e8, #1d4ce8, #2b1de8, #1d86e8, #2b1de8, #1000f3, #0086f3);
+}
+
+.purple-animated {
+  background: linear-gradient(124deg, #8400ff, #751de8, #af1de8, #751de8, #2b1de8, #491de8, #751de8, #dd00f3, #dd00f3);
+}
+
+.pink-animated {
+  background: linear-gradient(124deg, #ff00f2, #e81d72, #d01de8, #af1de8, #2b1de8, #e81d7c, #b91de8, #ba00f3, #dd00f3);
+}
+
+.gold-animated {
+  background: linear-gradient(124deg, #fbff00, #e8c31d, #e6be0c, #e8781d, #e89a1d, #e8d41d, #d4e81d, #f3db00, #f3cf00);
 }
 
 #skinGradesOpened {
@@ -353,11 +380,13 @@ $purpleGradientEnd: #35ca4e;
     text-align: center;
     li {
       float: right;
-      margin: 5px;
+      margin: 5px 10px 5px 10px;
       width: auto;
       padding: 5px 20px 5px 20px;
       border-radius: 10px;
       border: 2px solid white;
+      background-size: 1800% 1800%;
+      animation: rainbow2 18s ease infinite;
       img {
         height: 30px;
         float: left;
@@ -522,6 +551,8 @@ $purpleGradientEnd: #35ca4e;
       bottom: 0;
       border: 5px solid white;
       border-bottom: none;
+      background-size: 1800% 1800%;
+      animation: rainbow2 5s ease infinite;
       &:hover {
         transition: .2s ease;
         height: 300px;
