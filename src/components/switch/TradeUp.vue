@@ -74,7 +74,7 @@
           </button>
 
           <!-- Go back to MySkins -->
-          <button class="requestTrade">
+          <button class="requestTrade" @click="goToMySkins()">
             Go to My Skins
           </button>
         </div>
@@ -155,6 +155,9 @@ export default {
     }
   },
   methods: {
+    goToMySkins() {
+      this.$store.commit('changeView', { view: 'MySkins' })
+    },
     async doTradeUp() {
       const skinIDs = this.tradeUpSkins.map(skin => {
         return skin._id

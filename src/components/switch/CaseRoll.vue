@@ -153,10 +153,10 @@ export default {
       let condition = Math.random() * 100
       condition = Math.round(condition * 100) / 100
 
-      if (condition < 0.2) return 'gold'
-      else if (condition >= 0.2 && condition < 4) return 'pink'
-      else if (condition >= 4 && condition < 25) return 'purple'
-      else if (condition >= 25) return 'blue'
+      if (condition < 2) return 'gold'
+      else if (condition >= 2 && condition < 10) return 'pink'
+      else if (condition >= 10 && condition < 30) return 'purple'
+      else if (condition >= 30) return 'blue'
     },
     formatCondition(condition) {
       return getCondition(condition)
@@ -401,10 +401,10 @@ export default {
       grade = Math.round(grade * 100) / 100
 
       const getGrade = () => {
-        if (grade >= 0 && grade <= 0.2) return 'gold' 
-        else if (grade > 0.2 && grade <= 4.0) return 'pink' 
-        else if (grade > 4.0 && grade <= 25.00) return 'purple'
-        else if (grade > 25.00) return 'blue'
+        if (grade >= 0 && grade <= 1.5) return 'gold' 
+        else if (grade > 1.5 && grade <= 6.0) return 'pink' 
+        else if (grade > 6.0 && grade <= 30.00) return 'purple'
+        else if (grade > 30.00) return 'blue'
       }
 
       grade = getGrade()

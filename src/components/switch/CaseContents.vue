@@ -2,28 +2,23 @@
   <div>
     <ul v-if="wpnPrices">
       <li v-for="(gun, i) in guns.formatted" :key="i"
-      :class="{fullRare: guns.grade[i] === 'exceedingly_rare'}">
+      :class="guns.grade[i]">
 
         <!-- Skin Image -->
-        <img :src="getWpnImg(guns.raw[i])" alt="">
+        <img :src="getWpnImg(guns.raw[i])">
+
         <!-- Skin Name -->
-        <p class="skinTitle" :class="guns.grade[i]">
+        <p class="skinTitle">
           {{ gun }}
         </p>
-        <!-- Lowest Price
-        <p class="price" v-if="guns.grade[i] !== 'exceedingly_rare'">
-          Lowest price (FN): 
-          <span>{{ '$0.00' }}</span>
-        </p> -->
 
         <!-- Go to Market -->
-        <button class="inspect goToMarket" @click="openMarketLink(i)"
-        v-if="guns.grade[i] !== 'exceedingly_rare'">
+        <button class="inspect goToMarket" @click="openMarketLink(i)">
           Go to Market
         </button>
+
         <!-- Inspect Gun -->
-        <button class="inspect" @click="inspectGun(guns.raw[i])"
-        v-if="guns.grade[i] !== 'exceedingly_rare'">
+        <button class="inspect" @click="inspectGun(guns.raw[i])">
           Inspect in-game (FN)
         </button>
 
@@ -119,11 +114,16 @@ ul {
     img {
       margin-top: 20px;
       height: 120px;
+      background-color: rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      padding: 10px;
+      border: 2px solid rgba(255, 255, 255, 0.5);
     }
     .skinTitle {
-      margin-top: 12px;
+      margin-top: 5px;
       padding: 7px 0 7px 0;
       font-weight: bold;
+      background-color: rgba(0, 0, 0, 0.45);
     }
     .price {
       margin-top: 5px;

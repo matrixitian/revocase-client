@@ -8,8 +8,7 @@
         <ul>
           <li v-for="(gradeCount, go) in skinGradesOpened" :key="go"
           :class="skinGradeNamesRaw[go]">
-            <img v-if="skinGradeNamesRaw[go] === 'exceedingly_rare'" src="@/assets/icons/grade_knife.svg">
-            <img v-else src="@/assets/icons/grade_rifle.svg">
+            <img src="@/assets/icons/grade_rifle.svg">
             <p>{{skinGradeNames[go]}}: <span>{{ gradeCount }}</span></p>
           </li>
         </ul>
@@ -70,7 +69,7 @@
           <div class="viewContents"
           @click="changeView(caseName)">
             <span class="material-icons contentsIcon">toc</span>
-            <p>View Contents</p>
+            <p>View Inside</p>
           </div>
           <!-- Open Container Btn -->
           <div class="openCaseBtn" @click="buyCase(caseName)">
@@ -111,7 +110,7 @@ export default {
         'Fire', 'Lambda', 'Oldschool', 'Golden Lambda', 'Nuclear Wave'
       ],
       casesOpened: [0, 0, 0, 0, 0],
-      skinGradesOpened: [0, 0, 0, 0, 0],
+      skinGradesOpened: [0, 0, 0, 0],
       skinGradeNames: ['Gold', 'Pink', 'Purple', 'Blue'],
       skinGradeNamesRaw: ['gold', 'pink', 'purple', 'blue'],
       casePrices: [125, 149, 199, 299, 399]

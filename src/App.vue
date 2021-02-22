@@ -128,19 +128,19 @@
 
           <!-- Play Ads Btn -->
           <div id="playAds" @click="getPoint()"
-          :class="[{ adsRunning: adsRunning },{ disablePlayAds: adCount === 50 },]">
+          :class="[{ adsRunning: adsRunning },{ disablePlayAds: adCount === 75 },]">
             <img src="@/assets/icons/start.svg" alt="">
-            <p v-if="adCount < 50">
+            <p v-if="adCount < 75">
               {{
-                `${adCount}/50 Ads`
+                `${adCount}/75 Ads`
               }}
             </p>
-            <p v-if="!user && adCount == 50">
+            <p v-if="!user && adCount == 75">
               {{
-                `${adCount}/50 Ads`
+                `${adCount}/75 Ads`
               }}
             </p>
-            <p id="startAdsCountdown" v-if="adCount >= 50 && user">{{ startAdsCountdown }}</p>
+            <p id="startAdsCountdown" v-if="adCount >= 75 && user">{{ startAdsCountdown }}</p>
           </div>
 
           <!-- Tutorial Btn -->
@@ -283,8 +283,8 @@ export default {
     const alreadyViewed = Cookies.get('ads_viewed_today')
     
     if (alreadyViewed) {
-      this.adCount = 50
-      localStorage.setItem('adCount', 50)
+      this.adCount = 75
+      localStorage.setItem('adCount', 75)
     }
 
     // User count
@@ -499,10 +499,10 @@ export default {
         }
       }
 
-      if (this.adCount < 50) {
+      if (this.adCount < 75) {
         this.currentIntervalID = setInterval(() => {
 
-        if (this.adsRunning && !adBlockActive && this.adCount < 50) {
+        if (this.adsRunning && !adBlockActive && this.adCount < 75) {
           // Adsterra
           window.open('https://ascertaincrescenthandbag.com/ja1tmrw6?key=853be86831dc5b1b937a1d658098c0f0', '_blank')
           // PropellerAds
@@ -514,9 +514,9 @@ export default {
           this.adCount++
           localStorage.setItem('adCount', this.adCount)
 
-          if (this.adCount === 50) {
+          if (this.adCount === 75) {
             Cookies.set('ads_viewed_today', true, { expires: 1 })
-            localStorage.setItem('adCount', 50)
+            localStorage.setItem('adCount', 75)
             finishDailyAds()
 
             this.user.boosterAdsFinishedAt = new Date()
