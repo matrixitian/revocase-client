@@ -175,6 +175,7 @@ ul {
       border: 1px solid rgb(56, 56, 56);
       border-radius: 5px;
       color: whitesmoke;
+      font-weight: bold;
       background: -webkit-linear-gradient(#4793e9,#0b71d8);
       box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
       cursor: pointer;
