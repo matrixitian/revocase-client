@@ -54,8 +54,13 @@
         :key="i" :class="`Pipe_${i}`">
 
           <!-- Best value -->
-          <p id="bestValue" v-if="caseName === 'clutch'">
+          <p id="bestValue" v-if="caseName === 'nuclear'">
             Best Value!
+          </p>
+
+          <!-- Most popular -->
+          <p id="bestValue" class="mostPopular" v-if="caseName === 'goldenLambda'">
+            Most popular!
           </p>
           <!-- Case Img -->
           <img class="case" :src="getCaseImg(caseName)">
@@ -291,6 +296,10 @@ export default {
   background: linear-gradient(rgb(66, 255, 66), green);
   box-shadow: 0 0 4px 6px rgba(0, 0, 0, 0.1);
   animation: float 4s infinite;
+}
+
+.mostPopular {
+  background: linear-gradient(rgb(197, 49, 255), rgb(216, 2, 180)) !important;
 }
 
 $grayBackground: #1b2435;

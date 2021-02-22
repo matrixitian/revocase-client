@@ -109,15 +109,16 @@ ul {
     margin: 15px;
     height: 280px;
     width: 250px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid white;
     border-radius: 10px;
     img {
       margin-top: 20px;
       height: 120px;
-      background-color: rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 4px 6px rgba(0, 0, 0, 0.1);
+      background-color: rgba(255, 255, 255, 0.1);
       border-radius: 15px;
       padding: 10px;
-      border: 2px solid rgba(255, 255, 255, 0.5);
+      border: 2px solid rgba(255, 255, 255, 0.6);
     }
     .skinTitle {
       margin-top: 5px;
@@ -137,7 +138,7 @@ ul {
     }
 
     .goToMarket {
-      margin-top: 15px !important;
+      margin-top: 10px !important;
       background: -webkit-linear-gradient(#3fd364,#0aac4e) !important;
        &:hover {
         background: -webkit-linear-gradient(rgb(35, 187, 21),#09b651) !important;
