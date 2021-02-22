@@ -80,11 +80,7 @@ export default {
     getWpnImg(wpnLonghand) {
       const wpnID = this.wpnLinks[wpnLonghand]
 
-      if (wpnLonghand === 'rare_item') {
-        return require('@/assets/cases/rare_item.webp')
-      } else {
-        return `${this.wpnCDNlink}${wpnID}.png`
-      }
+      return `${this.wpnCDNlink}${wpnID}.png`
     },
     inspectGun(gun) {
       const gun_id = this.inspectGunLinks[gun]

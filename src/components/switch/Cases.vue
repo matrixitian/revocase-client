@@ -108,7 +108,7 @@ export default {
         'fire', 'lambda', 'oldschool', 'goldenLambda', 'nuclear'
       ],
       formattedCaseNames: [
-        'Danger Zone', 'Chroma 2', 'Clutch', 'Fracture', 'Phoenix'
+        'Fire', 'Lambda', 'Oldschool', 'Golden Lambda', 'Nuclear Wave'
       ],
       casesOpened: [0, 0, 0, 0, 0],
       skinGradesOpened: [0, 0, 0, 0, 0],
@@ -162,11 +162,7 @@ export default {
     getSkinImg(wpnLonghand) {
       const wpnID = this.skinImgLinks[wpnLonghand]
 
-      if (wpnLonghand === 'rare_item') {
-        return require('@/assets/cases/rare_item.webp')
-      } else {
-        return `${this.skinImgSteamLink}${wpnID}.png`
-      }
+      return `${this.skinImgSteamLink}${wpnID}.png`
     },
     getCaseImg(caseName) {
       return require(`@/assets/cases/${caseName}.webp`)
@@ -478,6 +474,7 @@ $purpleGradientEnd: #35ca4e;
 
       .case {
         margin-top: 10px;
+        height: 120px;
       }
 
       .caseTitle {

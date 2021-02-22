@@ -153,11 +153,10 @@ export default {
       let condition = Math.random() * 100
       condition = Math.round(condition * 100) / 100
 
-      if (condition < 3) return 'fn'
-      else if (condition >= 3 && condition < 27) return 'mw'
-      else if (condition >= 27 && condition < 60) return 'ft'
-      else if (condition >= 60 && condition < 84) return 'ww'
-      else if (condition >= 84) return 'bs'
+      if (condition < 0.2) return 'gold'
+      else if (condition >= 0.2 && condition < 4) return 'pink'
+      else if (condition >= 4 && condition < 25) return 'purple'
+      else if (condition >= 25) return 'blue'
     },
     formatCondition(condition) {
       return getCondition(condition)
@@ -165,303 +164,231 @@ export default {
     getSkinImg(wpnLonghand) {
       const wpnID = this.skinImgLinks[wpnLonghand]
 
-      if (wpnLonghand === 'rare_item') {
-        return require('@/assets/cases/rare_item.webp')
-      } else {
-        return `${this.skinImgSteamLink}${wpnID}.png`
-      }
+      return `${this.skinImgSteamLink}${wpnID}.png`
     },
     getSkin(caseName) {
       const wpnCases = {
-        dangerZone: {
-          mil_spec: [
-            'nova_wood_fired',
-            'sawed-off_black_sand',
-            'sg553_danger_close',
-            'mp9_modest_threat',
-            'tec-9_fubar',
-            'glock-18_oxide_blaze',
-            'm4a4_magnesium'
+        fire: {
+          blue: [
+            "xm1014_oxide_blaze",
+            "mp9_black_sand",
+            "r8_revolver_grip"
           ],
-          restricted: [
-            'g3sg1_scavenger',
-            'mac-10_pipe_down',
-            'galil_ar_signal',
-            'p250_nevermore',
-            'usp-s_flashback'
+          purple: [
+            "ak-47_safari_mesh",
+            "cz75-auto_pole_position",
+            "cz75-auto_imprint",
+            "five-seven_flame_test"
           ],
-          classified: [
-            'mp5-sd_phosphor',
-            'ump-45_momentum',
-            'desert_eagle_mecha_industries'
+          pink: [
+            "ak-47_uncharted",
+            "desert_eagle_corinthian",
+            "usp-s_lead_conduit"
           ],
-          covert: [
-            'awp_neo-noir',
-            'ak-47_asiimov'
-          ],
-          exceedingly_rare: [
-            'rare_item'
+          gold: [
+            "usp-s_flashback",
+            "m4a1-s_nitro"
           ]
         },
-        phoenix: {
-          mil_spec: [
-            'ump-45_corporal',
-            'mag-7_heaven_guard',
-            'negev_terrain',
-            'tec-9_sandstorm'
+        lambda: {
+          blue: [
+            "nova_wood_fired",
+            "p90_freight",
+            "negev_ultralight"
           ],
-          restricted: [
-            'famas_sergeant',
-            'mac-10_heat',
-            'sg_553_pulse',
-            'usp-s_guardian',
+          purple: [
+            "awp_safari_mesh",
+            "desert_eagle_blue_ply",
+            "desert_eagle_bronze_deco",
+            "m4a4_magnesium"
           ],
-          classified: [
-            'p90_trigon',
-            'nova_antique',
-            'ak-47_redline',
+          pink: [
+            "desert_eagle_light_rail",
+            "awp_paw",
+            "usp-s_guardian",
           ],
-          covert: [
-            'aug_chameleon',
-            'awp_asiimov'
-          ],
-          exceedingly_rare: [
-            'rare_item'
+          gold: [
+            "awp_exoskeleton",
+            "awp_phobos"
           ]
         },
-        chroma2: {
-          mil_spec: [
-            "negev_man-o-'war",
-            'sawed-off_origami',
-            'mp7_armor_core',
-            'p250_valence',
-            'desert_eagle_bronze_deco',
-            'ak-47_elite_build'
+        oldschool: {
+          blue: [
+            "tec-9_fubar",
+            "p250_cassette",
+            "mag-7_heaven_guard"
           ],
-          restricted: [
-            'ump-45_grand_prix',
-            'cz75-auto_pole_position',
-            'mag-7_heat',
-            'awp_worm_god',
+          purple: [
+            "desert_eagle_the_bronze",
+            "mag-7_swag-7",
+            "ak-47_safari_mesh",
+            "m4a4_magnesium"
           ],
-          classified: [
-            'famas_djinn',
-            'five-seven_monkey_business',
-            'galil_ar_eco',
+          pink: [
+            "famas_valence",
+            "ssg_08_parallax",
+            "desert_eagle_meteorite",
           ],
-          covert: [
-            'mac-10_neon_rider',
-            'm4a1-s_hyper_beast'
-          ],
-          exceedingly_rare: [
-            'rare_item'
+          gold: [
+            "usp-s_cyrex",
+            "ak-47_elite_build"
           ]
         },
-        fracture: {
-          mil_spec: [
-            'negev_ultralight',
-            "sg_553_ol'rusty",
-            'p2000_gnarled',
-            'p90_freight',
-            'pp-bizon_runic',
-            'p250_cassette',
-            'ssg_08_mainframe_001'
+        goldenLambda: {
+          blue: [
+            "mp7_armor_core",
+            "sg_553_danger_close",
+            "mp9_modest_threat"
           ],
-          restricted: [
-            'galil_ar_connexion',
-            'mp5-sd_kitbash',
-            'tec-9_brother',
-            'mac-10_allure',
-            'mag-7_monster_call'
+          purple: [
+            "mac-10_pipe_down",
+            "desert_eagle_oxide_blaze",
+            "sg_553_phantom",
+            "p250_inferno"
           ],
-          classified: [
-            'xm1014_entombed',
-            'glock-18_vogue',
-            'm4a4_toothfairy',
+          pink: [
+            "m4a1-s_basilisk",
+            "desert_eagle_naga",
+            "ak-47_elite_build"
           ],
-          covert: [
-            'ak-47_legion_of_anubis',
-            'desert_eagle_printstream'
-          ],
-          exceedingly_rare: [
-            'rare_item'
+          gold: [
+            "famas_styx",
+            "m4a4_evil_daimyo"
           ]
         },
-        clutch: {
-          mil_spec: [
-            'xm1014_oxide_blaze',
-            'pp-bizon_night_riot',
-            'p2000_urban_hazard',
-            'five-seven_flame_test',
-            'sg_553_aloha',
-            'r8_revolver_grip',
-            'mp9_black_sand'
+        nuclear: {
+          blue: [
+            "famas_decommissioned",
+            "glock-18_oxide_blaze",
+            "sg_553_ol'_rusty"
           ],
-          restricted: [
-            'negev_lionfish',
-            'nova_wild_six',
-            'ump-45_artic_wolf',
-            'mag-7_swag-7',
-            'glock-18_moonrise'
+          purple: [
+            "desert_eagle_directive",
+            "p250_nevermore",
+            "m4a1-s_flashback",
+            "sg_553_darkwing"
           ],
-          classified: [
-            'aug_stymphalian',
-            'awp_mortis',
-            'usp-s_cortex',
+          pink: [
+            "awp_atheris",
+            "famas_djinn",
+            "awp_mortis"
           ],
-          covert: [
-            'mp7_bloodsport',
-            'm4a4_neo-noir'
-          ],
-          exceedingly_rare: [
-            'rare_item'
+          gold: [
+            "usp-s_mashup",
+            "m4a4_cyber_security"
           ]
         }
       }
 
       const formattedSkinName = {
-        dangerZone: {
-          mil_spec: [
-            'Wood Fired',
-            'Black Sand',
-            'Danger Close',
-            'Modest Threat',
-            'Fubar',
-            'Oxide Blaze',
-            'Magnesium'
+        fire: {
+          blue: [
+            "Oxide Blaze",
+            "Black Sand",
+            "Grip"
           ],
-          restricted: [
-            'Scavenger',
-            'Pipe Down',
-            'Signal',
-            'Nevermore',
-            'Flashback',
+          purple: [
+            "Safari Mesh",
+            "Pole Position",
+            "Imprint",
+            "Flame Test"
           ],
-          classified: [
-            'Phosphor',
-            'Momentum',
-            'Mecha Industries'
+          pink: [
+            "Uncharted",
+            "Corinthian",
+            "Lead Conduit"
           ],
-          covert: [
-            'Neo-Noir',
-            'Asiimov'
-          ],
-          exceedingly_rare: [
-            'Rare Item'
+          gold: [
+            "Flashback",
+            "Nitro"
           ]
         },
-        phoenix: {
-          mil_spec: [
-            'Corporal',
-            'Heaven Guard',
-            'Terrain',
-            'Sandstorm'
+        lambda: {
+          blue: [
+            "Wood Fired",
+            "Freight",
+            "Ultralight"
           ],
-          restricted: [
-            'Sergeant',
-            'Heat',
-            'Pulse',
-            'Guardian',
+          purple: [
+            "Safari Mesh",
+            "Blue Ply",
+            "Bronze Deco",
+            "Magnesium"
           ],
-          classified: [
-            'Trigon',
-            'Antique',
-            'Redline',
+          pink: [
+            "Light Rail",
+            "PAW",
+            "Guardian"
           ],
-          covert: [
-            'Chameleon',
-            'Asiimov'
-          ],
-          exceedingly_rare: [
-            'Rare Item'
+          gold: [
+            "Exoskeleton",
+            "Phobos"
           ]
         },
-        chroma2: {
-          mil_spec: [
-            "Man-o'-war",
-            'Origami',
-            'Armor Core',
-            'Valence',
-            'Bronze Deco',
-            'Elite Build'
+        oldschool: {
+          blue: [
+            "Fubar",
+            "Cassette",
+            "Heaven Guard"
           ],
-          restricted: [
-            'Grand Prix',
-            'Pole Position',
-            'Heat',
-            'Worm God',
+          purple: [
+            "The Bronze",
+            "SWAG-7",
+            "Safari Mesh",
+            "Magnesium",
           ],
-          classified: [
-            'Djinn',
-            'Monkey Business',
-            'Eco',
+          pink: [
+            "Valence",
+            "Parallax",
+            "Meteorite"
           ],
-          covert: [
-            'Neon Rider',
-            'Hyper Beast'
-          ],
-          exceedingly_rare: [
-            'Rare Item'
+          gold: [
+            "Cyrex",
+            "Elite Build"
           ]
         },
-        fracture: {
-          mil_spec: [
-            'Ultralight',
-            "Ol' Rusty",
-            'Gnarled',
-            'Freight',
-            'Runic',
-            'Cassette',
-            'Mainframe 001'
+        goldenLambda: {
+          blue: [
+            "Armor Core",
+            "Danger Close",
+            "Modest Threat"
           ],
-          restricted: [
-            'Connexion',
-            'Kitbash',
-            'Brother',
-            'Allure',
-            'Monster Call'
+          purple: [
+            "Pipe Down",
+            "Oxide Blaze",
+            "Phantom",
+            "Inferno"
           ],
-          classified: [
-            'Entombed',
-            'Vogue',
-            'Tooth Fairy',
+          pink: [
+            "Basilisk",
+            "Naga",
+            "Elite Build"
           ],
-          covert: [
-            'Legion of Anubis',
-            'Printstream'
-          ],
-          exceedingly_rare: [
-            'Rare Item'
+          gold: [
+            "Styx",
+            "Evil Daimyo"
           ]
         },
-        clutch: {
-          mil_spec: [
-            'Oxide Blaze',
-            'Night Riot',
-            'Urban Hazard',
-            'Flame Test',
-            'Aloha',
-            'Grip',
-            'Black Sand'
+        nuclear: {
+          blue: [
+            "Decommissioned",
+            "Oxide Blaze",
+            "Ol' Rusty"
           ],
-          restricted: [
-            'Lionfish',
-            'Wild Six',
-            'Arctic Wolf',
-            'SWAG-7',
-            'Moonrise'
+          purple: [
+            "Directive",
+            "Nevermore",
+            "Flashback",
+            "Darkwing"
           ],
-          classified: [
-            'Stymphalian',
-            'Mortis',
-            'Cortex',
+          pink: [
+            "Atheris",
+            "Djinn",
+            "Mortis"
           ],
-          covert: [
-            'Bloodsport',
-            'Neo-Noir'
-          ],
-          exceedingly_rare: [
-            'Rare Item'
+          gold: [
+            "Mashup",
+            "Cyber Security"
           ]
         }
       }
