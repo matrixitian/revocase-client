@@ -519,13 +519,13 @@ $greenGradientEnd: #35ca4e;
 
 @keyframes floatBuyBtn {
 	0% {
-		transform: translatey(4px);
+		transform: translatey(3px);
   }
   50% {
 		transform: translatey(0px);
   }
   100% {
-		transform: translatey(4px);
+		transform: translatey(3px);
   }
 }
   
