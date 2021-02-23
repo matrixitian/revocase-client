@@ -12,13 +12,8 @@
           {{ gun }}
         </p>
 
-        <!-- Go to Market -->
-        <!-- <button class="inspect goToMarket" @click="openMarketLink(i)">
-          Go to Market
-        </button> -->
-
         <!-- Inspect Gun -->
-        <button class="inspect goToMarket" @click="inspectGun(guns.raw[i])">
+        <button class="inspect" @click="inspectGun(guns.raw[i])">
           Inspect in-game (FN)
         </button>
 
@@ -35,7 +30,6 @@ export default {
   data() {
     return {
       selectedCase: null,
-      goToMarket: {},
       wpnLinks: {},
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
       guns: {}, // raw, formatted, grade
@@ -48,23 +42,8 @@ export default {
     this.wpnLinks = require(`@/assets/gunData/cdn_gun_ids.json`)
     this.guns = require(`@/assets/gunData/caseGuns/${this.selectedCase}.json`)
     this.inspectGunLinks = require(`@/assets/gunData/inspect_guns.json`)
-    this.goToMarket = require(`@/assets/gunData/go_to_market.json`)
   },
   methods: {
-    openMarketLink(i) {
-      const selectedCase = this.$store.getters.getSelectedCase
-
-      const wpnName = this.goToMarket[selectedCase][i][0]
-      const skinName = this.goToMarket[selectedCase][i][1]
-      const categoryNum = this.goToMarket[selectedCase][i][2]
-
-      const marketLink = "https://steamcommunity.com/market/search?category_730_Weapon%5B%5D=tag_weapon_"
-      const categoryLink = `&category_730_ItemSet%5B0%5D=tag_set_community_${categoryNum}&appid=730&amp;q=`
-
-      const link = marketLink + wpnName + categoryLink + skinName
-
-      window.open(link)
-    },
     getWpnImg(wpnLonghand) {
       const wpnID = this.wpnLinks[wpnLonghand]
 
@@ -153,14 +132,6 @@ ul {
       }
     }
 
-    .goToMarket {
-      margin-top: 7px !important;
-      background: -webkit-linear-gradient(#3fd364,#0aac4e) !important;
-      &:hover {
-        background: -webkit-linear-gradient(rgb(35, 187, 21),#09b651) !important;
-      }
-    }
-
     .inspect {
       margin-top: 5px;
       width: 90%;
@@ -169,13 +140,13 @@ ul {
       border-radius: 5px;
       color: whitesmoke;
       font-weight: bold;
-      background: -webkit-linear-gradient(#4793e9,#0b71d8);
+      background: -webkit-linear-gradient(#3fd364,#0aac4e) !important;
       box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
       cursor: pointer;
       &:hover {
         transition: .1s ease;
         transform: scale(1.01);
-        background: -webkit-linear-gradient(#337bce,#0b5aa8);
+        background: -webkit-linear-gradient(rgb(35, 187, 21),#09b651) !important;
       }
     }
   }
