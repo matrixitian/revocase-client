@@ -225,7 +225,7 @@ export default {
       this.receivedSkin = null
     },
     checkSkinAvailable(skin) {
-      if (skin.tradeOfferSent || skin.requestedTrade || skin.grade === 'covert') return false
+      if (skin.tradeOfferSent || skin.requestedTrade || skin.grade === 'gold') return false
 
       return true
     },
