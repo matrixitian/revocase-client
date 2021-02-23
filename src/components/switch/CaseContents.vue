@@ -40,14 +40,7 @@ export default {
       wpnCDNlink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
       guns: {}, // raw, formatted, grade
       wpnPrices: [],
-      inspectGunLinks: {},
-      linkCategory: {
-        fire: 0,
-        lambda: 0,
-        oldschool: 0,
-        goldenLambda: 0,
-        nuclear: 0
-      }
+      inspectGunLinks: {}
     }
   },
   async mounted() {
@@ -60,10 +53,10 @@ export default {
   methods: {
     openMarketLink(i) {
       const selectedCase = this.$store.getters.getSelectedCase
-      const categoryNum = this.linkCategory[selectedCase]
 
       const wpnName = this.goToMarket[selectedCase][i - 1][0]
       const skinName = this.goToMarket[selectedCase][i - 1][1]
+      const categoryNum = this.goToMarket[selectedCase][i - 1][2]
 
       const marketLink = "https://steamcommunity.com/market/search?category_730_Weapon%5B%5D=tag_weapon_"
       const categoryLink = `&category_730_ItemSet%5B0%5D=tag_set_community_${categoryNum}&appid=730&amp;q=`
@@ -163,7 +156,7 @@ ul {
     .goToMarket {
       margin-top: 7px !important;
       background: -webkit-linear-gradient(#3fd364,#0aac4e) !important;
-       &:hover {
+      &:hover {
         background: -webkit-linear-gradient(rgb(35, 187, 21),#09b651) !important;
       }
     }
