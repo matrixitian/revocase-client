@@ -13,12 +13,12 @@
         </p>
 
         <!-- Go to Market -->
-        <button class="inspect goToMarket" @click="openMarketLink(i)">
+        <!-- <button class="inspect goToMarket" @click="openMarketLink(i)">
           Go to Market
-        </button>
+        </button> -->
 
         <!-- Inspect Gun -->
-        <button class="inspect" @click="inspectGun(guns.raw[i])">
+        <button class="inspect goToMarket" @click="inspectGun(guns.raw[i])">
           Inspect in-game (FN)
         </button>
 
@@ -54,9 +54,9 @@ export default {
     openMarketLink(i) {
       const selectedCase = this.$store.getters.getSelectedCase
 
-      const wpnName = this.goToMarket[selectedCase][i - 1][0]
-      const skinName = this.goToMarket[selectedCase][i - 1][1]
-      const categoryNum = this.goToMarket[selectedCase][i - 1][2]
+      const wpnName = this.goToMarket[selectedCase][i][0]
+      const skinName = this.goToMarket[selectedCase][i][1]
+      const categoryNum = this.goToMarket[selectedCase][i][2]
 
       const marketLink = "https://steamcommunity.com/market/search?category_730_Weapon%5B%5D=tag_weapon_"
       const categoryLink = `&category_730_ItemSet%5B0%5D=tag_set_community_${categoryNum}&appid=730&amp;q=`
@@ -121,7 +121,7 @@ ul {
   li {
     float: left;
     margin: 15px;
-    height: 280px;
+    height: 250px;
     width: 250px;
     border: 2px solid white;
     border-radius: 10px;
