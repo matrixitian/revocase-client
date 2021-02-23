@@ -893,6 +893,7 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
           padding: 5px;
           font-weight: bold;
           font-size: 15px;
+          color: rgba(0, 0, 0, 0.9);
         }
       }
     }

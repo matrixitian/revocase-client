@@ -76,13 +76,14 @@
     </ul>
 
     <div id="tradeDurationInfo">
-      <p>It can sometimes take up to <span>7 days</span> until your Steam account receives the trade offer!</p>
+      <p>If you don't get a trade offer within <span>10 days</span> please contact support on Discord!</p>
     </div>
 
   </div>
 </template>
 
 <script>
+import moment from 'moment'
 import config from '@/assets/config/config'
 import axios from 'axios'
 import getCondition from '@/js/translateGunCondition.js'
@@ -107,7 +108,14 @@ export default {
       if (skin.tradeOfferSent) {
         return 'Trade offer received'
       } else if (skin.requestedTrade) {
-        return 'Skin will be sent within 1 week'
+        let nextWeek = new Date(skin.tradeRequestedAt)
+        nextWeek.setDate(nextWeek.getDate() + 7)
+        
+        var dur = moment.duration( moment(nextWeek).diff(moment()))
+        let daysRemain = dur.days()
+        let hoursRemain = dur.hours()
+        
+        return `Trade Lock ${daysRemain} days ${hoursRemain} hours`
       } else {
         return 'Trade to account'
       }
@@ -157,6 +165,7 @@ export default {
 
       if (res.status === 200) {
         this.mySkins[i].requestedTrade = true
+        this.mySkins[i].tradeRequestedAt = new Date()
       }
     },
     async fetchSkins() {
