@@ -227,6 +227,7 @@ export default {
   },
   data() {
     return {
+      tutorialClosed: true,
       videoLinks: [
         {
           lang: 'en',
@@ -298,8 +299,7 @@ export default {
       ],
       countdown: '24:00:00',
       dailyRewardCountdown: '24:00:00',
-      startAdsCountdown: '24:00:00',
-      tutorialClosed: false
+      startAdsCountdown: '24:00:00'
     }
   },
   created() {
@@ -347,6 +347,13 @@ export default {
     if (alreadyViewed) {
       this.adCount = 75
       localStorage.setItem('adCount', 75)
+    }
+
+    // Tutorial video already viewed
+    const tutorialViewed = Boolean(localStorage.getItem('tutorialViewed'))
+
+    if (!tutorialViewed) {
+      this.tutorialClosed = false
     }
 
     // User count
@@ -465,6 +472,7 @@ export default {
     },
     toggleTutorial() {
 			this.tutorialClosed = !this.tutorialClosed
+      localStorage.setItem('tutorialViewed', true)
 		},
     checkTabActive() {
       let item
@@ -546,8 +554,6 @@ export default {
 
         this.$store.commit('setUser',  { user: res.data })
         this.fetchCredits()
-
-        console.log(this.user)
 
         const vl = this.videoLinks.find(vl => vl.lang === this.user.location.toLowerCase())
         
