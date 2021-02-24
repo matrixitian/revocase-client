@@ -242,12 +242,13 @@ export default {
       startAdsCountdown: '24:00:00'
     }
   },
-  created() {
+  beforeCreated() {
     // Redirect to SSL
     if (window.location.href === 'http://revo-cases.com') {
       window.location = 'https://revo-cases.com'
     }
-
+  },
+  created() {
     this.$store.subscribe(async(mutation, state) => {
       if (mutation.type === 'setUser') {
         this.user = state.user

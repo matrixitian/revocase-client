@@ -1,6 +1,27 @@
 <template>
   <div id="caseRollMain">
 
+    <transition name="slide-fade">
+      <div id="Drop" v-if="drop">
+        <div id="dropCenterer">
+          <!-- Skin Img -->
+          <img id="dropImg" :src="getSkinImg(drop.longhand)" />
+          <!-- Skin Name -->
+          <p id="dropName">
+            <span class="skinName">{{ drop.name }}</span>
+          </p>
+          <!-- Skin Condition -->
+          <p id="dropCondition">
+            {{ drop.condition }}
+          </p>
+          <!-- Go back to MySkins -->
+          <button id="goToMySkins" @click="goToMySkins()">
+            Go to My Skins
+          </button>
+        </div>
+      </div>
+    </transition>
+
     <div id="Roller">
 
       <!-- Skin Rolling -->
@@ -9,7 +30,7 @@
 
           <li v-for="(skin, i) in drops" :key="i"
           :class="skin.grade">
-          <!-- Skin Img -->
+            <!-- Skin Img -->
             <img :src="getSkinImg(skin.longhand)" alt="">
             <!-- Skin Name -->
             <p class="skin">
@@ -19,7 +40,6 @@
             <p class="condition" :class="skin.condition">
               {{ skin.condition }}
             </p>
-
           </li>
 
         </transition-group>
@@ -77,6 +97,7 @@ export default {
       rollingFinished: true,
       drops: [],
       dropAt: 54,
+      drop: null,
       skinImgSteamLink: "https://steamcdn-a.akamaihd.net/apps/730/icons/econ/default_generated/weapon_",
       skinImgLinks: {},
       // Daily Reward
@@ -478,6 +499,7 @@ export default {
       this.generateSkins()
       // Set received drop
       this.drops[this.dropAt] = this.$store.getters.getCurrentDrop
+      this.drop = this.$store.getters.getCurrentDrop
     } else {
       this.generateDailyRewardDrops()
       // Set received drop
@@ -489,8 +511,74 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/mixins/centerX';
+@import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/skinGrades';
 @import '@/assets/mixins/skinCondition';
+
+@keyframes rainbow3 {
+  0% {background-position: 0% 82% }
+  50% {background-position: 100% 19% }
+  100% {background-position: 0% 82% }
+}
+
+.blue-animated {
+  background: linear-gradient(124deg, #00ccff, #1d86e8, #1d64e8, #1d4ce8, #2b1de8, #1d86e8, #2b1de8, #1000f3, #0086f3);
+}
+
+.purple-animated {
+  background: linear-gradient(124deg, #8400ff, #751de8, #af1de8, #751de8, #2b1de8, #491de8, #751de8, #dd00f3, #dd00f3);
+}
+
+.pink-animated {
+  background: linear-gradient(124deg, #ff00f2, #e81d72, #d01de8, #af1de8, #2b1de8, #e81d7c, #b91de8, #ba00f3, #dd00f3);
+}
+
+.gold-animated {
+  background: linear-gradient(124deg, #fbff00, #e8c31d, #e6be0c, #e8781d, #e89a1d, #e8d41d, #d4e81d, #f3db00, #f3cf00);
+}
+
+#Drop {
+  z-index: 200;
+  width: 100vw;
+  height: 70vh;
+  background-color: #1b2435;
+  #dropCenterer {
+    @include centerXY;
+    background-size: 1800% 1800% !important;
+    animation: rainbow3 5s infinite !important;
+  }
+}
+
+#dropImg {
+  height: 300px;
+}
+
+#dropName {
+  font-size: 20px;
+  font-weight: bold;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 5px 20px 5px 20px;
+  border-radius: 10px;
+}
+
+#goToMySkins {
+  font-size: 17px;
+  margin-top: 15px;
+  font-weight: bold;
+  padding: 10px 40px 10px 40px;
+  font-size: 22px;
+  border: none;
+  border-radius: 5px;
+  color: whitesmoke;
+  background: linear-gradient(rgb(153, 68, 233), rgb(155, 6, 110));
+  box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  &:hover {
+    transition: .15s ease;
+    background: linear-gradient(rgb(182, 104, 255),rgb(189, 23, 139));
+  }
+}
+
 
 .five {
   color: rgb(250, 0, 0);
