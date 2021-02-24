@@ -345,9 +345,9 @@ $greenGradientEnd: #35ca4e;
 }
 
 @keyframes rainbow2 {
-  // 0%{background-position:0% 82%}
-  // 50%{background-position:100% 19%}
-  // 100%{background-position:0% 82%}
+  0%{background-position:0% 82%}
+  50%{background-position:100% 19%}
+  100%{background-position:0% 82%}
 }
 
 .blue-animated {

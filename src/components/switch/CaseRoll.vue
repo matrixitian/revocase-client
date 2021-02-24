@@ -2,8 +2,9 @@
   <div id="caseRollMain">
 
     <transition name="slide-fade">
-      <div id="Drop" v-if="drop">
-        <div id="dropCenterer">
+      <div id="Drop" v-if="rollingFinished">
+        <div id="dropCenterer"
+        :class="`${drop.grade}-animated`">
           <!-- Skin Img -->
           <img id="dropImg" :src="getSkinImg(drop.longhand)" />
           <!-- Skin Name -->
@@ -11,12 +12,16 @@
             <span class="skinName">{{ drop.name }}</span>
           </p>
           <!-- Skin Condition -->
-          <p id="dropCondition">
+          <p id="dropCondition" :class="drop.condition">
             {{ drop.condition }}
           </p>
           <!-- Go back to MySkins -->
-          <button id="goToMySkins" @click="goToMySkins()">
+          <button class="goTo" @click="switchView('MySkins')">
             Go to My Skins
+          </button>
+          <!-- Go home -->
+          <button class="goTo home" @click="switchView('Cases')">
+            Home
           </button>
         </div>
       </div>
@@ -94,7 +99,7 @@ export default {
       caseRollType: null,
       selectedCase: null,
       caseIsRolling: false,
-      rollingFinished: true,
+      rollingFinished: false,
       drops: [],
       dropAt: 54,
       drop: null,
@@ -105,6 +110,9 @@ export default {
     }
   },
   methods: {
+    switchView(view) {
+      this.$store.commit('changeView', { view })
+    },
     getDailyDropColor(amount) {
       if (amount === 5) return 'five'
       else if (amount === 10) return 'ten'
@@ -146,6 +154,7 @@ export default {
 
         caseRollAudio.play()
         if (count === 9) {
+          this.rollingFinished = true
           const amount = Number(this.$store.getters.getDailyRewardDrop)
 
           this.$store.commit('updateMyCoins', { type: 'add', amount })
@@ -158,7 +167,6 @@ export default {
         // stop after 600ms
         if (interval > 600) {
           count = 0
-          this.rollingFinished = true
         }
 
         if (count > 0) {
@@ -515,7 +523,7 @@ export default {
 @import '@/assets/mixins/skinGrades';
 @import '@/assets/mixins/skinCondition';
 
-@keyframes rainbow3 {
+@keyframes rainbow {
   0% {background-position: 0% 82% }
   50% {background-position: 100% 19% }
   100% {background-position: 0% 82% }
@@ -544,24 +552,34 @@ export default {
   background-color: #1b2435;
   #dropCenterer {
     @include centerXY;
+    padding: 10px;
+    border-radius: 20px;
+    border: 3px solid white;
+    box-shadow: 0 0 4px 6px rgba(0,0,0,0.2);
     background-size: 1800% 1800% !important;
-    animation: rainbow3 5s infinite !important;
+    animation: rainbow 5s infinite !important;
   }
+}
+
+#dropCondition {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
 }
 
 #dropImg {
   height: 300px;
 }
 
-#dropName {
+#dropName, #dropCondition {
   font-size: 20px;
   font-weight: bold;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.4);
   padding: 5px 20px 5px 20px;
   border-radius: 10px;
 }
 
-#goToMySkins {
+.goTo {
   font-size: 17px;
   margin-top: 15px;
   font-weight: bold;
@@ -570,15 +588,22 @@ export default {
   border: none;
   border-radius: 5px;
   color: whitesmoke;
-  background: linear-gradient(rgb(153, 68, 233), rgb(155, 6, 110));
+  background: linear-gradient(rgb(68, 233, 82), rgb(0, 219, 84));
   box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   &:hover {
     transition: .15s ease;
-    background: linear-gradient(rgb(182, 104, 255),rgb(189, 23, 139));
+    background: linear-gradient(rgb(96, 253, 109),rgb(45, 255, 126));
   }
 }
 
+.home {
+  margin-left: 10px;
+  background: linear-gradient(rgb(200, 68, 233), rgb(161, 7, 199));
+   &:hover {
+    background: linear-gradient(rgb(225, 103, 255), rgb(198, 12, 245));
+  }
+}
 
 .five {
   color: rgb(250, 0, 0);
