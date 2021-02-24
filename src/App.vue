@@ -1,6 +1,12 @@
 <template>
   <div id="Main" v-if="!isMobileDevice">
 
+    <button id="disableAnimations"
+    @click="toggleAnimations()"
+    :class="{btnDisabled: animationsDisabled}">
+      Disable Animations
+    </button>
+
     <div id="tutorialVideoContainer" v-if="!tutorialClosed">
       <ul id="videoTranslation">
         <li v-for="vl in videoLinks" :key="vl.lang"
@@ -22,7 +28,7 @@
       </iframe>
     </div>
 
-    <p id="appVersion">version: <span>beta</span> 0.9.2</p>
+    <!-- <p id="appVersion">version: <span>beta</span> 0.9.2</p> -->
 
     <PasswordReset v-if="showPasswordResetView" 
     @passwordResetComplete="this.showPasswordResetView = false"
@@ -102,7 +108,7 @@
       </div>
 
 <!-- Middle -->
-      <div id="Middle">
+      <div id="Middle" :class="{floatMiddle: !animationsDisabled}">
 
         <div id="centerLogo">
           <div id="centerUp">
@@ -123,7 +129,9 @@
           <img src="@/assets/icons/bullet.png">
         </div>
 
-        <p id="motivation">Watch ads and get a free case of choice every day!</p>
+        <p id="motivation" :class="{animateMotivation: !animationsDisabled}">
+          Watch ads and get a free case of choice every day!
+        </p>
       </div>
 
 <!-- Right -->
@@ -227,6 +235,7 @@ export default {
   },
   data() {
     return {
+      animationsDisabled: false,
       tutorialClosed: true,
       videoLinks: [
         {
@@ -466,6 +475,10 @@ export default {
     }, 1000)
   },
   methods: {
+    toggleAnimations() {
+      this.$store.commit('toggleAnimationDisabled')
+      this.animationsDisabled = !this.animationsDisabled
+    },
     selectVideoLang(vl) {
       this.selectedVideoLang = vl.lang
       this.selectedVideoLink = vl.link
@@ -688,6 +701,27 @@ export default {
 @import '@/assets/mixins/vueSlideFade';
 @import '@/assets/mixins/unselectable';
 
+.floatMiddle {
+  animation: float 3s ease-in-out infinite;
+}
+
+.btnDisabled {
+  background-color: gray !important;
+}
+
+#disableAnimations {
+  z-index: 200;
+  @include centerX;
+  margin-top: 10px;
+  border-radius: 15px;
+  padding: 5px 20px 5px 20px;
+  border: none;
+  background-color: orangered;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+}
+
 #tutorialVideoContainer {
   z-index: 2000;
   @include centerXY;
@@ -775,12 +809,15 @@ export default {
   width: 80%;
 }
 
+.animateMotivation {
+  animation: animateMotivation 3s infinite;
+}
+
 #motivation {
   @include centerX;
   font-size: 18px;
   font-weight: bold;
   top: 27vh;
-  animation: animateMotivation 3s infinite;
 }
 
 #giveawayBtn {
@@ -1042,7 +1079,6 @@ $middleTopperWidth: calc(100% - #{$leftTopperWidth} - #{$rightTopperWidth});
     display: inline;
     float: left;
     display: table;
-    animation: float 3s ease-in-out infinite;
     button {
       position: absolute;
       top: 250px;

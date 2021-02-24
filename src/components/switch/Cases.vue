@@ -7,7 +7,11 @@
       <div id="skinGradesOpened">
         <ul>
           <li v-for="(gradeCount, go) in skinGradesOpened" :key="go"
-          :class="`${skinGradeNamesRaw[go]}-animated`">
+          :class="[
+            `${skinGradeNamesRaw[go]}-animated`,
+            {rainbowAnimation: !animationsDisabled}
+          ]"
+          >
             <img src="@/assets/icons/grade_rifle.svg">
             <p>{{skinGradeNames[go]}}: <span>{{ gradeCount }}</span></p>
           </li>
@@ -51,15 +55,20 @@
 
       <ul>
         <li v-for="(caseName, i) in cases"
-        :key="i" :class="`Pipe_${i}`">
+        :key="i" :class="[
+        `Pipe_${i}`,
+         { downerRainbowAnimation: !animationsDisabled }
+        ]">
 
           <!-- Best value -->
-          <p id="bestValue" v-if="caseName === 'nuclear'">
+          <p id="bestValue" v-if="caseName === 'nuclear'"
+          :class="{bestValueAnimation: !animationsDisabled}">
             Best Value!
           </p>
 
           <!-- Most popular -->
-          <p id="bestValue" class="mostPopular" v-if="caseName === 'goldenLambda'">
+          <p id="bestValue" class="mostPopular" v-if="caseName === 'goldenLambda'"
+          :class="{bestValueAnimation: !animationsDisabled}">
             Most popular!
           </p>
           <!-- Case Img -->
@@ -77,7 +86,8 @@
             <p>View Inside</p>
           </div>
           <!-- Open Container Btn -->
-          <div class="openCaseBtn" @click="buyCase(caseName)">
+          <div class="openCaseBtn" @click="buyCase(caseName)"
+          :class="{openCaseBtnAnimation: !animationsDisabled}">
             <img src="@/assets/icons/bullet.png" alt="">
             <p>{{ casePrices[i] }}</p>
           </div>
@@ -100,6 +110,7 @@ export default {
   name: 'Cases',
   data() {
     return {
+      animationsDisabled: false,
       userLocation: null,
       tabVisible: true,
       // User Data
@@ -132,6 +143,10 @@ export default {
       if (mutation.type === 'setUser') {
         this.user = state.user
         this.getUserLocation()
+      }
+
+      if (mutation.type === 'toggleAnimationDisabled') {
+        this.animationsDisabled = state.animationsDisabled
       }
     })
   },
@@ -285,6 +300,10 @@ export default {
   }
 }
 
+.bestValueAnimation {
+  animation: float 4s infinite;
+}
+
 #bestValue {
   position: absolute;
   top: 15px;
@@ -295,7 +314,6 @@ export default {
   border: 2px solid white;
   background: linear-gradient(rgb(66, 255, 66), green);
   box-shadow: 0 0 4px 6px rgba(0, 0, 0, 0.1);
-  animation: float 4s infinite;
 }
 
 .mostPopular {
@@ -350,6 +368,10 @@ $greenGradientEnd: #35ca4e;
   100%{background-position:0% 82%}
 }
 
+.rainbowAnimation {
+  animation: rainbow2 18s ease infinite;
+}
+
 .blue-animated {
   background: linear-gradient(124deg, #00ccff, #1d86e8, #1d64e8, #1d4ce8, #2b1de8, #1d86e8, #2b1de8, #1000f3, #0086f3);
 }
@@ -387,7 +409,6 @@ $greenGradientEnd: #35ca4e;
       border-radius: 10px;
       border: 2px solid black;
       background-size: 1800% 1800%;
-      animation: rainbow2 18s ease infinite;
       img {
         height: 30px;
         float: left;
@@ -529,6 +550,14 @@ $greenGradientEnd: #35ca4e;
 		transform: translatey(3px);
   }
 }
+
+.downerRainbowAnimation {
+  animation: rainbow2 5s ease infinite;
+}
+
+.openCaseBtnAnimation {
+  animation: floatBuyBtn 2s infinite;
+}
   
 #Downer {
   position: relative;
@@ -553,7 +582,6 @@ $greenGradientEnd: #35ca4e;
       border: 5px solid white;
       border-bottom: none;
       background-size: 1800% 1800%;
-      animation: rainbow2 5s ease infinite;
       &:hover {
         transition: .2s ease;
         height: 300px;
@@ -627,7 +655,6 @@ $greenGradientEnd: #35ca4e;
         background-image: linear-gradient(rgb(46, 209, 54), rgb(18, 158, 41));
         border-radius: 20px;
         max-width: 100px;
-        animation: floatBuyBtn 2s infinite;
         img {
           float: left;
           padding: 0;

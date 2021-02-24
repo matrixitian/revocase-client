@@ -11,9 +11,13 @@ export default createStore({
     dailyRewardDrop: 0,
     caseRollType: null,
     errMsg: null,
-    tabVisible: true
+    tabVisible: true,
+    animationsDisabled: false
   },
   mutations: {
+    toggleAnimationDisabled(state) {
+      state.animationsDisabled = !state.animationsDisabled
+    },
     setTabVisible(state, payload) {
       state.tabVisible = payload.tabVisible
     },
