@@ -2,7 +2,7 @@
   <div id="caseRollMain">
 
     <transition name="slide-fade">
-      <div id="Drop" v-if="rollingFinished">
+      <div id="Drop" v-if="caseRollType === 'case' && rollingFinished">
         <div id="dropCenterer"
         :class="`${drop.grade}-animated`">
           <!-- Skin Img -->
