@@ -1,6 +1,27 @@
 <template>
   <div id="Main" v-if="!isMobileDevice">
 
+    <div id="tutorialVideoContainer" v-if="!tutorialClosed">
+      <ul id="videoTranslation">
+        <li v-for="vl in videoLinks" :key="vl.lang"
+        @click="selectVideoLang(vl)">
+          <img 
+          :src="require(`@/assets/flags/${vl.lang}.svg`)"
+          :class="{videoLangSelected: selectedVideoLang === vl.lang}">
+        </li>
+      </ul>
+
+      <span class="material-icons-round closeIcon"
+      @click="toggleTutorial()">
+        close
+      </span>
+
+      <iframe id="tutorialVideo" 
+      width="420" height="315" allowfullscreen
+      :src="selectedVideoLink">
+      </iframe>
+    </div>
+
     <p id="appVersion">version: <span>beta</span> 0.9.2</p>
 
     <PasswordReset v-if="showPasswordResetView" 
@@ -144,7 +165,7 @@
           </div>
 
           <!-- Tutorial Btn -->
-          <div id="playTutorial">
+          <div id="playTutorial" @click="toggleTutorial()">
             <img src="@/assets/icons/play.svg" alt="">
             <p>Tutorial</p>
           </div>
@@ -166,11 +187,9 @@
 
 <!-- Bottom -->
     <div id="Bottomer">
-
       <div id="bottomAligner">
         <component :is="dynamicComponent" :Case="caseClicked" :user="user"></component>
-      </div>
-      
+      </div>   
     </div>
 
   </div>
@@ -208,6 +227,46 @@ export default {
   },
   data() {
     return {
+      videoLinks: [
+        {
+          lang: 'en',
+          link: 'https://www.youtube.com/embed/tgbNymZ7vqY'
+        },
+        {
+          lang: 'hr',
+          link: 'https://www.youtube.com/embed/u9raS7-NisU'
+        },
+        {
+          lang: 'ba',
+          link: 'https://www.youtube.com/embed/tgbNymZ7vqY'
+        },
+        {
+          lang: 'rs',
+          link: ''
+        },
+        {
+          lang: 'pl',
+          link: ''
+        },
+        {
+          lang: 'ru',
+          link: ''
+        },
+        {
+          lang: 'tr',
+          link: ''
+        },
+        {
+          lang: 'es',
+          link: ''
+        },
+        {
+          lang: 'br',
+          link: ''
+        }
+      ],
+      selectedVideoLang: 'en',
+      selectedVideoLink: 'https://www.youtube.com/embed/tgbNymZ7vqY',
       tabVisible: true,
       isMobileDevice: isMobile ? true : false,
       socket: io(config.server),
@@ -231,7 +290,7 @@ export default {
       caseClicked: 'clutch',
       dynamicComponent: 'Cases',
       // Language
-      selectedLang: 'english',
+      selectedLang: 'en',
       langListVisible: false,
       langs: [
         'croatian', 'english', 'french', 'german', 'italian',
@@ -239,16 +298,17 @@ export default {
       ],
       countdown: '24:00:00',
       dailyRewardCountdown: '24:00:00',
-      startAdsCountdown: '24:00:00'
-    }
-  },
-  beforeCreated() {
-    // Redirect to SSL
-    if (window.location.href === 'http://revo-cases.com') {
-      window.location = 'https://revo-cases.com'
+      startAdsCountdown: '24:00:00',
+      tutorialClosed: false
     }
   },
   created() {
+    // Redirect to SSL
+    console.log(window.location.href)
+    if (location.protocol !== 'https:' && window.location.href !== 'http://localhost:8080/') {
+        location.replace(`https:${location.href.substring(location.protocol.length)}`);
+    }
+
     this.$store.subscribe(async(mutation, state) => {
       if (mutation.type === 'setUser') {
         this.user = state.user
@@ -399,6 +459,13 @@ export default {
     }, 1000)
   },
   methods: {
+    selectVideoLang(vl) {
+      this.selectedVideoLang = vl.lang
+      this.selectedVideoLink = vl.link
+    },
+    toggleTutorial() {
+			this.tutorialClosed = !this.tutorialClosed
+		},
     checkTabActive() {
       let item
       let eventKey
@@ -481,6 +548,14 @@ export default {
         this.fetchCredits()
 
         console.log(this.user)
+
+        const vl = this.videoLinks.find(vl => vl.lang === this.user.location.toLowerCase())
+        
+        // Auto select tutorial video language
+        if (vl !== undefined) {
+          this.selectedVideoLang = vl.lang
+          this.selectedVideoLink = vl.link
+        }
 
         if (this.user.accountType === 'admin') {
           this.isAdmin = true
@@ -606,6 +681,61 @@ export default {
 @import '@/assets/mixins/centerXY';
 @import '@/assets/mixins/vueSlideFade';
 @import '@/assets/mixins/unselectable';
+
+#tutorialVideoContainer {
+  z-index: 2000;
+  @include centerXY;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  #videoTranslation {
+    margin-top: 40px;
+    background-color: #1b2435;
+    li {
+      display: inline;
+      margin: 5px;
+      img {
+        height: 50px;
+        border-radius: 10px;
+        padding: 0 5px 0 5px;
+        cursor: pointer;
+        &:hover {
+          transition: .1s ease-in-out;
+          box-shadow: 0 0 5px 7px rgba(0, 0, 0, 0.2);
+          background-color: rgba(255, 255, 255, 0.1);
+        }
+      }
+    }
+  }
+  span {
+    position: absolute;
+		top: 50px;
+		right: 50px;
+		transform: scale(1.5);
+		background-color: red;
+		padding: 3px;
+    border: 2px solid white;
+		border-radius: 100%;
+		box-shadow: 0 0 5px 7px rgba(0, 0, 0, 0.2);
+		cursor: pointer;
+		&:hover {
+			transition: .15s ease-in-out;
+			transform: scale(1.55);
+		}
+  }
+  #tutorialVideo {
+    @include centerXY;
+    width: 90vw;
+    height: 70vh;
+    max-width: 1000px;
+    max-height: 800px;
+  }
+}
+
+.videoLangSelected {
+  box-shadow: 0 0 5px 7px rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.4);
+}
 
 @keyframes animateMotivation {
   0% { color: limegreen }
