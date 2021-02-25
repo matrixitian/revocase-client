@@ -154,7 +154,11 @@ export default {
 
         caseRollAudio.play()
         if (count === 9) {
-          this.rollingFinished = true
+          
+          setTimeout(() => {
+            this.rollingFinished = true
+          }, 1000)
+
           const amount = Number(this.$store.getters.getDailyRewardDrop)
 
           this.$store.commit('updateMyCoins', { type: 'add', amount })

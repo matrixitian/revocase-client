@@ -157,7 +157,7 @@
 
           <!-- Play Ads Btn -->
           <div id="playAds" @click="getPoint()"
-          :class="[{ adsRunning: adsRunning },{ disablePlayAds: adCount === 75 },]">
+          :class="[{ adsRunning: adsRunning }, { disablePlayAds: adCount === 75 },]">
             <img src="@/assets/icons/start.svg" alt="">
             <p v-if="adCount < 75">
               {{
