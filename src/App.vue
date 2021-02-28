@@ -239,44 +239,20 @@ export default {
       tutorialClosed: true,
       videoLinks: [
         {
-          lang: 'en',
-          link: 'https://www.youtube.com/embed/tgbNymZ7vqY'
-        },
-        {
           lang: 'hr',
-          link: 'https://www.youtube.com/embed/u9raS7-NisU'
+          link: 'https://www.youtube.com/embed/FS_nSLGKDrY'
         },
         {
           lang: 'ba',
-          link: 'https://www.youtube.com/embed/tgbNymZ7vqY'
+          link: 'https://www.youtube.com/embed/FS_nSLGKDrY'
         },
         {
           lang: 'rs',
-          link: ''
-        },
-        {
-          lang: 'pl',
-          link: ''
-        },
-        {
-          lang: 'ru',
-          link: ''
-        },
-        {
-          lang: 'tr',
-          link: ''
-        },
-        {
-          lang: 'es',
-          link: ''
-        },
-        {
-          lang: 'br',
-          link: ''
+          link: 'https://www.youtube.com/embed/FS_nSLGKDrY'
         }
       ],
-      selectedVideoLang: 'en',
-      selectedVideoLink: 'https://www.youtube.com/embed/tgbNymZ7vqY',
+      selectedVideoLang: 'rs',
+      selectedVideoLink: 'https://www.youtube.com/embed/FS_nSLGKDrY',
       tabVisible: true,
       isMobileDevice: isMobile ? true : false,
       socket: io(config.server),

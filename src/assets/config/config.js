@@ -1,5 +1,5 @@
 module.exports = {
-  server: "http://localhost:3000"
+  server: "https://revo-cases.com"
 }
 
 // "https://revo-cases.com"
